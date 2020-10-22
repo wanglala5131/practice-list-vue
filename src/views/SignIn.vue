@@ -84,7 +84,7 @@ export default {
     border-bottom: 1px solid $logo-green;
   }
   .form-item {
-    padding: 10px 20px;
+    padding: 10px 20px 30px 20px;
     border-bottom: 1px solid $logo-green;
     .form-input {
       padding: 10px 0;
@@ -92,8 +92,9 @@ export default {
     label {
       display: block;
       color: $logo-green;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       margin-bottom: 10px;
+      letter-spacing: 1px;
     }
     input {
       display: block;
@@ -104,7 +105,7 @@ export default {
     }
   }
   .form-buttons {
-    padding: 20px;
+    padding: 30px 20px;
     display: grid;
     grid-gap: 20px;
     .form-button {
@@ -125,13 +126,14 @@ export default {
       &.nomal-login {
         background-color: $dark-green;
         font-weight: 700;
-        font-size: 1.1rem;
+        font-size: 1.3rem;
       }
     }
   }
   .form-text {
     padding-left: 20px;
     color: $light-gray;
+    font-size: 1.2rem;
     a {
       color: $logo-green;
       &:hover {
@@ -143,55 +145,6 @@ export default {
 
 /*********  電腦板介面  **********/
 @media (min-width: 768px) {
-  /* nav */
-  header {
-    height: 3rem;
-    .logo {
-      img {
-        width: 7rem;
-        height: auto;
-        vertical-align: middle;
-      }
-    }
-    .nav {
-      margin-right: 1.5rem;
-      display: flex;
-      font-size: 1.1rem;
-      .nav-toggle-label {
-        display: none;
-      }
-      .nav-list {
-        display: flex;
-        align-items: center;
-        box-shadow: none;
-        position: static;
-        transform: scale(1, 1);
-        background-color: transparent;
-        li {
-          padding: 0 15px;
-          a {
-            color: $light-gray;
-            border-bottom: none;
-            padding: 0;
-          }
-          &.nav-active,
-          &:hover {
-            background-color: transparent;
-            a {
-              color: $logo-green;
-            }
-          }
-          &.logout {
-            margin-left: 10px;
-            display: inline-block;
-            padding: 2px 7px;
-            border: 1px solid $logo-green;
-            border-radius: 5px;
-          }
-        }
-      }
-    }
-  }
   /* form */
   .login-form {
     .form-buttons {
