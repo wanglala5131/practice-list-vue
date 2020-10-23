@@ -18,8 +18,12 @@
           </div>
         </div>
         <div class="form-buttons">
-          <button class="form-button nomal-login" type="submit">
-            登入
+          <button
+            class="form-button nomal-login"
+            type="submit"
+            :disabled="isProcessing"
+          >
+            {{ loginMsg }}
           </button>
         </div>
         <p class="form-text">
@@ -38,7 +42,9 @@ export default {
   data() {
     return {
       email: '',
-      password: ''
+      password: '',
+      isProcessing: false,
+      loginMsg: '登入'
     }
   },
   methods: {
@@ -47,6 +53,8 @@ export default {
         if (!this.email || !this.password) {
           throw new Error(data.message)
         }
+        this.isProcessing = true
+        this.loginMsg = '驗證中'
         const response = await authorizationAPI.signIn({
           email: this.email,
           password: this.password
@@ -58,6 +66,9 @@ export default {
         await localStorage.setItem('token', data.token)
         this.$router.push('/practice')
       } catch (err) {
+        this.password = ''
+        this.isProcessing = false
+        this.loginMsg = '登入'
         Toast.fire({
           icon: 'error',
           title: '請確認是否輸入了正確的帳號與密碼'
@@ -130,6 +141,7 @@ export default {
       border-radius: 2px;
       color: $white;
       letter-spacing: 3px;
+
       &:hover {
         box-shadow: 0px 0px 2px 2px rgba(255, 255, 255, 0.7);
       }
@@ -143,6 +155,9 @@ export default {
         background-color: $dark-green;
         font-weight: 700;
         font-size: 1.3rem;
+        &:disabled {
+          background-color: $font-green;
+        }
       }
     }
   }

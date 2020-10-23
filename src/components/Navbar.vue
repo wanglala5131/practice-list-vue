@@ -1,9 +1,9 @@
 <template>
   <header>
     <div class="logo">
-      <a href="#">
+      <router-link to="/practice/signin">
         <img src="https://i.imgur.com/3DfRKXD.png" alt="logo" />
-      </a>
+      </router-link>
     </div>
     <nav class="nav" v-if="isAuthenticated">
       <input type="checkbox" id="nav-toggle" class="nav-toggle" />
