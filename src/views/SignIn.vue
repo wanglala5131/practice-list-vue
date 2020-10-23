@@ -10,11 +10,11 @@
         <div class="form-item">
           <div class="form-input">
             <label for="name">信箱：</label>
-            <input type="email" v-model="email" />
+            <input type="email" v-model="email" id="name" required />
           </div>
           <div class="form-input">
-            <label for="name">密碼：</label>
-            <input type="password" v-model="password" />
+            <label for="password">密碼：</label>
+            <input type="password" v-model="password" id="password" required />
           </div>
         </div>
         <div class="form-buttons">
@@ -31,6 +31,8 @@
 </template>
 
 <script>
+import authorizationAPI from '../apis/authorizaiton'
+import { Toast } from '../utils/helpers'
 export default {
   name: 'signIn',
   data() {
@@ -40,13 +42,27 @@ export default {
     }
   },
   methods: {
-    submitHandler() {
-      const data = JSON.stringify({
-        email: this.email,
-        password: this.password
-      })
-      //TODO: 向後端驗證資料是否是否合法
-      console.log('data', data)
+    async submitHandler() {
+      try {
+        if (!this.email || !this.password) {
+          throw new Error(data.message)
+        }
+        const response = await authorizationAPI.signIn({
+          email: this.email,
+          password: this.password
+        })
+        const { data } = response
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+        await localStorage.setItem('token', data.token)
+        this.$router.push('/practice')
+      } catch (err) {
+        Toast.fire({
+          icon: 'error',
+          title: '請確認是否輸入了正確的帳號與密碼'
+        })
+      }
     }
   }
 }

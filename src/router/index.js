@@ -2,17 +2,28 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import NotFound from '../views/NotFound.vue'
 import SignIn from '../views/SignIn.vue'
+import Index from '../views/Index.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/signin',
+    path: '/',
+    name: 'root',
+    redirect: '/practice/signin'
+  },
+  {
+    path: '/practice',
+    name: 'practice-index',
+    component: Index
+  },
+  {
+    path: '/practice/signin',
     name: 'signin',
     component: SignIn
   },
   {
-    path: '/signup',
+    path: '/practice/signup',
     name: 'signup',
     component: () => import('../views/SignUp.vue')
   },
