@@ -30,7 +30,9 @@
           </div>
         </div>
         <div class="form-buttons">
-          <button class="form-button nomal-login">註冊</button>
+          <button class="form-button nomal-login" :disabled="isProcessing">
+            {{ loginMsg }}
+          </button>
         </div>
         <p class="form-text">
           已經有帳號？ <router-link to="signin">點此登入</router-link>
@@ -41,6 +43,8 @@
 </template>
 
 <script>
+import authorizationAPI from '../apis/authorizaiton'
+import { Toast } from '../utils/helpers'
 export default {
   name: 'signUp',
   data() {
@@ -48,20 +52,66 @@ export default {
       name: '',
       email: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      isProcessing: false,
+      loginMsg: '註冊'
     }
   },
   methods: {
-    submitHandler() {
-      const data = JSON.stringify({
-        name: this.name,
-        email: this.email,
-        password: this.password,
-        confirmPassword: this.confirmPassword
-      })
+    async submitHandler() {
+      try {
+        if (
+          !this.name ||
+          !this.email ||
+          !this.password ||
+          !this.confirmPassword
+        ) {
+          Toast.fire({
+            icon: 'error',
+            title: '所有欄位都須填寫唷！'
+          })
+          return
+        }
+        if (this.password !== this.confirmPassword) {
+          Toast.fire({
+            icon: 'error',
+            title: '密碼與確認密碼不相同'
+          })
+          return
+        }
+        this.isProcessing = true
+        this.loginMsg = '註冊中'
 
-      //TODO: 向後端傳送資料
-      console.log('data', data)
+        const response = await authorizationAPI.signUp({
+          name: this.name,
+          email: this.email,
+          password: this.password,
+          confirmPassword: this.confirmPassword
+        })
+        const { data } = response
+        if (data.status !== 'success') {
+          this.isProcessing = false
+          this.loginMsg = '註冊'
+          Toast.fire({
+            icon: 'error',
+            title: data.message
+          })
+          return
+        } else {
+          Toast.fire({
+            icon: 'success',
+            title: '成功註冊，請再登入一次'
+          })
+          this.$router.push('/practice/signin')
+        }
+      } catch (err) {
+        this.isProcessing = false
+        this.loginMsg = '註冊'
+        Toast.fire({
+          icon: 'error',
+          title: '發生錯誤，請稍後再試'
+        })
+      }
     }
   }
 }
@@ -142,6 +192,9 @@ export default {
         background-color: $dark-green;
         font-weight: 700;
         font-size: 1.3rem;
+        &:disabled {
+          background-color: $font-green;
+        }
       }
     }
   }

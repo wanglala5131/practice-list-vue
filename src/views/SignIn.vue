@@ -51,7 +51,7 @@ export default {
     async submitHandler() {
       try {
         if (!this.email || !this.password) {
-          throw new Error(data.message)
+          throw new Error()
         }
         this.isProcessing = true
         this.loginMsg = '驗證中'
