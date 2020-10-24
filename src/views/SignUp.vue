@@ -1,5 +1,6 @@
 <template>
-  <div class="bg-img">
+  <div class="form-area">
+    <BackgroundImg />
     <div class="container">
       <form
         action="POST"
@@ -45,8 +46,12 @@
 <script>
 import authorizationAPI from '../apis/authorizaiton'
 import { Toast } from '../utils/helpers'
+import BackgroundImg from '../components/BackgroundImg'
 export default {
   name: 'signUp',
+  components: {
+    BackgroundImg
+  },
   data() {
     return {
       name: '',
@@ -119,13 +124,14 @@ export default {
 
 <style lang="scss">
 /* 登入頁 */
-.bg-img {
-  height: 100vh;
-  width: 100%;
-  background-image: $login-bg-img;
-  background-size: cover;
-  background-position: right;
-  background-attachment: fixed;
+.form-area {
+  // height: 100%;
+  // width: 100%;
+  // background-image: $login-bg-img;
+  // background-size: cover;
+  // background-position: right;
+  // background-attachment: fixed;
+  // background-repeat: no-repeat;
   .container {
     display: flex;
     justify-content: center;
