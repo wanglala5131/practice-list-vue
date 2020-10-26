@@ -69,6 +69,7 @@ export default {
           throw new Error(data.message)
         }
         await localStorage.setItem('token', data.token)
+        this.$store.commit('setCurrentUser', data.user)
         this.$router.push('/practice')
       } catch (err) {
         this.password = ''

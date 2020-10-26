@@ -21,37 +21,11 @@
   </header>
 </template>
 <script>
-const dummyUser = {
-  currentUser: {
-    id: 1,
-    name: '管理者',
-    email: 'root@example.com'
-  },
-  isAuthenticated: true
-}
+import { mapState } from 'vuex'
 export default {
   name: 'Navbar',
-  data() {
-    return {
-      currentUser: {
-        id: undefined,
-        name: '',
-        email: ''
-      },
-      isAuthenticated: false
-    }
-  },
-  created() {
-    this.fetchUser()
-  },
-  methods: {
-    fetchUser() {
-      this.currentUser = {
-        ...this.currentUser,
-        ...dummyUser.currentUser
-      }
-      this.isAuthenticated = dummyUser.isAuthenticated
-    }
+  computed: {
+    ...mapState(['currentUser', 'isAuthenticated'])
   }
 }
 </script>
