@@ -12,7 +12,8 @@ export default new Vuex.Store({
       name: undefined,
       email: undefined
     },
-    isAuthenticated: false
+    isAuthenticated: false,
+    token: undefined
   },
   mutations: {
     setCurrentUser(state, currentUser) {
@@ -21,28 +22,36 @@ export default new Vuex.Store({
         ...currentUser
       }
       state.isAuthenticated = true
+      state.token = localStorage.getItem('token')
     },
     revokeAuthentication(state) {
       state.currentUser = {}
       state.isAuthenticated = false
+      state.token = ''
       localStorage.removeItem('token')
     }
   },
   actions: {
     async fetchCurrentUser({ commit }) {
       try {
-        const { data } = await userAPI.getCurrentUser()
+        const { data, statusText } = await userAPI.getCurrentUser()
+        if (statusText !== 'OK') {
+          throw new Error()
+        }
         const { id, name, email } = data
         commit('setCurrentUser', {
           id,
           name,
           email
         })
+        return true
       } catch (err) {
         Toast.fire({
           icon: 'error',
           title: '無法獲取使用者資料，請重新再試'
         })
+        commit('revokeAuthentication')
+        return false
       }
     }
   },

@@ -20,12 +20,12 @@ const routes = [
   },
   {
     path: '/practice/signin',
-    name: 'signin',
+    name: 'sign-in',
     component: SignIn
   },
   {
     path: '/practice/signup',
-    name: 'signup',
+    name: 'sign-up',
     component: () => import('../views/SignUp.vue')
   },
   {
@@ -39,8 +39,25 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
-  store.dispatch('fetchCurrentUser')
+router.beforeEach(async (to, from, next) => {
+  //查看是否有token，如果有就進行驗證
+  const tokenInLocalStorage = localStorage.getItem('token')
+  const tokenInStore = store.state.token
+  let isAuthenticated = store.state.isAuthenticated
+  if (tokenInLocalStorage && tokenInLocalStorage !== tokenInStore) {
+    isAuthenticated = await store.dispatch('fetchCurrentUser')
+  }
+  const pathsWithoutAuthentication = ['sign-up', 'sign-in']
+  //如果token無效 & 進入需驗證頁面 就轉址到signin
+  if (!isAuthenticated && !pathsWithoutAuthentication.includes(to.name)) {
+    next('/practice/signin')
+    return
+  }
+  //如果token有效 & 進入不須驗證頁面 就轉址到首頁  (即不須再次登入就到首頁，點icon回首頁)
+  if (isAuthenticated && pathsWithoutAuthentication.includes(to.name)) {
+    next('/practice')
+    return
+  }
   next()
 })
 
