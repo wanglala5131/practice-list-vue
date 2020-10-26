@@ -12,7 +12,9 @@
         <li><a href="#">暫定菜單</a></li>
         <li><a href="#">已排菜單</a></li>
         <li><a href="#">類別設定</a></li>
-        <li class="logout"><a href="#">登出</a></li>
+        <li class="logout">
+          <button @click.stop.prevent="logout">登出</button>
+        </li>
       </ul>
       <label for="nav-toggle" class="nav-toggle-label">
         <span class="hamburger"></span>
@@ -26,6 +28,12 @@ export default {
   name: 'Navbar',
   computed: {
     ...mapState(['currentUser', 'isAuthenticated'])
+  },
+  methods: {
+    logout() {
+      this.$store.commit('revokeAuthentication')
+      this.$router.push('/practice/signin')
+    }
   }
 }
 </script>
@@ -77,11 +85,14 @@ header {
           color: $dark-gray;
           border-bottom: 3px solid $light-gray;
         }
-        &:last-child {
-          a {
-            border-bottom: 0px solid $light-gray;
-            color: $logo-green;
-          }
+        button {
+          display: block;
+          border-bottom: 0px solid $light-gray;
+          background-color: transparent;
+          font-size: 1.3rem;
+          letter-spacing: 2px;
+          color: $logo-green;
+          font-weight: 700;
         }
         &:hover,
         &.nav-active {
@@ -90,7 +101,7 @@ header {
         &.logout {
           &:hover {
             background-color: $logo-green;
-            a {
+            button {
               color: $dark-gray;
             }
           }
