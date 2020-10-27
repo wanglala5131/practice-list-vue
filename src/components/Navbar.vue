@@ -86,19 +86,23 @@ header {
           border-bottom: 3px solid $light-gray;
         }
         button {
+          width: 100%;
           display: block;
           border-bottom: 0px solid $light-gray;
+          padding: 12px 0;
           background-color: transparent;
           font-size: 1.3rem;
           letter-spacing: 2px;
           color: $logo-green;
           font-weight: 700;
+          cursor: pointer;
         }
         &:hover,
         &.nav-active {
           background-color: $light-logo-green;
         }
         &.logout {
+          cursor: pointer;
           &:hover {
             background-color: $logo-green;
             button {
@@ -174,6 +178,9 @@ header {
           a {
             color: $light-gray;
             border-bottom: none;
+            padding: 0;
+          }
+          button {
             padding: 0;
           }
           &.nav-active,

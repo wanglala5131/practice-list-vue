@@ -65,3 +65,14 @@ $op-white: rgba(255, 255, 255, 0.8);
   width: 80%;
   margin: 0 auto;
 }
+.scroll-style {
+  &::-webkit-scrollbar {
+    border-radius: 20px;
+    width: 10px;
+    background-color: $light-logo-green;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: $logo-green;
+  }
+}
