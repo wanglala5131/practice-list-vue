@@ -14,6 +14,134 @@
         <a href="#" class="close-card-link">查看封存項目</a>
       </template>
     </PageTitle>
+    <div class="cards-search">
+      <div class="container">
+        <input
+          type="checkbox"
+          id="cards-search-toggle"
+          class="cards-search-toggle"
+          v-model="searchToggle"
+        />
+        <label for="cards-search-toggle" class="cards-search-toggle-label">{{
+          searchToggle ? '收起篩選列' : '打開篩選列'
+        }}</label>
+        <div class="cards-search-form">
+          <div class="search-item">
+            <input
+              type="text"
+              placeholder="搜尋關鍵字"
+              id="keyword"
+              class="keyword"
+              name="keyword"
+              v-model="keyword"
+            />
+          </div>
+          <div class="search-item star">
+            <input
+              type="checkbox"
+              class="like"
+              name="like"
+              v-model="isLike"
+              id="like"
+            />
+            <label for="like">只顯示星號項目</label>
+          </div>
+          <div class="search-item category">
+            <span for="category">運動類別</span>
+            <select
+              name="category"
+              id="category"
+              v-model="categorySelect"
+              @change="filterSubcategory"
+            >
+              <option value="all" selected="selected">全部</option>
+              <option
+                v-for="category in categories"
+                :key="category.id"
+                :value="category.id"
+                >{{ category.name }}</option
+              >
+            </select>
+          </div>
+          <div
+            class="search-item subcategory"
+            v-show="categorySelect !== 'all'"
+          >
+            <span>項目類型</span>
+            <div class="subcategory-controller">
+              <div class="subcategory-controller-item">
+                <button
+                  class="subcategory-controller-button"
+                  @click.stop.prevent="clearSubcategory"
+                >
+                  全不選
+                </button>
+              </div>
+              <div class="subcategory-controller-item">
+                <button
+                  class="subcategory-controller-button"
+                  @click.stop.prevent="allSubcategory"
+                >
+                  全選
+                </button>
+              </div>
+            </div>
+            <div class="subcategory-items">
+              <div
+                class="check-item"
+                v-for="subcategory in subcategoryFilter"
+                :key="subcategory.id"
+              >
+                <input
+                  type="checkbox"
+                  class="subcategory"
+                  :value="subcategory.id"
+                  v-model="subcategorySelect"
+                  :id="labelIndex(subcategory.id)"
+                />
+                <label :for="labelIndex(subcategory.id)">{{
+                  subcategory.name
+                }}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cards">
+      <div class="container">
+        <div class="cards-wrapper">
+          <div class="card" v-for="item in items" :key="item.id">
+            <div class="card-header">
+              <a href="#" class="card-link"></a>
+              <span class="card-category">{{ item.Category.name }}</span>
+              <div class="card-star" :class="{ active: item.isLiked }">
+                <font-awesome-icon icon="star" />
+              </div>
+              <img
+                :src="item.image ? item.image : defaultImgURL"
+                alt="card-img"
+              />
+              <div class="card-title">
+                <h3>{{ item.name }}</h3>
+                <div class="card-sub-categories">
+                  <span
+                    v-for="subcategory in item.Subcategories"
+                    :key="subcategory.id"
+                    >{{ subcategory.name }}</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="card-close-button">封存</button>
+              <button class="card-edit-button">編輯</button>
+              <button class="card-cart-button">加到暫定清單中</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
 </template>
 
@@ -22,6 +150,9 @@ import Banner from '../components/Banner'
 import PageTitle from '../components/PageTitle'
 import ToTop from '../components/ToTop'
 import CartSimple from '../components/CartSimple'
+import settingAPI from '../apis/setting'
+import practiceAPI from '../apis/practice'
+import { Toast } from '../utils/helpers'
 export default {
   name: 'Index',
   components: {
@@ -33,8 +164,361 @@ export default {
   data() {
     return {
       bannerImgURL:
-        'https://c.pxhere.com/photos/d9/72/basketball_ball_hoop_tree_sport-1398290.jpg!d'
+        'https://c.pxhere.com/photos/d9/72/basketball_ball_hoop_tree_sport-1398290.jpg!d',
+      items: undefined,
+      categories: undefined,
+      subcategories: undefined,
+      searchToggle: false,
+      keyword: '',
+      isLike: false,
+      categorySelect: 'all', //使用者自己選擇的運動項目，預設是全部
+      subcategorySelect: undefined, //使用者自己選擇的項目類型
+      subcategoryFilter: undefined, //根據category出現在篩選列的項目類型
+      defaultImgURL: 'https://i.imgur.com/3XaSsJX.png'
+    }
+  },
+  created() {
+    this.fetchType()
+    this.fetchItems()
+  },
+  methods: {
+    async fetchType() {
+      try {
+        const { data, statusText } = await settingAPI.getSubcategory()
+        if (statusText !== 'OK') {
+          throw new Error()
+        }
+        this.subcategories = data.subcategories
+        this.categories = data.categories
+      } catch (err) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法取得運動項目與項目種類資料，請稍後再試'
+        })
+      }
+    },
+    async fetchItems() {
+      try {
+        const { data, statusText } = await practiceAPI.getItems()
+        if (statusText !== 'OK') {
+          throw new Error()
+        }
+        this.items = data.items
+      } catch (err) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法取得項目資料，請稍後再試'
+        })
+      }
+    },
+    filterSubcategory() {
+      //選擇全部
+      if (this.categorySelect === 'all') {
+        this.subcategorySelect = []
+        this.subcategories.map(subcategory => {
+          this.subcategorySelect.push(subcategory.id)
+        })
+      }
+      //選擇其中一個category
+      else {
+        this.subcategorySelect = [] //先清空，避免更換運動類別時受到影響
+        this.subcategoryFilter = this.subcategories.filter(
+          subcategory => subcategory.CategoryId === this.categorySelect
+        )
+        this.allSubcategory()
+      }
+    },
+    filterCards() {
+      console.log('keyword', this.keyword)
+      console.log('isLike', this.isLike)
+      console.log('categorySelect:', this.categorySelect)
+      console.log('subcategorySelect:', this.subcategorySelect)
+      //放上change事件
+    },
+    labelIndex(id) {
+      return `subcategory-${id}`
+    },
+    //全不選
+    clearSubcategory() {
+      this.subcategorySelect = []
+    },
+    //全選
+    allSubcategory() {
+      this.subcategorySelect = [] //先清空
+      this.subcategories.map(subcategory => {
+        if (subcategory.CategoryId === this.categorySelect) {
+          this.subcategorySelect.push(subcategory.id)
+          return
+        }
+        return
+      })
     }
   }
 }
 </script>
+
+<style lang="scss">
+//search
+.cards-search {
+  padding-top: 30px;
+  color: $dark-gray;
+  font-size: 1.1rem;
+  .cards-search-toggle {
+    display: none;
+    &:checked ~ .cards-search-toggle-label {
+      border-radius: 4px 4px 0 0;
+    }
+    &:checked ~ .cards-search-form {
+      display: block;
+    }
+  }
+  .cards-search-toggle-label {
+    display: block;
+    text-align: center;
+    font-weight: 500;
+    padding: 5px;
+    background-color: $logo-green;
+    border-radius: 4px;
+    letter-spacing: 1px;
+    cursor: pointer;
+  }
+  .cards-search-form {
+    display: none;
+    border: 3px solid $logo-green;
+    padding: 5px 20px;
+    h2 {
+      display: none;
+    }
+    .search-item {
+      margin: 10px 0;
+      .keyword {
+        width: 100%;
+        padding: 6px 5px 3px 5px;
+        font-size: 1rem;
+        border-radius: 3px;
+        border: 1.5px solid $logo-green;
+        color: $font-green;
+      }
+      input[type='checkbox'] {
+        display: none;
+        ~ label {
+          border: 1px solid $light-gray;
+          border-radius: 10px;
+          padding: 0 5px;
+          color: $font-gray;
+        }
+        &:checked ~ label {
+          border: 1px solid $logo-green;
+          color: $font-green;
+        }
+      }
+      &.category {
+        display: flex;
+        align-items: center;
+        select {
+          font-size: 0.9rem;
+          width: 20%;
+          padding: 3px;
+          margin-left: 10px;
+          border: 1px solid $logo-green;
+          border-radius: 4px;
+          min-width: 100px;
+        }
+      }
+      &.subcategory {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-gap: 10px;
+        .subcategory-controller {
+          display: flex;
+          .subcategory-controller-item {
+            display: flex;
+            align-items: center;
+            margin-right: 5px;
+            .subcategory-controller-button {
+              font-size: 0.9rem;
+              background-color: $logo-green;
+              border-radius: 15px;
+              color: $light-gray;
+              letter-spacing: 1px;
+              &:hover {
+                background-color: $logo-green;
+                color: $white;
+              }
+            }
+          }
+        }
+        .subcategory-items {
+          grid-column: 1/3;
+          display: flex;
+          flex-wrap: wrap;
+          .check-item {
+            margin: 5px;
+          }
+        }
+      }
+    }
+  }
+}
+.cards {
+  width: 100%;
+}
+.cards-wrapper {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 300px);
+  grid-gap: 1.5rem;
+  justify-content: center;
+}
+.card {
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  &:hover {
+    box-shadow: 0 0 5px 4px rgba(0, 0, 0, 0.3);
+  }
+  .card-category,
+  .card-link,
+  .card-star {
+    position: absolute;
+  }
+  .card-link {
+    z-index: 20;
+    width: 100%;
+    height: 100%;
+  }
+  .card-star {
+    z-index: 40;
+    top: 0;
+    right: 0px;
+    padding: 0px 5px 5px 5px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    &:hover,
+    &.active {
+      color: $star-yellow;
+    }
+  }
+  .card-category {
+    top: 5px;
+    left: 5px;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 1px 10px;
+    border-radius: 20px;
+    font-size: 1.1rem;
+    color: $light-gray;
+    border: 2px solid rgba(0, 0, 0, 0.6);
+    font-weight: 500;
+  }
+  .card-header {
+    display: block;
+    height: 200px;
+    position: relative;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 5px 5px 0 0;
+    }
+  }
+  .card-title {
+    position: absolute;
+    bottom: 0;
+    padding: 18px 0 8px 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-image: linear-gradient(
+      transparent,
+      rgba(255, 255, 255, 0.9) 10%
+    );
+    h3 {
+      margin-bottom: 10px;
+      font-weight: 700;
+      text-align: center;
+      color: $dark-green;
+      line-height: 1.2;
+      letter-spacing: 1px;
+    }
+    .card-sub-categories {
+      display: flex;
+      justify-content: center;
+      span {
+        border: 1px solid $dark-green;
+        border-radius: 10px;
+        color: $dark-green;
+        padding: 0 5px;
+        margin: 0 1px;
+      }
+    }
+  }
+  .card-footer {
+    border-top: 4px solid $op-black;
+    display: grid;
+    grid-template-columns: 1fr 1fr 3fr;
+    grid-template-rows: auto;
+    button {
+      padding: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .card-close-button {
+      border-radius: 0 0 0 5px;
+    }
+    .card-close-button,
+    .card-edit-button {
+      background-color: $yellow;
+      &:hover {
+        background-color: $dark-yellow;
+      }
+    }
+
+    .card-cart-button {
+      background-color: $light-logo-green;
+      border-radius: 0 0 5px 0;
+      &:hover {
+        background-color: $logo-green;
+      }
+    }
+  }
+}
+@media (min-width: 768px) {
+  //search
+  .cards-search {
+    padding-top: 120px;
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .cards-search-toggle-label {
+      width: 700px;
+      padding: 10px;
+    }
+    .cards-search-form {
+      width: 50%;
+      width: 700px;
+      border-radius: 0 0 10px 10px;
+      padding: 10px 30px 0px 30px;
+      //color: $logo-green;
+      h2 {
+        display: block;
+        padding-bottom: 20px;
+        font-size: 1.5rem;
+        letter-spacing: 2px;
+        text-align: center;
+      }
+      span {
+        letter-spacing: 1px;
+        font-size: 1.2rem;
+      }
+      .search-item {
+        margin: 15px 0;
+      }
+    }
+  }
+}
+</style>

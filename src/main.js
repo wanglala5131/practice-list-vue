@@ -3,10 +3,15 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPlus, faArrowUp, faListAlt } from '@fortawesome/free-solid-svg-icons'
+import {
+  faPlus,
+  faArrowUp,
+  faListAlt,
+  faStar
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faPlus, faArrowUp, faListAlt)
+library.add(faPlus, faArrowUp, faListAlt, faStar)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false
