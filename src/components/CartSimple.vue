@@ -7,102 +7,24 @@
     <div class="cart-simple-content">
       <h3>暫定清單</h3>
       <ul class="cart-simple-ul">
-        <li class="cart-simple-li">
+        <li
+          class="cart-simple-li"
+          v-for="cartItem in cartItems"
+          :key="cartItem.id"
+        >
           <div class="cart-simple-title">
             <a href="#" class="cart-simple-link"></a>
-            <p>小狗追球</p>
+            <p>{{ cartItem.Item.name }}</p>
+            <p class="cart-simple-category">
+              {{ cartItem.Item.Category.name }}
+            </p>
             <div class="cart-simple-subcategory">
-              <span>體力</span>
-              <span>腿力</span>
-              <span>體力</span>
-              <span>體力</span>
-              <span>體力</span>
-              <span>體力</span>
-              <span>體力</span>
-              <span>體力</span>
-            </div>
-          </div>
-          <button class="cart-simple-button">&times;</button>
-        </li>
-        <li class="cart-simple-li">
-          <div class="cart-simple-title">
-            <a href="#" class="cart-simple-link"></a>
-            <p>小狗追球</p>
-            <div class="cart-simple-subcategory">
-              <span>體力</span>
-              <span>腿力</span>
-              <span>腿力</span>
-              <span>腿力</span>
-              <span>1234</span>
-              <span>腿力</span>
-              <span>腿力</span>
-              <span>腿力</span>
-            </div>
-          </div>
-          <button class="cart-simple-button">&times;</button>
-        </li>
-        <li class="cart-simple-li">
-          <div class="cart-simple-title">
-            <a href="#" class="cart-simple-link"></a>
-            <p>小狗追球</p>
-            <div class="cart-simple-subcategory">
-              <span>體力</span>
-              <span>腿力</span>
-            </div>
-          </div>
-          <button class="cart-simple-button">&times;</button>
-        </li>
-        <li class="cart-simple-li">
-          <div class="cart-simple-title">
-            <a href="#" class="cart-simple-link"></a>
-            <p>小狗追球</p>
-            <div class="cart-simple-subcategory">
-              <span>體力</span>
-              <span>腿力</span>
-            </div>
-          </div>
-          <button class="cart-simple-button">&times;</button>
-        </li>
-        <li class="cart-simple-li">
-          <div class="cart-simple-title">
-            <a href="#" class="cart-simple-link"></a>
-            <p>小狗追球</p>
-            <div class="cart-simple-subcategory">
-              <span>體力</span>
-              <span>腿力</span>
-            </div>
-          </div>
-          <button class="cart-simple-button">&times;</button>
-        </li>
-        <li class="cart-simple-li">
-          <div class="cart-simple-title">
-            <a href="#" class="cart-simple-link"></a>
-            <p>小狗追球</p>
-            <div class="cart-simple-subcategory">
-              <span>體力</span>
-              <span>腿力</span>
-            </div>
-          </div>
-          <button class="cart-simple-button">&times;</button>
-        </li>
-        <li class="cart-simple-li">
-          <div class="cart-simple-title">
-            <a href="#" class="cart-simple-link"></a>
-            <p>小狗追球</p>
-            <div class="cart-simple-subcategory">
-              <span>體力</span>
-              <span>腿力</span>
-            </div>
-          </div>
-          <button class="cart-simple-button">&times;</button>
-        </li>
-        <li class="cart-simple-li">
-          <div class="cart-simple-title">
-            <a href="#" class="cart-simple-link"></a>
-            <p>小狗追球</p>
-            <div class="cart-simple-subcategory">
-              <span>體力</span>
-              <span>腿力</span>
+              <span
+                v-for="subcategory in cartItem.Item.Subcategories"
+                :key="subcategory.id"
+                >{{ subcategory.name }}</span
+              >
+              <span>123</span>
             </div>
           </div>
           <button class="cart-simple-button">&times;</button>
@@ -111,6 +33,38 @@
     </div>
   </div>
 </template>
+
+<script>
+import cartsAPI from '../apis/carts'
+import { Toast } from '../utils/helpers'
+export default {
+  name: 'CartSimple',
+  data() {
+    return {
+      cartItems: undefined
+    }
+  },
+  created() {
+    this.fetchCartItems()
+  },
+  methods: {
+    async fetchCartItems() {
+      try {
+        const { data, statusText } = await cartsAPI.getCart()
+        if (statusText !== 'OK') {
+          throw new Error()
+        }
+        this.cartItems = data
+      } catch (err) {
+        Toast.fire({
+          icon: 'error',
+          title: '目前暫時無法取得購物車資料，請稍後再試'
+        })
+      }
+    }
+  }
+}
+</script>
 
 <style lang="scss">
 .cart-simple {
@@ -169,6 +123,7 @@
       background-color: $light-logo-green;
       border-radius: 10px;
       margin: 10px;
+
       &:hover {
         box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.1);
       }
@@ -177,12 +132,25 @@
         display: flex;
         align-items: center;
         padding: 10px 0;
-        p,
+        position: relative;
+        .cart-simple-link {
+          position: absolute;
+          height: 100%;
+          width: 100%;
+        }
+        .cart-simple-category {
+          flex-basis: 15%;
+          padding: 5px;
+          color: $dark-gray;
+          font-weight: 700;
+        }
         .cart-simple-subcategory {
-          flex-basis: 50%;
+          flex-basis: 45%;
           padding: 5px;
         }
         p {
+          flex-basis: 40%;
+          padding: 5px 20px 5px 5px;
           padding-left: 20px;
           font-size: 1.2rem;
           padding-bottom: 5px;
@@ -192,14 +160,18 @@
           border: 1px solid $dark-gray;
           border-radius: 8px;
           padding: 0 3px;
-          margin: 2px 0;
+          margin: 2px;
           color: $dark-gray;
         }
       }
       .cart-simple-button {
-        font-size: 2.3rem;
+        font-size: 2.5rem;
         margin-right: 10px;
         cursor: pointer;
+        &:hover {
+          color: $dark-gray;
+          text-shadow: 0px 2px 2px (rgba(0, 0, 0, 0.2));
+        }
       }
     }
   }

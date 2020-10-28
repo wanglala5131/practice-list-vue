@@ -1,7 +1,7 @@
 import { apiHelper } from '../utils/helpers'
 
 export default {
-  getItems() {
-    return apiHelper.get('/practice')
+  getCart() {
+    return apiHelper.get('/cart')
   }
 }
