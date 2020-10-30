@@ -34,17 +34,23 @@
               class="keyword"
               name="keyword"
               v-model="keyword"
+              @input="filterCards"
             />
           </div>
-          <div class="search-item star">
-            <input
-              type="checkbox"
-              class="like"
-              name="like"
-              v-model="isLike"
-              id="like"
-            />
-            <label for="like">只顯示星號項目</label>
+          <div class="search-item">
+            <div class="search-item choice">
+              <div class="search-star">
+                <input
+                  type="checkbox"
+                  class="like"
+                  name="like"
+                  v-model="isLiked"
+                  id="like"
+                  @change="filterCards"
+                />
+                <label for="like">只顯示星號項目</label>
+              </div>
+            </div>
           </div>
           <div class="search-item category">
             <span for="category">運動類別</span>
@@ -98,6 +104,7 @@
                   :value="subcategory.id"
                   v-model="subcategorySelect"
                   :id="labelIndex(subcategory.id)"
+                  @change="filterCards"
                 />
                 <label :for="labelIndex(subcategory.id)">{{
                   subcategory.name
@@ -111,7 +118,7 @@
     <div class="cards">
       <div class="container">
         <div class="cards-wrapper">
-          <div class="card" v-for="item in items" :key="item.id">
+          <div class="card" v-for="item in itemsFilter" :key="item.id">
             <div class="card-header">
               <a href="#" class="card-link"></a>
               <span class="card-category">{{ item.Category.name }}</span>
@@ -150,6 +157,9 @@
               </button>
             </div>
           </div>
+          <div class="no-card" v-if="itemsFilter.length === 0">
+            <h2>找不到符合的練習項目</h2>
+          </div>
         </div>
       </div>
     </div>
@@ -178,13 +188,14 @@ export default {
       bannerImgURL:
         'https://c.pxhere.com/photos/d9/72/basketball_ball_hoop_tree_sport-1398290.jpg!d',
       items: undefined,
+      itemsFilter: undefined, //篩選出來的結果
       cartItems: undefined,
       cartItemsArr: undefined,
       categories: undefined,
       subcategories: undefined,
       searchToggle: false,
       keyword: '',
-      isLike: false,
+      isLiked: false,
       categorySelect: 'all', //使用者自己選擇的運動項目，預設是全部
       subcategorySelect: undefined, //使用者自己選擇的項目類型
       subcategoryFilter: undefined, //根據category出現在篩選列的項目類型
@@ -217,11 +228,20 @@ export default {
         if (statusText !== 'OK') {
           throw new Error()
         }
-        const items = data.items.map(items => ({
-          ...items,
-          isInCart: data.cartItemsArr.includes(items.id)
-        }))
+        //加上項目類型的id array和是否出現在cart
+        const items = data.items.map(item => {
+          const subcategoriesArr = []
+          for (let subcategory of item.Subcategories) {
+            subcategoriesArr.push(subcategory.id)
+          }
+          return {
+            ...item,
+            isInCart: data.cartItemsArr.includes(item.id),
+            subcategoriesArr: subcategoriesArr
+          }
+        })
         this.items = items
+        this.itemsFilter = items
         this.cartItems = data.cartItems
         this.cartItemsArr = data.cartItemsArr
       } catch (err) {
@@ -247,13 +267,23 @@ export default {
         )
         this.allSubcategory()
       }
+      this.filterCards()
     },
     filterCards() {
-      console.log('keyword', this.keyword)
-      console.log('isLike', this.isLike)
-      console.log('categorySelect:', this.categorySelect)
-      console.log('subcategorySelect:', this.subcategorySelect)
-      //放上change事件
+      this.itemsFilter = this.items
+      if (this.isLiked) {
+        this.itemsFilter = this.itemsFilter.filter(item => item.isLiked)
+      }
+      if (this.keyword) {
+        this.itemsFilter = this.itemsFilter.filter(item =>
+          item.name.includes(this.keyword)
+        )
+      }
+      if (this.subcategorySelect) {
+        this.itemsFilter = this.itemsFilter.filter(item =>
+          item.subcategoriesArr.some(id => this.subcategorySelect.includes(id))
+        )
+      }
     },
     labelIndex(id) {
       return `subcategory-${id}`
@@ -383,6 +413,12 @@ export default {
           color: $font-green;
         }
       }
+      &.choice {
+        display: flex;
+        div {
+          margin: 2px;
+        }
+      }
       &.category {
         display: flex;
         align-items: center;
@@ -438,9 +474,14 @@ export default {
   margin-top: 30px;
   margin-bottom: 30px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, 300px);
+  grid-template-columns: repeat(auto-fit, 300px);
   grid-gap: 1.5rem;
   justify-content: center;
+}
+.no-card {
+  h2 {
+    text-align: center;
+  }
 }
 .card {
   box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.3);
