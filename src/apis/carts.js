@@ -6,5 +6,8 @@ export default {
   },
   addToCart({ itemId }) {
     return apiHelper.post(`/cart/${itemId}`, null)
+  },
+  deleteCartItem({ cartId }) {
+    return apiHelper.delete(`/cart/${cartId}`)
   }
 }

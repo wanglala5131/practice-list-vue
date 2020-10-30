@@ -27,7 +27,12 @@
               <span>123</span>
             </div>
           </div>
-          <button class="cart-simple-button">&times;</button>
+          <button
+            class="cart-simple-button"
+            @click.stop.prevent="deleteCartItem(cartItem.id, cartItem.ItemId)"
+          >
+            &times;
+          </button>
         </li>
       </ul>
     </div>
@@ -35,6 +40,8 @@
 </template>
 
 <script>
+import cartAPI from '../apis/carts'
+import { Toast } from '../utils/helpers'
 export default {
   name: 'CartSimple',
   props: {
@@ -50,8 +57,29 @@ export default {
   watch: {
     oriCartItems(newValue) {
       this.cartItems = {
-        ...this.cartItems,
         ...newValue
+      }
+    }
+  },
+  methods: {
+    async deleteCartItem(cartId, itemId) {
+      try {
+        const { statusText } = await cartAPI.deleteCartItem({
+          cartId
+        })
+        if (statusText !== 'OK') {
+          throw new Error()
+        }
+        Toast.fire({
+          icon: 'success',
+          title: '已成功刪除項目'
+        })
+        this.$emit('deleteCartItem', { cartId, itemId })
+      } catch (err) {
+        Toast.fire({
+          icon: 'success',
+          title: '目前無法刪除暫定清單的項目，請稍後再試'
+        })
       }
     }
   }

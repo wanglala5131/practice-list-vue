@@ -2,7 +2,10 @@
   <main>
     <Banner :bannerImgURL="bannerImgURL" />
     <ToTop />
-    <CartSimple :ori-cart-items="cartItems" />
+    <CartSimple
+      :ori-cart-items="cartItems"
+      @deleteCartItem="deleteCartItemHandler"
+    />
     <PageTitle>
       <template v-slot:title>
         訓練項目
@@ -150,14 +153,14 @@
               <button
                 class="card-cart-button"
                 :class="{ active: !item.isInCart }"
-                @click.stop.prevent="addToCart(item.id)"
+                @click.stop.prevent="addToCart(item)"
                 :disabled="item.isInCart"
               >
                 {{ item.isInCart ? '已加入暫定清單' : '加到暫定清單中' }}
               </button>
             </div>
           </div>
-          <div class="no-card" v-if="itemsFilter.length === 0">
+          <div class="no-card" v-if="!itemsFilter">
             <h2>找不到符合的練習項目</h2>
           </div>
         </div>
@@ -303,20 +306,25 @@ export default {
         return
       })
     },
-    async addToCart(itemId) {
+    async addToCart(item) {
       try {
-        const { statusText } = await cartAPI.addToCart({ itemId })
+        const itemId = item.id
+        const { data, statusText } = await cartAPI.addToCart({ itemId })
         if (statusText !== 'OK') {
           throw new Error()
         }
         this.items.map(item => {
           if (item.id === itemId) {
-            item.isInCart = !item.isInCart
+            item.isInCart = true
           }
         })
         Toast.fire({
           icon: 'success',
-          title: ''
+          title: '已成功加入暫定清單'
+        })
+        this.cartItems.push({
+          ...data,
+          Item: item
         })
       } catch (err) {
         Toast.fire({
@@ -353,6 +361,20 @@ export default {
           title: '目前無法修改項目星號，請稍後再試'
         })
       }
+    },
+    deleteCartItemHandler(payload) {
+      const { cartId, itemId } = payload
+      this.items.map(item => {
+        if (item.id === itemId) {
+          item.isInCart = false
+        }
+      })
+      this.itemsFilter.map(item => {
+        if (item.id === itemId) {
+          item.isInCart = false
+        }
+      })
+      this.cartItems = this.cartItems.filter(cartItem => cartItem.id !== cartId)
     }
   }
 }
