@@ -35,31 +35,23 @@
 </template>
 
 <script>
-import cartsAPI from '../apis/carts'
-import { Toast } from '../utils/helpers'
 export default {
   name: 'CartSimple',
-  data() {
-    return {
-      cartItems: undefined
+  props: {
+    oriCartItems: {
+      type: Array
     }
   },
-  created() {
-    this.fetchCartItems()
+  data() {
+    return {
+      cartItems: this.oriCartItems
+    }
   },
-  methods: {
-    async fetchCartItems() {
-      try {
-        const { data, statusText } = await cartsAPI.getCart()
-        if (statusText !== 'OK') {
-          throw new Error()
-        }
-        this.cartItems = data
-      } catch (err) {
-        Toast.fire({
-          icon: 'error',
-          title: '目前暫時無法取得購物車資料，請稍後再試'
-        })
+  watch: {
+    oriCartItems(newValue) {
+      this.cartItems = {
+        ...this.cartItems,
+        ...newValue
       }
     }
   }

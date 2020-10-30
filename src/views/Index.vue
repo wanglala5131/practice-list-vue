@@ -2,7 +2,7 @@
   <main>
     <Banner :bannerImgURL="bannerImgURL" />
     <ToTop />
-    <CartSimple />
+    <CartSimple :ori-cart-items="cartItems" />
     <PageTitle>
       <template v-slot:title>
         訓練項目
@@ -136,7 +136,14 @@
             <div class="card-footer">
               <button class="card-close-button">封存</button>
               <button class="card-edit-button">編輯</button>
-              <button class="card-cart-button">加到暫定清單中</button>
+              <button
+                class="card-cart-button"
+                :class="{ active: !item.isInCart }"
+                @click.stop.prevent="addToCart(item.id)"
+                :disabled="item.isInCart"
+              >
+                {{ item.isInCart ? '已加入暫定清單' : '加到暫定清單中' }}
+              </button>
             </div>
           </div>
         </div>
@@ -152,6 +159,7 @@ import ToTop from '../components/ToTop'
 import CartSimple from '../components/CartSimple'
 import settingAPI from '../apis/setting'
 import practiceAPI from '../apis/practice'
+import cartAPI from '../apis/carts'
 import { Toast } from '../utils/helpers'
 export default {
   name: 'Index',
@@ -166,6 +174,8 @@ export default {
       bannerImgURL:
         'https://c.pxhere.com/photos/d9/72/basketball_ball_hoop_tree_sport-1398290.jpg!d',
       items: undefined,
+      cartItems: undefined,
+      cartItemsArr: undefined,
       categories: undefined,
       subcategories: undefined,
       searchToggle: false,
@@ -203,7 +213,13 @@ export default {
         if (statusText !== 'OK') {
           throw new Error()
         }
-        this.items = data.items
+        const items = data.items.map(items => ({
+          ...items,
+          isInCart: data.cartItemsArr.includes(items.id)
+        }))
+        this.items = items
+        this.cartItems = data.cartItems
+        this.cartItemsArr = data.cartItemsArr
       } catch (err) {
         Toast.fire({
           icon: 'error',
@@ -252,6 +268,28 @@ export default {
         }
         return
       })
+    },
+    async addToCart(itemId) {
+      try {
+        const { statusText } = await cartAPI.addToCart({ itemId })
+        if (statusText !== 'OK') {
+          throw new Error()
+        }
+        this.items.map(item => {
+          if (item.id === itemId) {
+            item.isInCart = !item.isInCart
+          }
+        })
+        Toast.fire({
+          icon: 'success',
+          title: '成功加入暫定清單'
+        })
+      } catch (err) {
+        Toast.fire({
+          icon: 'error',
+          title: '目前無法加入暫定清單，請稍後再試'
+        })
+      }
     }
   }
 }
@@ -478,7 +516,9 @@ export default {
     .card-cart-button {
       background-color: $light-logo-green;
       border-radius: 0 0 5px 0;
-      &:hover {
+      cursor: default;
+      &.active:hover {
+        cursor: pointer;
         background-color: $logo-green;
       }
     }
