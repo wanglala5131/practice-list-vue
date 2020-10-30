@@ -115,7 +115,11 @@
             <div class="card-header">
               <a href="#" class="card-link"></a>
               <span class="card-category">{{ item.Category.name }}</span>
-              <div class="card-star" :class="{ active: item.isLiked }">
+              <div
+                class="card-star"
+                :class="{ active: item.isLiked }"
+                @click.stop.prevent="changeLike(item.id)"
+              >
                 <font-awesome-icon icon="star" />
               </div>
               <img
@@ -282,12 +286,41 @@ export default {
         })
         Toast.fire({
           icon: 'success',
-          title: '成功加入暫定清單'
+          title: ''
         })
       } catch (err) {
         Toast.fire({
           icon: 'error',
           title: '目前無法加入暫定清單，請稍後再試'
+        })
+      }
+    },
+    async changeLike(itemId) {
+      try {
+        const { statusText } = await practiceAPI.changeLike({ itemId })
+        if (statusText !== 'OK') {
+          throw new Error()
+        }
+        this.items.map(item => {
+          if (item.id === itemId) {
+            if (item.isLiked) {
+              Toast.fire({
+                icon: 'success',
+                title: '成功移除星號'
+              })
+            } else {
+              Toast.fire({
+                icon: 'success',
+                title: '成功加上星號'
+              })
+            }
+            item.isLiked = !item.isLiked
+          }
+        })
+      } catch (err) {
+        Toast.fire({
+          icon: 'error',
+          title: '目前無法修改項目星號，請稍後再試'
         })
       }
     }
@@ -432,9 +465,11 @@ export default {
     padding: 0px 5px 5px 5px;
     font-size: 1.5rem;
     cursor: pointer;
-    &:hover,
     &.active {
       color: $star-yellow;
+    }
+    &:hover {
+      animation: swing ease-in-out 0.5s;
     }
   }
   .card-category {
