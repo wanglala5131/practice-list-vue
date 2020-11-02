@@ -31,10 +31,14 @@
             </div>
           </div>
           <div class="card-footer" :class="{ close: isCloseType }">
-            <button class="card-close-button">
+            <button
+              class="card-close-button"
+              :disabled="item.isInCart"
+              :class="{ active: !item.isInCart }"
+            >
               {{ isCloseType ? '取消封存' : '封存' }}
             </button>
-            <button class="card-edit-button">編輯</button>
+            <button class="card-edit-button active">編輯</button>
             <button
               class="card-cart-button"
               :class="{ active: !item.isInCart }"
@@ -245,7 +249,6 @@ export default {
     button {
       padding: 10px;
       font-weight: 700;
-      cursor: pointer;
       font-size: 1rem;
     }
     .card-close-button {
@@ -254,18 +257,18 @@ export default {
     .card-close-button,
     .card-edit-button {
       background-color: $yellow;
-      &:hover {
+      &.active:hover {
         background-color: $dark-yellow;
+        cursor: pointer;
       }
     }
 
     .card-cart-button {
       background-color: $light-logo-green;
       border-radius: 0 0 5px 0;
-      cursor: default;
       &.active:hover {
-        cursor: pointer;
         background-color: $logo-green;
+        cursor: pointer;
       }
     }
   }
