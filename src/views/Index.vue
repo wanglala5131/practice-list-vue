@@ -150,7 +150,7 @@ export default {
       bannerImgURL:
         'https://c.pxhere.com/photos/d9/72/basketball_ball_hoop_tree_sport-1398290.jpg!d',
       items: undefined,
-      itemsFilter: undefined, //篩選出來的結果
+      itemsFilter: [], //篩選出來的結果 ，不設成undefined是因為在PracticeCard裡會判別length
       cartItems: undefined,
       cartItemsArr: undefined,
       categories: undefined,
@@ -253,6 +253,7 @@ export default {
     //全不選
     clearSubcategory() {
       this.subcategorySelect = []
+      this.itemsFilter = []
     },
     //全選
     allSubcategory() {
@@ -263,6 +264,12 @@ export default {
           return
         }
         return
+      })
+      this.itemsFilter = [] //先清空
+      this.items.map(item => {
+        if (this.subcategorySelect.includes(item.id)) {
+          this.itemsFilter.push(item)
+        }
       })
     },
     addToCartHandler(payload) {
@@ -318,7 +325,7 @@ export default {
 <style lang="scss">
 //search
 .cards-search {
-  padding-top: 30px;
+  padding: 30px 0 20px 0;
   color: $dark-gray;
   font-size: 1.1rem;
   .cards-search-toggle {

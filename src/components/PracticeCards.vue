@@ -1,7 +1,8 @@
 <template>
   <div class="cards">
     <div class="container">
-      <div class="cards-wrapper" v-if="oriItemsFilter.length > 0">
+      <h2 class="cards-num">共有 {{ oriItemsFilter.length }} 個結果</h2>
+      <div class="cards-wrapper">
         <div class="card" v-for="item in itemsFilter" :key="item.id">
           <div class="card-header">
             <a href="#" class="card-link"></a>
@@ -42,9 +43,6 @@
             </button>
           </div>
         </div>
-      </div>
-      <div class="no-card" v-else>
-        <h2>找不到符合的練習項目</h2>
       </div>
     </div>
   </div>
@@ -118,6 +116,9 @@ export default {
 </script>
 
 <style lang="scss">
+.cards-num {
+  text-align: center;
+}
 .cards-search {
   padding-top: 30px;
   color: $dark-gray;
