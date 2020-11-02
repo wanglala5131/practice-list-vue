@@ -127,6 +127,7 @@
       :isCloseType="false"
       @addToCart="addToCartHandler"
       @changeLike="changeLikeHandler"
+      @changeClosed="changeClosedHandler"
     />
   </main>
 </template>
@@ -321,6 +322,10 @@ export default {
         }
       })
       this.cartItems = this.cartItems.filter(cartItem => cartItem.id !== cartId)
+    },
+    changeClosedHandler(payload) {
+      this.items = this.items.filter(item => item.id !== payload)
+      this.itemsFilter = this.itemsFilter.filter(item => item.id !== payload)
     }
   }
 }

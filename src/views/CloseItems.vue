@@ -12,7 +12,11 @@
         >
       </template>
     </PageTitle>
-    <PracticeCards :ori-items-filter="items" :isCloseType="true" />
+    <PracticeCards
+      :ori-items-filter="items"
+      :isCloseType="true"
+      @changeClosed="changeClosedHandler"
+    />
   </main>
 </template>
 <script>
@@ -54,6 +58,9 @@ export default {
           title: '目前無法取得已封存的項目，請稍後再試'
         })
       }
+    },
+    changeClosedHandler(payload) {
+      this.items = this.items.filter(item => item.id !== payload)
     }
   }
 }

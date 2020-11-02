@@ -9,5 +9,8 @@ export default {
   },
   changeLike({ itemId }) {
     return apiHelper.put(`/items/like/${itemId}`, null)
+  },
+  changeClosed({ itemId }) {
+    return apiHelper.put(`/items/${itemId}/close`, null)
   }
 }

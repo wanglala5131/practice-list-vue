@@ -35,6 +35,7 @@
               class="card-close-button"
               :disabled="item.isInCart"
               :class="{ active: !item.isInCart }"
+              @click.stop.prevent="changeClosed(item.id)"
             >
               {{ isCloseType ? '取消封存' : '封存' }}
             </button>
@@ -116,6 +117,24 @@ export default {
         Toast.fire({
           icon: 'error',
           title: '目前無法修改項目星號，請稍後再試'
+        })
+      }
+    },
+    async changeClosed(itemId) {
+      try {
+        const { data, statusText } = await practiceAPI.changeClosed({ itemId })
+        if (statusText !== 'OK') {
+          throw new Error()
+        }
+        if (data.status === 'error') {
+          throw new Error(data.message)
+        }
+        this.$emit('changeClosed', itemId)
+      } catch (err) {
+        console.log(err)
+        Toast.fire({
+          icon: 'error',
+          title: '目前無法改變項目狀態，請稍後再試'
         })
       }
     }
