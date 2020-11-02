@@ -118,54 +118,12 @@
         </div>
       </div>
     </div>
-    <div class="cards">
-      <div class="container">
-        <div class="cards-wrapper">
-          <div class="card" v-for="item in itemsFilter" :key="item.id">
-            <div class="card-header">
-              <a href="#" class="card-link"></a>
-              <span class="card-category">{{ item.Category.name }}</span>
-              <div
-                class="card-star"
-                :class="{ active: item.isLiked }"
-                @click.stop.prevent="changeLike(item.id)"
-              >
-                <font-awesome-icon icon="star" />
-              </div>
-              <img
-                :src="item.image ? item.image : defaultImgURL"
-                alt="card-img"
-              />
-              <div class="card-title">
-                <h3>{{ item.name }}</h3>
-                <div class="card-sub-categories">
-                  <span
-                    v-for="subcategory in item.Subcategories"
-                    :key="subcategory.id"
-                    >{{ subcategory.name }}</span
-                  >
-                </div>
-              </div>
-            </div>
-            <div class="card-footer">
-              <button class="card-close-button">封存</button>
-              <button class="card-edit-button">編輯</button>
-              <button
-                class="card-cart-button"
-                :class="{ active: !item.isInCart }"
-                @click.stop.prevent="addToCart(item)"
-                :disabled="item.isInCart"
-              >
-                {{ item.isInCart ? '已加入暫定清單' : '加到暫定清單中' }}
-              </button>
-            </div>
-          </div>
-          <div class="no-card" v-if="!itemsFilter">
-            <h2>找不到符合的練習項目</h2>
-          </div>
-        </div>
-      </div>
-    </div>
+    <PracticeCards
+      :ori-items-filter="itemsFilter"
+      :isCloseType="false"
+      @addToCart="addToCartHandler"
+      @changeLike="changeLikeHandler"
+    />
   </main>
 </template>
 
@@ -174,9 +132,9 @@ import Banner from '../components/Banner'
 import PageTitle from '../components/PageTitle'
 import ToTop from '../components/ToTop'
 import CartSimple from '../components/CartSimple'
+import PracticeCards from '../components/PracticeCards'
 import settingAPI from '../apis/setting'
 import practiceAPI from '../apis/practice'
-import cartAPI from '../apis/carts'
 import { Toast } from '../utils/helpers'
 export default {
   name: 'Index',
@@ -184,7 +142,8 @@ export default {
     Banner,
     PageTitle,
     ToTop,
-    CartSimple
+    CartSimple,
+    PracticeCards
   },
   data() {
     return {
@@ -202,7 +161,7 @@ export default {
       categorySelect: 'all', //使用者自己選擇的運動項目，預設是全部
       subcategorySelect: undefined, //使用者自己選擇的項目類型
       subcategoryFilter: undefined, //根據category出現在篩選列的項目類型
-      defaultImgURL: 'https://i.imgur.com/3XaSsJX.png'
+      defaultImgURL: 'https://i.imgur.com/3XaSsJX.png' //記得刪
     }
   },
   created() {
@@ -306,61 +265,37 @@ export default {
         return
       })
     },
-    async addToCart(item) {
-      try {
-        const itemId = item.id
-        const { data, statusText } = await cartAPI.addToCart({ itemId })
-        if (statusText !== 'OK') {
-          throw new Error()
+    addToCartHandler(payload) {
+      const { cartItem, itemId } = payload
+      this.cartItems.push(cartItem)
+      this.items.map(item => {
+        if (item.id === itemId) {
+          item.isInCart = true
         }
-        this.items.map(item => {
-          if (item.id === itemId) {
-            item.isInCart = true
-          }
-        })
-        Toast.fire({
-          icon: 'success',
-          title: '已成功加入暫定清單'
-        })
-        this.cartItems.push({
-          ...data,
-          Item: item
-        })
-      } catch (err) {
-        Toast.fire({
-          icon: 'error',
-          title: '目前無法加入暫定清單，請稍後再試'
-        })
-      }
+      })
+      this.itemsFilter.map(item => {
+        if (item.id === itemId) {
+          item.isInCart = true
+        }
+      })
     },
-    async changeLike(itemId) {
-      try {
-        const { statusText } = await practiceAPI.changeLike({ itemId })
-        if (statusText !== 'OK') {
-          throw new Error()
-        }
-        this.items.map(item => {
-          if (item.id === itemId) {
-            if (item.isLiked) {
-              Toast.fire({
-                icon: 'success',
-                title: '成功移除星號'
-              })
-            } else {
-              Toast.fire({
-                icon: 'success',
-                title: '成功加上星號'
-              })
-            }
-            item.isLiked = !item.isLiked
+    changeLikeHandler(payload) {
+      this.items.map(item => {
+        if (item.id === payload) {
+          if (item.isLiked) {
+            Toast.fire({
+              icon: 'success',
+              title: '成功移除星號'
+            })
+          } else {
+            Toast.fire({
+              icon: 'success',
+              title: '成功加上星號'
+            })
           }
-        })
-      } catch (err) {
-        Toast.fire({
-          icon: 'error',
-          title: '目前無法修改項目星號，請稍後再試'
-        })
-      }
+          item.isLiked = !item.isLiked
+        }
+      })
     },
     deleteCartItemHandler(payload) {
       const { cartId, itemId } = payload

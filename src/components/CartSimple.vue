@@ -56,9 +56,7 @@ export default {
   },
   watch: {
     oriCartItems(newValue) {
-      this.cartItems = {
-        ...newValue
-      }
+      this.cartItems = [...newValue]
     }
   },
   methods: {
