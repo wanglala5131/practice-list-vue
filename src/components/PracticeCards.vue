@@ -79,6 +79,9 @@ export default {
         if (statusText !== 'OK') {
           throw new Error()
         }
+        if (data.status === 'error') {
+          throw new Error(data.message)
+        }
         Toast.fire({
           icon: 'success',
           title: '已成功加入暫定清單'
@@ -97,9 +100,12 @@ export default {
     },
     async changeLike(itemId) {
       try {
-        const { statusText } = await practiceAPI.changeLike({ itemId })
+        const { data, statusText } = await practiceAPI.changeLike({ itemId })
         if (statusText !== 'OK') {
           throw new Error()
+        }
+        if (data.status === 'error') {
+          throw new Error(data.message)
         }
         this.$emit('changeLike', itemId)
       } catch (err) {
