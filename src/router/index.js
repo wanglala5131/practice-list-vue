@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import NotFound from '../views/NotFound.vue'
 import SignIn from '../views/SignIn.vue'
 import Index from '../views/Index.vue'
+
 import store from '../store'
 
 Vue.use(VueRouter)
@@ -32,6 +33,11 @@ const routes = [
     path: '/practice/items/close',
     name: 'item-clise',
     component: () => import('../views/CloseItems.vue')
+  },
+  {
+    path: '/practice/items/:id(\\d+)',
+    name: 'practice-item',
+    component: () => import('../views/PracticeItem.vue')
   },
   {
     path: '*',

@@ -11,14 +11,16 @@
         訓練項目
       </template>
       <template v-slot:buttons>
-        <a href="#" class="title-link add-card-link"
-          ><font-awesome-icon icon="plus" />新增項目</a
-        >
-        <router-link
-          to="/practice/items/close"
-          class="title-link close-card-link"
-          >查看封存項目</router-link
-        >
+        <div class="setting-links-wrapper">
+          <a href="#" class="title-link add-card-link"
+            ><font-awesome-icon icon="plus" />新增項目</a
+          >
+          <router-link
+            to="/practice/items/close"
+            class="title-link close-card-link"
+            >查看封存項目</router-link
+          >
+        </div>
       </template>
     </PageTitle>
     <div class="cards-search">

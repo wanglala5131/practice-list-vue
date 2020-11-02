@@ -7,9 +7,11 @@
         已封存的項目
       </template>
       <template v-slot:buttons>
-        <router-link to="/practice" class="title-link close-card-link"
-          >返回訓練項目</router-link
-        >
+        <div class="setting-links-wrapper">
+          <router-link to="/practice" class="title-link close-card-link"
+            >返回訓練項目</router-link
+          >
+        </div>
       </template>
     </PageTitle>
     <PracticeCards

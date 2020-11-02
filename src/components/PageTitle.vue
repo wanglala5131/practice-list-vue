@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container title-box">
     <h1 class="page-title"><slot name="title"></slot></h1>
     <div class="card-page-links">
       <slot name="buttons"></slot>
@@ -8,6 +8,10 @@
 </template>
 
 <style lang="scss">
+.title-box {
+  margin: 0 auto;
+  max-width: 1300px;
+}
 .page-title {
   padding-top: 100px;
   padding-left: 20px;
@@ -17,10 +21,14 @@
 }
 .card-page-links {
   margin-top: 20px;
+  .setting-links-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+  }
   .title-link {
     margin: 5px;
-    background-color: $logo-green;
-    color: $dark-gray;
+    background-color: $white;
+    color: $font-green;
     font-weight: 500;
     padding: 5px 10px;
     border-radius: 10px;
@@ -29,8 +37,17 @@
     svg {
       margin-right: 6px;
     }
+    &.item-delete-btn {
+      border: 2px solid $red;
+      color: $red;
+      &:hover {
+        background-color: $red;
+        color: $white;
+      }
+    }
     &:hover {
-      border: 2px solid $dark-gray;
+      background-color: $logo-green;
+      color: $white;
     }
   }
 }
@@ -52,8 +69,14 @@
       border-color: $op-white;
       font-size: 1.3rem;
       &:hover {
-        border-color: $white;
-        color: $white;
+        border-color: $logo-green;
+      }
+      &.item-delete-btn {
+        background-color: rgba(0, 0, 0, 0.8);
+        color: $red;
+        &:hover {
+          border-color: $red;
+        }
       }
     }
   }
