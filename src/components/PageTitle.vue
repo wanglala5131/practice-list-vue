@@ -17,7 +17,7 @@
 }
 .card-page-links {
   margin-top: 20px;
-  a {
+  .title-link {
     margin: 5px;
     background-color: $logo-green;
     color: $dark-gray;
@@ -46,7 +46,7 @@
   }
   .card-page-links {
     padding-left: 50px;
-    a {
+    .title-link {
       color: $op-white;
       background-color: rgba(0, 0, 0, 0.8);
       border-color: $op-white;

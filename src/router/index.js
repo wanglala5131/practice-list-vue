@@ -29,6 +29,11 @@ const routes = [
     component: () => import('../views/SignUp.vue')
   },
   {
+    path: '/practice/items/close',
+    name: 'item-clise',
+    component: () => import('../views/CloseItems.vue')
+  },
+  {
     path: '*',
     name: 'not-found',
     component: NotFound

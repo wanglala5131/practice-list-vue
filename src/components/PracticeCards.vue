@@ -1,5 +1,5 @@
 <template>
-  <div class="cards">
+  <div class="cards" :class="{ close: isCloseType }">
     <div class="container">
       <h2 class="cards-num">共有 {{ oriItemsFilter.length }} 個結果</h2>
       <div class="cards-wrapper">
@@ -11,6 +11,7 @@
               class="card-star"
               :class="{ active: item.isLiked }"
               @click.stop.prevent="changeLike(item.id)"
+              v-if="!isCloseType"
             >
               <font-awesome-icon icon="star" />
             </div>
@@ -29,8 +30,10 @@
               </div>
             </div>
           </div>
-          <div class="card-footer">
-            <button class="card-close-button">封存</button>
+          <div class="card-footer" :class="{ close: isCloseType }">
+            <button class="card-close-button">
+              {{ isCloseType ? '取消封存' : '封存' }}
+            </button>
             <button class="card-edit-button">編輯</button>
             <button
               class="card-cart-button"
@@ -119,115 +122,13 @@ export default {
 .cards-num {
   text-align: center;
 }
-.cards-search {
-  padding-top: 30px;
-  color: $dark-gray;
-  font-size: 1.1rem;
-  .cards-search-toggle {
-    display: none;
-    &:checked ~ .cards-search-toggle-label {
-      border-radius: 4px 4px 0 0;
-    }
-    &:checked ~ .cards-search-form {
-      display: block;
-    }
-  }
-  .cards-search-toggle-label {
-    display: block;
-    text-align: center;
-    font-weight: 500;
-    padding: 5px;
-    background-color: $logo-green;
-    border-radius: 4px;
-    letter-spacing: 1px;
-    cursor: pointer;
-  }
-  .cards-search-form {
-    display: none;
-    border: 3px solid $logo-green;
-    padding: 5px 20px;
-    h2 {
-      display: none;
-    }
-    .search-item {
-      margin: 10px 0;
-      .keyword {
-        width: 100%;
-        padding: 6px 5px 3px 5px;
-        font-size: 1rem;
-        border-radius: 3px;
-        border: 1.5px solid $logo-green;
-        color: $font-green;
-      }
-      input[type='checkbox'] {
-        display: none;
-        ~ label {
-          border: 1px solid $light-gray;
-          border-radius: 10px;
-          padding: 0 5px;
-          color: $font-gray;
-        }
-        &:checked ~ label {
-          border: 1px solid $logo-green;
-          color: $font-green;
-        }
-      }
-      &.choice {
-        display: flex;
-        div {
-          margin: 2px;
-        }
-      }
-      &.category {
-        display: flex;
-        align-items: center;
-        select {
-          font-size: 0.9rem;
-          width: 20%;
-          padding: 3px;
-          margin-left: 10px;
-          border: 1px solid $logo-green;
-          border-radius: 4px;
-          min-width: 100px;
-        }
-      }
-      &.subcategory {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        grid-gap: 10px;
-        .subcategory-controller {
-          display: flex;
-          .subcategory-controller-item {
-            display: flex;
-            align-items: center;
-            margin-right: 5px;
-            .subcategory-controller-button {
-              font-size: 0.9rem;
-              background-color: $logo-green;
-              border-radius: 15px;
-              color: $light-gray;
-              letter-spacing: 1px;
-              &:hover {
-                background-color: $logo-green;
-                color: $white;
-              }
-            }
-          }
-        }
-        .subcategory-items {
-          grid-column: 1/3;
-          display: flex;
-          flex-wrap: wrap;
-          .check-item {
-            margin: 5px;
-          }
-        }
-      }
-    }
-  }
-}
+
 .cards {
   width: 100%;
+  &.close {
+    //用在closeItem page
+    padding-top: 115px;
+  }
 }
 .cards-wrapper {
   margin-top: 30px;
@@ -332,6 +233,9 @@ export default {
     display: grid;
     grid-template-columns: 1fr 1fr 3fr;
     grid-template-rows: auto;
+    &.close {
+      grid-template-columns: 1fr 1fr;
+    }
     button {
       padding: 10px;
       font-weight: 700;
