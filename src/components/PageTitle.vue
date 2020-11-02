@@ -32,7 +32,7 @@
     font-weight: 500;
     padding: 5px 10px;
     border-radius: 10px;
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     border: 2px solid $logo-green;
     svg {
       margin-right: 6px;

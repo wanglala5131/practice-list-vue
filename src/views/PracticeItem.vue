@@ -17,13 +17,13 @@
     </PageTitle>
     <div class="item-content">
       <div class="container">
-        <div class="item-section  one-line">
+        <div class="item-section one-line">
           <h3>運動類別：</h3>
           <span>排球</span>
         </div>
-        <div class="item-section  one-line">
+        <div class="item-section">
           <h3>項目類型：</h3>
-          <div class="item-subcategories one-line">
+          <div class="item-subcategories-box">
             <span>體力</span>
             <span>腿力</span>
             <span>什麼哩哩哩</span>
@@ -48,11 +48,13 @@
 <script>
 import Banner from '../components/Banner'
 import PageTitle from '../components/PageTitle'
+import ToTop from '../components/ToTop'
 export default {
   name: 'PracticeItem',
   components: {
     Banner,
-    PageTitle
+    PageTitle,
+    ToTop
   },
   data() {
     return {
@@ -75,18 +77,23 @@ export default {
     margin: 10px 10px 10px 0;
   }
   .item-section {
-    padding-botton: 10px;
-    .item-subcategories {
+    padding: 10px 0;
+    .item-subcategories-box {
+      width: 100%;
+      padding-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
       span {
         border: 1px solid $dark-gray;
         border-radius: 10px;
         padding: 0px 5px;
-        margin-right: 2px;
+        margin: 2px;
       }
     }
     &.one-line {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
     }
     img {
       padding-top: 10px;
