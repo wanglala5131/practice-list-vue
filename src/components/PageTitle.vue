@@ -29,7 +29,7 @@
     margin: 5px;
     background-color: $white;
     color: $font-green;
-    font-weight: 500;
+    font-weight: 700;
     padding: 5px 10px;
     border-radius: 10px;
     font-size: 1.3rem;

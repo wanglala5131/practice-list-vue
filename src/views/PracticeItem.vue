@@ -9,10 +9,18 @@
           <router-link to="/practice" class="title-link item-goback-btn"
             >回前頁</router-link
           >
-          <a href="#" class="title-link item-edit-btn">編輯項目</a>
-          <a href="#" class="title-link item-close-btn">加入暫定清單</a>
-          <a href="#" class="title-link item-close-btn">封存項目</a>
-          <a href="#" class="title-link item-delete-btn">永久刪除</a>
+          <button
+            class="title-link item-star-btn"
+            @click.stop.prevent="changeLike"
+          >
+            {{ item.isLiked ? '移除星號' : '加上星號' }}
+          </button>
+          <button class="title-link item-edit-btn">編輯</button>
+          <button class="title-link item-close-btn">
+            加入暫定清單
+          </button>
+          <button class="title-link item-close-btn">封存</button>
+          <button class="title-link item-delete-btn">永久刪除</button>
         </div>
       </template>
     </PageTitle>
@@ -112,6 +120,21 @@ export default {
         Toast.fire({
           icon: 'error',
           title: '目前暫時無法取得項目資料，請稍後再試'
+        })
+      }
+    },
+    async changeLike() {
+      try {
+        const itemId = this.item.id
+        const { statusText } = await practiceAPI.changeLike({ itemId })
+        if (statusText !== 'OK') {
+          throw new Error()
+        }
+        this.item.isLiked = !this.item.isLiked
+      } catch (err) {
+        Toast.fire({
+          icon: 'error',
+          title: '目前無法改變狀態，請稍後再試'
         })
       }
     }
