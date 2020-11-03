@@ -2,6 +2,10 @@
   <main>
     <Banner :bannerImgURL="bannerImgURL" />
     <ToTop />
+    <CartSimple
+      :ori-cart-items="cartItems"
+      @deleteCartItem="deleteCartItemHandler"
+    />
     <PageTitle>
       <template v-slot:title> {{ item.name }} </template>
       <template v-slot:buttons>
@@ -77,6 +81,7 @@
 import Banner from '../components/Banner'
 import PageTitle from '../components/PageTitle'
 import ToTop from '../components/ToTop'
+import CartSimple from '../components/CartSimple'
 import { Toast } from '../utils/helpers'
 import practiceAPI from '../apis/practice'
 import cartAPI from '../apis/carts'
@@ -85,7 +90,8 @@ export default {
   components: {
     Banner,
     PageTitle,
-    ToTop
+    ToTop,
+    CartSimple
   },
   data() {
     return {
@@ -193,6 +199,11 @@ export default {
           title: '暫時無法加入暫定清單，請稍後再試'
         })
       }
+    },
+    deleteCartItemHandler(payload) {
+      const { cartId } = payload
+      this.item.isInCart = false
+      this.cartItems = this.cartItems.filter(cartItem => cartItem.id !== cartId)
     }
   }
 }

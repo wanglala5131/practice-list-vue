@@ -80,7 +80,7 @@
       background-color: rgba(0, 0, 0, 0.8);
       border-color: $op-white;
       font-size: 1.3rem;
-      &:hover {
+      &.active:hover {
         border-color: $logo-green;
       }
       &.item-goback-btn {
@@ -97,6 +97,10 @@
         &:hover {
           border-color: $red;
         }
+      }
+      &:disabled {
+        border-color: $dark-gray;
+        color: $dark-gray;
       }
     }
   }

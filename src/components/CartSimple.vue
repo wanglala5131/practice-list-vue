@@ -5,7 +5,7 @@
     /></label>
     <input type="checkbox" class="cart-simple-input" id="cart-simple-input" />
     <div class="cart-simple-content">
-      <h3>暫定清單</h3>
+      <h3>暫定菜單</h3>
       <ul class="cart-simple-ul">
         <li
           class="cart-simple-li"
