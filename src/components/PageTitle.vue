@@ -53,9 +53,13 @@
         color: $white;
       }
     }
-    &:hover {
+    &.active:hover {
       background-color: $logo-green;
       color: $white;
+    }
+    &:disabled {
+      border-color: $light-gray;
+      color: $light-gray;
     }
   }
 }

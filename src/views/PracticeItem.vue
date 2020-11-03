@@ -10,16 +10,27 @@
             >回前頁</router-link
           >
           <button
-            class="title-link item-star-btn"
+            class="title-link item-star-btn active"
             @click.stop.prevent="changeLike"
           >
             {{ item.isLiked ? '移除星號' : '加上星號' }}
           </button>
-          <button class="title-link item-edit-btn">編輯</button>
-          <button class="title-link item-close-btn">
-            加入暫定清單
+          <button class="title-link item-edit-btn active">編輯</button>
+          <button
+            class="title-link item-close-btn"
+            :class="{ active: !item.isInCart }"
+            @click.stop.prevent="addToCart"
+            :disabled="item.isInCart"
+          >
+            {{ item.isInCart ? '已加入暫定清單' : '加到暫定清單中' }}
           </button>
-          <button class="title-link item-close-btn">封存</button>
+          <button
+            class="title-link item-close-btn"
+            :class="{ active: !item.isInCart }"
+            :disabled="item.isInCart"
+          >
+            封存
+          </button>
           <button class="title-link item-delete-btn">永久刪除</button>
         </div>
       </template>
@@ -68,6 +79,7 @@ import PageTitle from '../components/PageTitle'
 import ToTop from '../components/ToTop'
 import { Toast } from '../utils/helpers'
 import practiceAPI from '../apis/practice'
+import cartAPI from '../apis/carts'
 export default {
   name: 'PracticeItem',
   components: {
@@ -79,8 +91,8 @@ export default {
     return {
       bannerImgURL:
         'https://image.freepik.com/free-photo/exercise-weights-iron-dumbbell-with-extra-plates_1423-223.jpg',
-      cartItems: undefined,
-      cartItemsArr: undefined,
+      cartItems: [],
+      cartItemsArr: [],
       item: {
         id: undefined,
         name: undefined,
@@ -113,7 +125,10 @@ export default {
             title: '無法取得項目資料，返回首頁'
           })
         }
-        this.item = data.item
+        this.item = {
+          ...data.item,
+          isInCart: data.cartItemsArr.includes(data.item.id)
+        }
         this.cartItems = data.cartItems
         this.cartItemsArr = data.cartItemsArr
       } catch (err) {
@@ -130,11 +145,52 @@ export default {
         if (statusText !== 'OK') {
           throw new Error()
         }
+        if (this.item.isLiked) {
+          Toast.fire({
+            icon: 'success',
+            title: '成功移除星號'
+          })
+        } else {
+          Toast.fire({
+            icon: 'success',
+            title: '成功加上星號'
+          })
+        }
         this.item.isLiked = !this.item.isLiked
       } catch (err) {
         Toast.fire({
           icon: 'error',
           title: '目前無法改變狀態，請稍後再試'
+        })
+      }
+    },
+    async addToCart() {
+      try {
+        const itemId = this.item.id
+        const { data, statusText } = await cartAPI.addToCart({ itemId })
+        if (statusText !== 'OK') {
+          throw new Error()
+        }
+        if (data.status === 'error') {
+          Toast.fire({
+            icon: 'error',
+            title: data.message
+          })
+        }
+        this.item.isInCart = true
+        Toast.fire({
+          icon: 'success',
+          title: '成功加入暫定清單'
+        })
+        this.cartItems.push({
+          ...data.data,
+          Item: this.item
+        })
+        this.cartItemsArr.push(this.item.id)
+      } catch (err) {
+        Toast.fire({
+          icon: 'error',
+          title: '暫時無法加入暫定清單，請稍後再試'
         })
       }
     }
