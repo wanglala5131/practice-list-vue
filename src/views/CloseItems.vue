@@ -49,7 +49,7 @@ export default {
   methods: {
     async fetchItems() {
       try {
-        const { data, statusText } = await practiceAPI.getCloseItem()
+        const { data, statusText } = await practiceAPI.getCloseItems()
         if (statusText !== 'OK') {
           throw new Error()
         }

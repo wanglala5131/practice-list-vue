@@ -37,6 +37,14 @@
     svg {
       margin-right: 6px;
     }
+    &.item-goback-btn {
+      border-color: $dark-gray;
+      color: $dark-gray;
+      &:hover {
+        background-color: $dark-gray;
+        color: $light-gray;
+      }
+    }
     &.item-delete-btn {
       border: 2px solid $red;
       color: $red;
@@ -70,6 +78,14 @@
       font-size: 1.3rem;
       &:hover {
         border-color: $logo-green;
+      }
+      &.item-goback-btn {
+        border-color: $dark-yellow;
+        color: $dark-yellow;
+        &:hover {
+          background-color: $dark-yellow;
+          color: $dark-gray;
+        }
       }
       &.item-delete-btn {
         background-color: rgba(0, 0, 0, 0.8);

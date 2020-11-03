@@ -5,7 +5,10 @@
       <div class="cards-wrapper">
         <div class="card" v-for="item in itemsFilter" :key="item.id">
           <div class="card-header">
-            <a href="#" class="card-link"></a>
+            <router-link
+              :to="{ name: 'practice-item', params: { id: item.id } }"
+              class="card-link"
+            ></router-link>
             <span class="card-category">{{ item.Category.name }}</span>
             <div
               class="card-star"
@@ -131,7 +134,6 @@ export default {
         }
         this.$emit('changeClosed', itemId)
       } catch (err) {
-        console.log(err)
         Toast.fire({
           icon: 'error',
           title: '目前無法改變項目狀態，請稍後再試'

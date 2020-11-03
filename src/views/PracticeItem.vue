@@ -3,11 +3,12 @@
     <Banner :bannerImgURL="bannerImgURL" />
     <ToTop />
     <PageTitle>
-      <template v-slot:title>
-        小狗追球
-      </template>
+      <template v-slot:title> {{ item.name }} </template>
       <template v-slot:buttons>
         <div class="setting-links-wrapper">
+          <router-link to="/practice" class="title-link item-goback-btn"
+            >回前頁</router-link
+          >
           <a href="#" class="title-link item-edit-btn">編輯項目</a>
           <a href="#" class="title-link item-close-btn">加入暫定清單</a>
           <a href="#" class="title-link item-close-btn">封存項目</a>
@@ -19,26 +20,34 @@
       <div class="container">
         <div class="item-section one-line">
           <h3>運動類別：</h3>
-          <span>排球</span>
+          <span>{{ item.Category.name }}</span>
         </div>
         <div class="item-section">
           <h3>項目類型：</h3>
           <div class="item-subcategories-box">
-            <span>體力</span>
-            <span>腿力</span>
-            <span>什麼哩哩哩</span>
+            <span
+              v-for="subcategory in item.Subcategories"
+              :key="subcategory.id"
+              >{{ subcategory.name }}</span
+            >
           </div>
         </div>
         <div class="item-section">
           <h3>描述：</h3>
           <p>
-            就是教練拋球球員一直跑啦！一直跑一直跑這個項目豪~~累~~喔~~，主要還是練體力的啦
+            {{ item.description }}
           </p>
         </div>
         <div class="item-section">
+          <h3>限制：</h3>
+          <p>
+            {{ item.limit }}
+          </p>
+        </div>
+        <div class="item-section" v-if="item.image">
           <h3>相關圖片：</h3>
           <div class="item-img">
-            <img src="https://i.imgur.com/hLqomma.jpg" alt="" />
+            <img :src="item.image" alt="" />
           </div>
         </div>
       </div>
@@ -49,6 +58,8 @@
 import Banner from '../components/Banner'
 import PageTitle from '../components/PageTitle'
 import ToTop from '../components/ToTop'
+import { Toast } from '../utils/helpers'
+import practiceAPI from '../apis/practice'
 export default {
   name: 'PracticeItem',
   components: {
@@ -59,7 +70,50 @@ export default {
   data() {
     return {
       bannerImgURL:
-        'https://image.freepik.com/free-photo/exercise-weights-iron-dumbbell-with-extra-plates_1423-223.jpg'
+        'https://image.freepik.com/free-photo/exercise-weights-iron-dumbbell-with-extra-plates_1423-223.jpg',
+      cartItems: undefined,
+      cartItemsArr: undefined,
+      item: {
+        id: undefined,
+        name: undefined,
+        limit: undefined,
+        description: undefined,
+        image: undefined,
+        isClosed: false,
+        isLiked: false,
+        CategoryId: undefined,
+        Category: {},
+        Subcategories: []
+      }
+    }
+  },
+  created() {
+    const { id } = this.$route.params
+    this.fetchItem(id)
+  },
+  methods: {
+    async fetchItem(itemId) {
+      try {
+        const { data, statusText } = await practiceAPI.getItem({ itemId })
+        if (statusText !== 'OK') {
+          throw new Error()
+        }
+        if (data.status === 'error') {
+          this.$router.push('/')
+          Toast.fire({
+            icon: 'error',
+            title: '無法取得項目資料，返回首頁'
+          })
+        }
+        this.item = data.item
+        this.cartItems = data.cartItems
+        this.cartItemsArr = data.cartItemsArr
+      } catch (err) {
+        Toast.fire({
+          icon: 'error',
+          title: '目前暫時無法取得項目資料，請稍後再試'
+        })
+      }
     }
   }
 }
