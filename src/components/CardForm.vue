@@ -45,7 +45,7 @@
               <input
                 type="checkbox"
                 :id="labelIndex(subcategory.id)"
-                v-model="item.subCategories"
+                v-model="item.subcategoriesArr"
                 :value="subcategory.id"
               />
               <label :for="labelIndex(subcategory.id)">{{
@@ -92,8 +92,6 @@ export default {
   name: 'CardForm',
   data() {
     return {
-      categories: [],
-      subCategories: [],
       subcategoryFilter: [],
       item: {
         name: '',
@@ -101,8 +99,37 @@ export default {
         description: '',
         image: '',
         CategoryId: -1,
-        subCategories: [],
+        subcategories: [],
         subcategoriesArr: []
+      }
+    }
+  },
+  props: {
+    categories: {
+      type: Array
+    },
+    subcategories: {
+      type: Array
+    }
+  },
+  methods: {
+    filterSubcategory() {
+      this.item.subcategories = []
+      this.subcategoryFilter = this.subcategories.filter(
+        subcategory => subcategory.CategoryId === this.item.CategoryId
+      )
+    },
+    labelIndex(id) {
+      return `subcategory-${id}`
+    },
+    fileChangeHandler(e) {
+      const files = e.target.files
+      console.log(files)
+      if (!files.length) {
+        this.item.image = ''
+      } else {
+        const imageURL = window.URL.createObjectURL(files[0])
+        this.item.image = imageURL
       }
     }
   }
