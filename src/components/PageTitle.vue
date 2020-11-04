@@ -51,11 +51,13 @@
       &:hover {
         background-color: $red;
         color: $white;
+        cursor: pointer;
       }
     }
     &.active:hover {
       background-color: $logo-green;
       color: $white;
+      cursor: pointer;
     }
     &:disabled {
       border-color: $light-gray;
