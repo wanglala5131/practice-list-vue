@@ -40,6 +40,11 @@ const routes = [
     component: () => import('../views/PracticeItem.vue')
   },
   {
+    path: '/practice/items/create',
+    name: 'create-item',
+    component: () => import('../views/CreateItem.vue')
+  },
+  {
     path: '*',
     name: 'not-found',
     component: NotFound

@@ -12,8 +12,10 @@
       </template>
       <template v-slot:buttons>
         <div class="setting-links-wrapper">
-          <a href="#" class="title-link add-card-link"
-            ><font-awesome-icon icon="plus" />新增項目</a
+          <router-link
+            to="/practice/items/create"
+            class="title-link add-card-link"
+            ><font-awesome-icon icon="plus" />新增項目</router-link
           >
           <router-link
             to="/practice/items/close"

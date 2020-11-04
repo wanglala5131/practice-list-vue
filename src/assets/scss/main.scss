@@ -59,7 +59,7 @@ $font-gray: #e0e0e0;
 $light-gray: #f5f5f5;
 $white: #fff;
 $op-black: rgba(0, 0, 0, 0.9);
-$op-white: rgba(255, 255, 255, 0.8);
+$op-white: rgba(255, 255, 255, 0.9);
 $yellow: #fffdd0;
 $dark-yellow: #fef263;
 $star-yellow: #fef263;
@@ -80,6 +80,20 @@ $red: #f08080;
     border-radius: 10px;
     background-color: $logo-green;
   }
+}
+
+.input-style {
+  padding: 4px 7px;
+  font-size: 1.1rem;
+  border: 1px solid $dark-gray;
+  border-radius: 5px;
+}
+.button-style {
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
 
 @keyframes swing {
