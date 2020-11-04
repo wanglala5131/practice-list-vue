@@ -15,5 +15,8 @@ export default {
   },
   changeClosed({ itemId }) {
     return apiHelper.put(`/items/${itemId}/close`, null)
+  },
+  closeItem({ itemId }) {
+    return apiHelper.put(`/items/${itemId}/close`, null)
   }
 }

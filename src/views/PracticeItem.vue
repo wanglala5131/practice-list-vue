@@ -25,6 +25,7 @@
             :class="{ active: !item.isInCart }"
             @click.stop.prevent="addToCart"
             :disabled="item.isInCart"
+            v-if="!item.isClosed"
           >
             {{ item.isInCart ? '已加入暫定清單' : '加到暫定清單中' }}
           </button>
@@ -32,8 +33,9 @@
             class="title-link item-close-btn"
             :class="{ active: !item.isInCart }"
             :disabled="item.isInCart"
+            @click.stop.prevent="closeItem"
           >
-            封存
+            {{ item.isClosed ? '取消封存' : '封存' }}
           </button>
           <button class="title-link item-delete-btn">永久刪除</button>
         </div>
@@ -197,6 +199,34 @@ export default {
         Toast.fire({
           icon: 'error',
           title: '暫時無法加入暫定清單，請稍後再試'
+        })
+      }
+    },
+    async closeItem() {
+      try {
+        if (this.item.isInCart) {
+          Toast.fire({
+            icon: 'error',
+            title: '請先移除從暫定清單移除此項目，再進行封存'
+          })
+          return
+        }
+        const itemId = this.item.id
+        const { data, statusText } = await practiceAPI.closeItem({ itemId })
+        if (statusText !== 'OK') {
+          throw new Error()
+        }
+        if (data.status === 'error') {
+          Toast.fire({
+            icon: 'error',
+            title: data.message
+          })
+        }
+        this.item.isClosed = !this.item.isClosed
+      } catch (err) {
+        Toast.fire({
+          icon: 'error',
+          title: '目前無法改變項目狀態，請稍後再試'
         })
       }
     },
