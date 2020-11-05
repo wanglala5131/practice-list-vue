@@ -274,12 +274,7 @@ export default {
         }
         return
       })
-      this.itemsFilter = [] //先清空
-      this.items.map(item => {
-        if (this.subcategorySelect.includes(item.id)) {
-          this.itemsFilter.push(item)
-        }
-      })
+      this.filterCards()
     },
     addToCartHandler(payload) {
       const { cartItem, itemId } = payload
