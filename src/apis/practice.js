@@ -21,5 +21,8 @@ export default {
   },
   addItem({ formData }) {
     return apiHelper.post('/items', formData)
+  },
+  putItem({ itemId, formData }) {
+    return apiHelper.put(`/items/${itemId}`, formData)
   }
 }

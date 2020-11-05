@@ -2,7 +2,7 @@
   <div class="container card-form-container">
     <form class="card-form" @submit.stop.prevent="submitFile">
       <h2 class="form-title">
-        新增項目
+        <slot></slot>
       </h2>
       <div class="form-content">
         <div class="form-item form-name">
@@ -79,8 +79,12 @@
         <router-link to="/practice" class="form-button go-back-button">
           回前頁
         </router-link>
-        <button type="submit" class="form-button card-submit-button">
-          送出
+        <button
+          type="submit"
+          class="form-button card-submit-button"
+          :disabled="isProcessing"
+        >
+          {{ isProcessing ? '送出中' : '送出' }}
         </button>
       </div>
     </form>
@@ -94,28 +98,28 @@ export default {
   data() {
     return {
       subcategoryFilter: [],
-      item: {
-        name: '',
-        limit: '',
-        description: '',
-        image: '',
-        CategoryId: -1,
-        subcategories: [],
-        subcategoriesArr: []
-      }
+      item: {},
+      categories: [],
+      subcategories: []
     }
   },
   props: {
-    categories: {
+    oriCategories: {
       type: Array
     },
-    subcategories: {
+    oriSubcategories: {
       type: Array
+    },
+    oriItem: {
+      type: Object
+    },
+    isProcessing: {
+      type: Boolean
     }
   },
   methods: {
     filterSubcategory() {
-      this.item.subcategories = []
+      this.item.subcategoriesArr = []
       this.subcategoryFilter = this.subcategories.filter(
         subcategory => subcategory.CategoryId === this.item.CategoryId
       )
@@ -147,6 +151,21 @@ export default {
       const form = e.target
       const formData = new FormData(form)
       this.$emit('submitFile', formData)
+    }
+  },
+  watch: {
+    oriCategories(newValue) {
+      this.categories = newValue
+    },
+    oriSubcategories(newValue) {
+      this.subcategories = newValue
+      this.subcategoryFilter = this.oriSubcategories.filter(
+        //選擇同一個運動項目下的運動類別
+        subcategory => subcategory.CategoryId === this.oriItem.CategoryId
+      )
+    },
+    oriItem(newValue) {
+      this.item = newValue
     }
   }
 }
@@ -241,7 +260,6 @@ export default {
       font-size: 1.3rem;
       &.go-back-button {
         border: 2px solid $gray;
-
         &:hover {
           border: 2px solid $dark-gray;
         }
@@ -251,6 +269,14 @@ export default {
         background-color: $logo-green;
         &:hover {
           border: 2px solid $dark-green;
+        }
+        &:disabled {
+          cursor: default;
+          background-color: $gray;
+          border: 2px solid $gray;
+          &:hover {
+            border: 2px solid $gray;
+          }
         }
       }
     }

@@ -31,8 +31,13 @@ const routes = [
   },
   {
     path: '/practice/items/close',
-    name: 'item-clise',
+    name: 'item-close',
     component: () => import('../views/CloseItems.vue')
+  },
+  {
+    path: '/practice/items/:id/edit',
+    name: 'edit-item',
+    component: () => import('../views/EditItem.vue')
   },
   {
     path: '/practice/items/:id(\\d+)',

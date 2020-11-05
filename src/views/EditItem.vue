@@ -2,10 +2,12 @@
   <main v-show="!isLoading">
     <BackgroundImg />
     <CardForm
-      :categories="categories"
-      :subcategories="subcategories"
+      :ori-categories="categories"
+      :ori-subcategories="subcategories"
+      :ori-item="item"
+      :is-processing="isProcessing"
       @submitFile="submitFileHandler"
-      >新增項目</CardForm
+      >修改項目</CardForm
     >
   </main>
 </template>
@@ -17,7 +19,7 @@ import settingAPI from '../apis/setting'
 import practiceAPI from '../apis/practice'
 import { Toast } from '../utils/helpers'
 export default {
-  name: 'CreateItem',
+  name: 'EditItem',
   components: {
     BackgroundImg,
     CardForm
@@ -25,21 +27,16 @@ export default {
   data() {
     return {
       isLoading: true,
+      isProcessing: false,
       categories: [],
       subcategories: [],
       subcategoryFilter: [],
-      item: {
-        name: '',
-        limit: '',
-        description: '',
-        image: '',
-        CategoryId: -1,
-        subCategories: [],
-        subcategoriesArr: []
-      }
+      item: {}
     }
   },
   created() {
+    const { id } = this.$route.params
+    this.fetchItem(id)
     this.fetchCategories()
   },
   methods: {
@@ -59,9 +56,9 @@ export default {
         })
       }
     },
-    async submitFileHandler(formData) {
+    async fetchItem(itemId) {
       try {
-        const { data, statusText } = await practiceAPI.addItem({ formData })
+        const { data, statusText } = await practiceAPI.getItem({ itemId })
         if (statusText !== 'OK') {
           throw new Error()
         }
@@ -70,14 +67,47 @@ export default {
             icon: 'error',
             title: data.message
           })
-          return
+        }
+        const subcategoriesArr = []
+        data.item.Subcategories.map(subcategory => {
+          subcategoriesArr.push(subcategory.id)
+        })
+        this.item = { ...data.item, subcategoriesArr: subcategoriesArr }
+        return
+      } catch (err) {
+        Toast.fire({
+          icon: 'error',
+          title: '目前無法取得項目資料，請稍後再試'
+        })
+      }
+    },
+    async submitFileHandler(formData) {
+      try {
+        this.isProcessing = true
+        const itemId = this.item.id
+        const { data, statusText } = await practiceAPI.putItem({
+          itemId,
+          formData
+        })
+        if (statusText !== 'OK') {
+          throw new Error()
+        }
+        if (data.status === 'error') {
+          Toast.fire({
+            icon: 'error',
+            title: data.message
+          })
+          this.$router.push(`/practice`)
         }
         Toast.fire({
           icon: 'success',
-          title: '成功建立項目'
+          title: '成功編輯項目，若資料無更新，請先重新整理確認是否成功'
         })
-        this.$router.push(`/practice/items/${data.newItem.id}`)
+        const { updateItem } = data
+        this.$router.push(`/practice/items/${updateItem.id}`)
       } catch (err) {
+        this.isProcessing = false
+        console.log(err)
         Toast.fire({
           icon: 'error',
           title: '目前暫時無法新增項目，請稍後再試'

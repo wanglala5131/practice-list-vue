@@ -19,7 +19,12 @@
           >
             {{ item.isLiked ? '移除星號' : '加上星號' }}
           </button>
-          <button class="title-link item-edit-btn active">編輯</button>
+          <button
+            class="title-link item-edit-btn active"
+            @click.stop.prevent="toEditPage"
+          >
+            編輯
+          </button>
           <button
             class="title-link item-close-btn"
             :class="{ active: !item.isInCart }"
@@ -234,6 +239,9 @@ export default {
       const { cartId } = payload
       this.item.isInCart = false
       this.cartItems = this.cartItems.filter(cartItem => cartItem.id !== cartId)
+    },
+    toEditPage() {
+      this.$router.push(`/practice/items/${this.item.id}/edit`)
     }
   }
 }
