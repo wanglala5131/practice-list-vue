@@ -69,7 +69,12 @@
         </div>
         <div class="form-item form-image">
           <p for="image">相關圖片：</p>
-          <input type="file" @change="fileChangeHandler" name="image" />
+          <input
+            type="file"
+            @change="fileChangeHandler"
+            name="image"
+            ref="inputFile"
+          />
           <div class="form-item-image">
             <img :src="item.image" alt="image" v-show="item.image" />
           </div>
@@ -129,6 +134,15 @@ export default {
     },
     fileChangeHandler(e) {
       const files = e.target.files
+      if (files[0].type !== 'image/jpeg') {
+        Toast.fire({
+          icon: 'error',
+          title: '只能傳圖片唷！'
+        })
+        this.item.image = ''
+        this.$refs.inputFile.value = ''
+        return
+      }
       if (!files.length) {
         this.item.image = ''
       } else {

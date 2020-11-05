@@ -107,7 +107,6 @@ export default {
         this.$router.push(`/practice/items/${updateItem.id}`)
       } catch (err) {
         this.isProcessing = false
-        console.log(err)
         Toast.fire({
           icon: 'error',
           title: '目前暫時無法新增項目，請稍後再試'
