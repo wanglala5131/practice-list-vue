@@ -1,6 +1,6 @@
 <template>
   <div class="container card-form-container">
-    <form action="" class="card-form">
+    <form class="card-form" @submit.stop.prevent="submitFile">
       <h2 class="form-title">
         新增項目
       </h2>
@@ -18,7 +18,7 @@
         <div class="form-item form-category">
           <label for="category">運動種類*：</label>
           <select
-            name="category"
+            name="CategoryId"
             id="category"
             class="category"
             v-model="item.CategoryId"
@@ -47,6 +47,7 @@
                 :id="labelIndex(subcategory.id)"
                 v-model="item.subcategoriesArr"
                 :value="subcategory.id"
+                name="subcategoriesArr"
               />
               <label :for="labelIndex(subcategory.id)">{{
                 subcategory.name
@@ -59,27 +60,26 @@
           <input type="text" name="limit" id="limit" v-model="item.limit" />
         </div>
         <div class="form-item form-description">
-          <label for="description">項目描述*：</label>
+          <label for="description">項目描述：</label>
           <textarea
             name="description"
             id="description"
             v-model="item.description"
-            required
           ></textarea>
         </div>
         <div class="form-item form-image">
           <p for="image">相關圖片：</p>
-          <input type="file" @change="fileChangeHandler" />
+          <input type="file" @change="fileChangeHandler" name="image" />
           <div class="form-item-image">
             <img :src="item.image" alt="image" v-show="item.image" />
           </div>
         </div>
       </div>
       <div class="form-buttons">
-        <button @click.stop.prevent="console" class="go-back-button">
+        <router-link to="/practice" class="form-button go-back-button">
           回前頁
-        </button>
-        <button @click.stop.prevent="submit" class="card-submit-button">
+        </router-link>
+        <button type="submit" class="form-button card-submit-button">
           送出
         </button>
       </div>
@@ -88,6 +88,7 @@
 </template>
 
 <script>
+import { Toast } from '../utils/helpers'
 export default {
   name: 'CardForm',
   data() {
@@ -124,13 +125,28 @@ export default {
     },
     fileChangeHandler(e) {
       const files = e.target.files
-      console.log(files)
       if (!files.length) {
         this.item.image = ''
       } else {
         const imageURL = window.URL.createObjectURL(files[0])
         this.item.image = imageURL
       }
+    },
+    submitFile(e) {
+      if (
+        !this.item.name ||
+        this.item.CategoryId < 0 ||
+        this.item.subcategoriesArr.length === 0
+      ) {
+        Toast.fire({
+          icon: 'error',
+          title: '必填欄位要記得填哦！'
+        })
+        return
+      }
+      const form = e.target
+      const formData = new FormData(form)
+      this.$emit('submitFile', formData)
     }
   }
 }
@@ -219,11 +235,13 @@ export default {
     justify-content: space-around;
     padding: 10px;
     padding-top: 20px;
-    button {
+    .form-button {
       @extend .button-style;
+      color: $black;
       font-size: 1.3rem;
       &.go-back-button {
         border: 2px solid $gray;
+
         &:hover {
           border: 2px solid $dark-gray;
         }

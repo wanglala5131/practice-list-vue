@@ -18,5 +18,8 @@ export default {
   },
   closeItem({ itemId }) {
     return apiHelper.put(`/items/${itemId}/close`, null)
+  },
+  addItem({ formData }) {
+    return apiHelper.post('/items', formData)
   }
 }
