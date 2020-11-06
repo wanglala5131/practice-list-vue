@@ -37,6 +37,11 @@
     svg {
       margin-right: 6px;
     }
+    &.router-link-exact-active {
+      background-color: $logo-green;
+      color: $white;
+      font-weight: 500;
+    }
     &.item-goback-btn {
       border-color: $dark-gray;
       color: $dark-gray;
@@ -82,13 +87,11 @@
       background-color: rgba(0, 0, 0, 0.8);
       border-color: $op-white;
       font-size: 1.3rem;
-      &.active:hover {
-        border-color: $logo-green;
-      }
       &.item-goback-btn {
         border-color: $dark-yellow;
         color: $dark-yellow;
         &:hover {
+          border-color: $op-white;
           background-color: $dark-yellow;
           color: $dark-gray;
         }
@@ -97,7 +100,7 @@
         background-color: rgba(0, 0, 0, 0.8);
         color: $red;
         &:hover {
-          border-color: $red;
+          border-color: $op-white;
         }
       }
       &:disabled {

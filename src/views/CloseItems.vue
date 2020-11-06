@@ -8,7 +8,7 @@
       </template>
       <template v-slot:buttons>
         <div class="setting-links-wrapper">
-          <router-link to="/" class="title-link close-card-link"
+          <router-link to="/" class="title-link close-card-link active"
             >返回訓練項目</router-link
           >
         </div>

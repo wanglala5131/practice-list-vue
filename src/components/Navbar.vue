@@ -1,11 +1,7 @@
 <template>
   <header>
     <div class="logo">
-      <router-link
-        to="
-      
-      /signin"
-      >
+      <router-link to="/signin">
         <img src="https://i.imgur.com/3DfRKXD.png" alt="logo" />
       </router-link>
     </div>
