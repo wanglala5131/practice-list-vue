@@ -61,7 +61,7 @@
 
 <script>
 import cartAPI from '../apis/carts'
-import practiceAPI from '../apis/practice'
+import practiceAPI from '../apis/items'
 import { Toast } from '../utils/helpers'
 export default {
   name: 'PracticeCards',

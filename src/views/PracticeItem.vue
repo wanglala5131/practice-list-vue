@@ -90,7 +90,7 @@ import PageTitle from '../components/PageTitle'
 import ToTop from '../components/ToTop'
 import CartSimple from '../components/CartSimple'
 import { Toast } from '../utils/helpers'
-import practiceAPI from '../apis/practice'
+import practiceAPI from '../apis/items'
 import cartAPI from '../apis/carts'
 export default {
   name: 'PracticeItem',

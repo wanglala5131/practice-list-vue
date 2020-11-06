@@ -139,7 +139,7 @@ import ToTop from '../components/ToTop'
 import CartSimple from '../components/CartSimple'
 import PracticeCards from '../components/PracticeCards'
 import settingAPI from '../apis/setting'
-import practiceAPI from '../apis/practice'
+import practiceAPI from '../apis/items'
 import { Toast } from '../utils/helpers'
 export default {
   name: 'Index',

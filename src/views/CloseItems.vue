@@ -26,7 +26,7 @@ import Banner from '../components/Banner'
 import PageTitle from '../components/PageTitle'
 import ToTop from '../components/ToTop'
 import PracticeCards from '../components/PracticeCards'
-import practiceAPI from '../apis/practice'
+import practiceAPI from '../apis/items'
 import { Toast } from '../utils/helpers'
 export default {
   name: 'CloseItem',

@@ -14,7 +14,7 @@
 import BackgroundImg from '../components/BackgroundImg'
 import CardForm from '../components/CardForm'
 import settingAPI from '../apis/setting'
-import practiceAPI from '../apis/practice'
+import practiceAPI from '../apis/items'
 import { Toast } from '../utils/helpers'
 export default {
   name: 'CreateItem',
