@@ -109,7 +109,7 @@ export default {
         this.isProcessing = false
         Toast.fire({
           icon: 'error',
-          title: '目前暫時無法新增項目，請稍後再試'
+          title: '目前暫時無法編輯項目，請稍後再試'
         })
       }
     }
