@@ -7,7 +7,7 @@
         <select name="add-select" id="add-select" v-model="newCategory">
           <option value="-1" hidden>選擇運動類別</option>
           <option
-            value="category.id"
+            :value="category.id"
             v-for="category in categories"
             :key="category.id"
             >{{ category.name }}</option
@@ -112,6 +112,9 @@ export default {
       }
     },
     isChangeable(items) {
+      if (!items) {
+        return false
+      }
       if (items.length > 0) {
         return true
       } else {
@@ -214,9 +217,36 @@ export default {
         subcategory => subcategory.id !== id
       )
     },
-    addItem() {
-      if (this.newName || this.newCategory > 0) {
-        //傳送API給後端新增資料
+    async addItem() {
+      try {
+        if (!this.newName || this.newCategory < 0) {
+          Toast.fire({
+            icon: 'error',
+            title: '請填入名稱與選擇運動類型'
+          })
+          return
+        }
+        const name = this.newName
+        const CategoryId = this.newCategory
+        const { data, statusText } = await settingAPI.addSubcategory({
+          name,
+          CategoryId
+        })
+        if (statusText !== 'OK') {
+          throw new Error()
+        }
+        if (data.status === 'error') {
+          Toast.fire({
+            icon: 'error',
+            title: data.message
+          })
+        }
+        this.subcategories.push(data)
+      } catch (err) {
+        Toast.fire({
+          icon: 'error',
+          title: '目前無法新增項目類型，請稍後再試'
+        })
       }
     }
   },
