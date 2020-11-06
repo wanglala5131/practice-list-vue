@@ -122,18 +122,49 @@ export default {
       this.editingItem = { ...item }
       this.temEditingName = item.name
     },
-    submitItem() {
-      this.subcategories = this.subcategories.map(subcategory => {
-        if (subcategory.id === this.editingItem.id) {
-          if (this.editingItem.name !== this.temEditingItem) {
-            console.log(this.editingItem)
+    async submitItem() {
+      try {
+        if (this.editingItem.name !== this.temEditingName) {
+          if (!this.editingItem.name) {
+            Toast.fire({
+              icon: 'error',
+              title: '名稱不可空白'
+            })
+            return
           }
-          //送API給後端修改name
-          return { ...this.editingItem }
+          const value = { name: this.editingItem.name }
+          const { data, statusText } = await settingAPI.putSubcategory({
+            value,
+            id: this.editingItem.id
+          })
+          if (statusText !== 'OK') {
+            throw new Error()
+          }
+          if (data.status === 'error') {
+            Toast.fire({
+              icon: 'error',
+              title: data.message
+            })
+            return
+          }
+          this.subcategories = this.subcategories.map(subcategory => {
+            if (subcategory.id === this.editingItem.id) {
+              return this.editingItem
+            }
+            return subcategory
+          })
+          Toast.fire({
+            icon: 'success',
+            title: '成功修改名稱'
+          })
         }
-        return subcategory
-      })
-      this.editingItem = {}
+        this.editingItem = {}
+      } catch (err) {
+        Toast.fire({
+          icon: 'error',
+          title: '目前無法修改名稱，請稍後再試'
+        })
+      }
     },
     changeCategory(item) {
       if (item.Items.length > 0) {
