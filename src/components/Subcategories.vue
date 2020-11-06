@@ -62,7 +62,10 @@
             </select>
           </div>
           <div class="setting-item-buttons">
-            <button @click.stop.prevent="deleteItem(subcategory.id)">
+            <button
+              @click.stop.prevent="deleteItem(subcategory)"
+              v-if="!isChangeable(subcategory.Items)"
+            >
               &times;
             </button>
           </div>
@@ -112,9 +115,6 @@ export default {
       }
     },
     isChangeable(items) {
-      if (!items) {
-        return false
-      }
       if (items.length > 0) {
         return true
       } else {
@@ -209,13 +209,39 @@ export default {
         })
       }
     },
-    deleteItem(id) {
-      //要加判斷，如果card.length=0 才可刪除，如果沒有就要跳防呆
-      //送API給後端刪除
-
-      this.subCategories = this.subCategories.filter(
-        subcategory => subcategory.id !== id
-      )
+    async deleteItem(item) {
+      try {
+        if (item.Items.length > 0) {
+          Toast.fire({
+            icon: 'error',
+            title: '此類型尚有項目正在使用，無法刪除'
+          })
+        }
+        const { data, statusText } = await settingAPI.deleteSubcategory({
+          id: item.id
+        })
+        if (statusText !== 'OK') {
+          throw new Error()
+        }
+        if (data.status === 'error') {
+          Toast.fire({
+            icon: 'error',
+            title: data.message
+          })
+        }
+        this.subcategories = this.subcategories.filter(
+          subcategory => subcategory.id !== item.id
+        )
+        Toast.fire({
+          icon: 'success',
+          title: '成功刪除項目類別'
+        })
+      } catch (err) {
+        Toast.fire({
+          icon: 'error',
+          title: '目前無法刪除此項目類型，請稍後再試'
+        })
+      }
     },
     async addItem() {
       try {
@@ -241,7 +267,11 @@ export default {
             title: data.message
           })
         }
-        this.subcategories.push(data)
+        this.subcategories.push({ ...data, Items: [] })
+        Toast.fire({
+          icon: 'success',
+          title: '成功新增項目類別'
+        })
       } catch (err) {
         Toast.fire({
           icon: 'error',

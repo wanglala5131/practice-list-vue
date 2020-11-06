@@ -9,5 +9,8 @@ export default {
   },
   addSubcategory({ name, CategoryId }) {
     return apiHelper.post('setting/subcategories', { name, CategoryId })
+  },
+  deleteSubcategory({ id }) {
+    return apiHelper.delete(`setting/subcategories/${id}`)
   }
 }
