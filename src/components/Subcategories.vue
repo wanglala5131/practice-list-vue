@@ -166,21 +166,45 @@ export default {
         })
       }
     },
-    changeCategory(item) {
-      if (item.Items.length > 0) {
-        for (let subcategory of this.subcategories) {
-          if (subcategory.id === item.id) {
-            subcategory.CategoryId = subcategory.oriCategoryId
+    async changeCategory(item) {
+      try {
+        if (item.Items.length > 0) {
+          for (let subcategory of this.subcategories) {
+            if (subcategory.id === item.id) {
+              subcategory.CategoryId = subcategory.oriCategoryId
+            }
           }
+          Toast.fire({
+            icon: 'error',
+            title: '此類型仍有項目正在使用，無法修改運動類別唷！'
+          })
+          return
+        }
+        const value = { CategoryId: item.CategoryId }
+        const { data, statusText } = await settingAPI.putSubcategory({
+          value,
+          id: item.id
+        })
+        if (statusText !== 'OK') {
+          throw new Error()
+        }
+        if (data.status === 'error') {
+          Toast.fire({
+            icon: 'error',
+            title: data.message
+          })
+          return
         }
         Toast.fire({
-          icon: 'error',
-          title: '此類型仍有項目正在使用，無法修改運動類別唷！'
+          icon: 'success',
+          title: '成功修改運動類別'
         })
-        return
+      } catch (err) {
+        Toast.fire({
+          icon: 'error',
+          title: '目前無法修改運動類別，請稍後再試'
+        })
       }
-      console.log(item)
-      //送API給後端修改category
     },
     deleteItem(id) {
       //要加判斷，如果card.length=0 才可刪除，如果沒有就要跳防呆
