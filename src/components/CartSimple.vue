@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import cartAPI from '../apis/carts'
+import cartsAPI from '../apis/carts'
 import { Toast } from '../utils/helpers'
 export default {
   name: 'CartSimple',
@@ -62,7 +62,7 @@ export default {
   methods: {
     async deleteCartItem(cartId, itemId) {
       try {
-        const { statusText } = await cartAPI.deleteCartItem({
+        const { statusText } = await cartsAPI.deleteCartItem({
           cartId
         })
         if (statusText !== 'OK') {

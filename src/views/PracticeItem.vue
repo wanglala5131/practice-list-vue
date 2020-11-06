@@ -90,8 +90,8 @@ import PageTitle from '../components/PageTitle'
 import ToTop from '../components/ToTop'
 import CartSimple from '../components/CartSimple'
 import { Toast } from '../utils/helpers'
-import practiceAPI from '../apis/items'
-import cartAPI from '../apis/carts'
+import itemsAPI from '../apis/items'
+import cartsAPI from '../apis/carts'
 export default {
   name: 'PracticeItem',
   components: {
@@ -127,7 +127,7 @@ export default {
   methods: {
     async fetchItem(itemId) {
       try {
-        const { data, statusText } = await practiceAPI.getItem({ itemId })
+        const { data, statusText } = await itemsAPI.getItem({ itemId })
         if (statusText !== 'OK') {
           throw new Error()
         }
@@ -154,7 +154,7 @@ export default {
     async changeLike() {
       try {
         const itemId = this.item.id
-        const { statusText } = await practiceAPI.changeLike({ itemId })
+        const { statusText } = await itemsAPI.changeLike({ itemId })
         if (statusText !== 'OK') {
           throw new Error()
         }
@@ -180,7 +180,7 @@ export default {
     async addToCart() {
       try {
         const itemId = this.item.id
-        const { data, statusText } = await cartAPI.addToCart({ itemId })
+        const { data, statusText } = await cartsAPI.addToCart({ itemId })
         if (statusText !== 'OK') {
           throw new Error()
         }
@@ -217,7 +217,7 @@ export default {
           return
         }
         const itemId = this.item.id
-        const { data, statusText } = await practiceAPI.closeItem({ itemId })
+        const { data, statusText } = await itemsAPI.closeItem({ itemId })
         if (statusText !== 'OK') {
           throw new Error()
         }

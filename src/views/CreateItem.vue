@@ -14,7 +14,7 @@
 import BackgroundImg from '../components/BackgroundImg'
 import CardForm from '../components/CardForm'
 import settingAPI from '../apis/setting'
-import practiceAPI from '../apis/items'
+import itemsAPI from '../apis/items'
 import { Toast } from '../utils/helpers'
 export default {
   name: 'CreateItem',
@@ -61,7 +61,7 @@ export default {
     },
     async submitFileHandler(formData) {
       try {
-        const { data, statusText } = await practiceAPI.addItem({ formData })
+        const { data, statusText } = await itemsAPI.addItem({ formData })
         if (statusText !== 'OK') {
           throw new Error()
         }

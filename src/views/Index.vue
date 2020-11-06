@@ -139,7 +139,7 @@ import ToTop from '../components/ToTop'
 import CartSimple from '../components/CartSimple'
 import PracticeCards from '../components/PracticeCards'
 import settingAPI from '../apis/setting'
-import practiceAPI from '../apis/items'
+import itemsAPI from '../apis/items'
 import { Toast } from '../utils/helpers'
 export default {
   name: 'Index',
@@ -191,7 +191,7 @@ export default {
     },
     async fetchItems() {
       try {
-        const { data, statusText } = await practiceAPI.getItems()
+        const { data, statusText } = await itemsAPI.getItems()
         if (statusText !== 'OK') {
           throw new Error()
         }

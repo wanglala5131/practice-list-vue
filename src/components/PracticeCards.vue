@@ -60,8 +60,8 @@
 </template>
 
 <script>
-import cartAPI from '../apis/carts'
-import practiceAPI from '../apis/items'
+import cartsAPI from '../apis/carts'
+import itemsAPI from '../apis/items'
 import { Toast } from '../utils/helpers'
 export default {
   name: 'PracticeCards',
@@ -83,7 +83,7 @@ export default {
     async addToCart(item) {
       try {
         const itemId = item.id
-        const { data, statusText } = await cartAPI.addToCart({ itemId })
+        const { data, statusText } = await cartsAPI.addToCart({ itemId })
         if (statusText !== 'OK') {
           throw new Error()
         }
@@ -108,7 +108,7 @@ export default {
     },
     async changeLike(itemId) {
       try {
-        const { data, statusText } = await practiceAPI.changeLike({ itemId })
+        const { data, statusText } = await itemsAPI.changeLike({ itemId })
         if (statusText !== 'OK') {
           throw new Error()
         }
@@ -125,7 +125,7 @@ export default {
     },
     async changeClosed(itemId) {
       try {
-        const { data, statusText } = await practiceAPI.changeClosed({ itemId })
+        const { data, statusText } = await itemsAPI.changeClosed({ itemId })
         if (statusText !== 'OK') {
           throw new Error()
         }

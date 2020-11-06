@@ -16,7 +16,7 @@
 import BackgroundImg from '../components/BackgroundImg'
 import CardForm from '../components/CardForm'
 import settingAPI from '../apis/setting'
-import practiceAPI from '../apis/items'
+import itemsAPI from '../apis/items'
 import { Toast } from '../utils/helpers'
 export default {
   name: 'EditItem',
@@ -58,7 +58,7 @@ export default {
     },
     async fetchItem(itemId) {
       try {
-        const { data, statusText } = await practiceAPI.getItem({ itemId })
+        const { data, statusText } = await itemsAPI.getItem({ itemId })
         if (statusText !== 'OK') {
           throw new Error()
         }
@@ -85,7 +85,7 @@ export default {
       try {
         this.isProcessing = true
         const itemId = this.item.id
-        const { data, statusText } = await practiceAPI.putItem({
+        const { data, statusText } = await itemsAPI.putItem({
           itemId,
           formData
         })

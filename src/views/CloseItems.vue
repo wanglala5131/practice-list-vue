@@ -26,7 +26,7 @@ import Banner from '../components/Banner'
 import PageTitle from '../components/PageTitle'
 import ToTop from '../components/ToTop'
 import PracticeCards from '../components/PracticeCards'
-import practiceAPI from '../apis/items'
+import itemsAPI from '../apis/items'
 import { Toast } from '../utils/helpers'
 export default {
   name: 'CloseItem',
@@ -49,7 +49,7 @@ export default {
   methods: {
     async fetchItems() {
       try {
-        const { data, statusText } = await practiceAPI.getCloseItems()
+        const { data, statusText } = await itemsAPI.getCloseItems()
         if (statusText !== 'OK') {
           throw new Error()
         }
