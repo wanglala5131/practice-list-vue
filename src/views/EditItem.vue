@@ -97,14 +97,14 @@ export default {
             icon: 'error',
             title: data.message
           })
-          this.$router.push(`/practice`)
+          this.$router.push(`/`)
         }
         Toast.fire({
           icon: 'success',
           title: '成功編輯項目，若資料無更新，請先重新整理確認是否成功'
         })
         const { updateItem } = data
-        this.$router.push(`/practice/items/${updateItem.id}`)
+        this.$router.push(`/items/${updateItem.id}`)
       } catch (err) {
         this.isProcessing = false
         Toast.fire({

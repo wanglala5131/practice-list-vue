@@ -1,17 +1,25 @@
 <template>
   <header>
     <div class="logo">
-      <router-link to="/practice/signin">
+      <router-link
+        to="
+      
+      /signin"
+      >
         <img src="https://i.imgur.com/3DfRKXD.png" alt="logo" />
       </router-link>
     </div>
     <nav class="nav" v-if="isAuthenticated">
       <input type="checkbox" id="nav-toggle" class="nav-toggle" />
       <ul class="nav-list">
-        <li class="nav-active"><a href="#">訓練項目</a></li>
-        <li><a href="#">暫定菜單</a></li>
-        <li><a href="#">已排菜單</a></li>
-        <li><a href="#">類別設定</a></li>
+        <li class="nav-active">
+          <router-link to="/items">訓練項目</router-link>
+        </li>
+        <li><router-link to="/cart">暫定菜單</router-link></li>
+        <li><router-link to="/lists">已排菜單</router-link></li>
+        <li>
+          <router-link to="/setting">類別設定</router-link>
+        </li>
         <li class="logout">
           <button @click.stop.prevent="logout">登出</button>
         </li>
@@ -32,7 +40,7 @@ export default {
   methods: {
     logout() {
       this.$store.commit('revokeAuthentication')
-      this.$router.push('/practice/signin')
+      this.$router.push('/signin')
     }
   }
 }
@@ -77,13 +85,16 @@ header {
       transition: transform 0.2s ease-out;
       li {
         text-align: center;
-        padding: 0 10px;
         a {
           display: block;
           padding: 12px 0;
           letter-spacing: 2px;
           color: $dark-gray;
           border-bottom: 3px solid $light-gray;
+          &:hover,
+          &.router-link-active {
+            background-color: $light-logo-green;
+          }
         }
         button {
           width: 100%;
@@ -97,10 +108,7 @@ header {
           font-weight: 700;
           cursor: pointer;
         }
-        &:hover,
-        &.nav-active {
-          background-color: $light-logo-green;
-        }
+
         &.logout {
           cursor: pointer;
           &:hover {
@@ -179,17 +187,16 @@ header {
             color: $light-gray;
             border-bottom: none;
             padding: 0;
+            &.router-link-active,
+            &:hover {
+              background-color: transparent;
+              color: $logo-green;
+            }
           }
           button {
             padding: 0;
           }
-          &.nav-active,
-          &:hover {
-            background-color: transparent;
-            a {
-              color: $logo-green;
-            }
-          }
+
           &.logout {
             margin-left: 10px;
             display: inline-block;

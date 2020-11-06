@@ -70,7 +70,7 @@ export default {
         }
         await localStorage.setItem('token', data.token)
         this.$store.commit('setCurrentUser', data.user)
-        this.$router.push('/practice')
+        this.$router.push('/')
       } catch (err) {
         this.password = ''
         this.isProcessing = false

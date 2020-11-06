@@ -12,14 +12,10 @@
       </template>
       <template v-slot:buttons>
         <div class="setting-links-wrapper">
-          <router-link
-            to="/practice/items/create"
-            class="title-link add-card-link"
+          <router-link to="/items/create" class="title-link add-card-link"
             ><font-awesome-icon icon="plus" />新增項目</router-link
           >
-          <router-link
-            to="/practice/items/close"
-            class="title-link close-card-link"
+          <router-link to="/items/close" class="title-link close-card-link"
             >查看封存項目</router-link
           >
         </div>

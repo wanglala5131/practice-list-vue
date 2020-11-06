@@ -76,7 +76,7 @@ export default {
           icon: 'success',
           title: '成功建立項目'
         })
-        this.$router.push(`/practice/items/${data.newItem.id}`)
+        this.$router.push(`/items/${data.newItem.id}`)
       } catch (err) {
         Toast.fire({
           icon: 'error',

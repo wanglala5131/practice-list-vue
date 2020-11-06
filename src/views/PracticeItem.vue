@@ -10,7 +10,7 @@
       <template v-slot:title> {{ item.name }} </template>
       <template v-slot:buttons>
         <div class="setting-links-wrapper">
-          <router-link to="/practice" class="title-link item-goback-btn"
+          <router-link to="/" class="title-link item-goback-btn"
             >回前頁</router-link
           >
           <button
@@ -241,7 +241,7 @@ export default {
       this.cartItems = this.cartItems.filter(cartItem => cartItem.id !== cartId)
     },
     toEditPage() {
-      this.$router.push(`/practice/items/${this.item.id}/edit`)
+      this.$router.push(`/items/${this.item.id}/edit`)
     }
   }
 }

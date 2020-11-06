@@ -81,7 +81,7 @@
         </div>
       </div>
       <div class="form-buttons">
-        <router-link to="/practice" class="form-button go-back-button">
+        <router-link to="/" class="form-button go-back-button">
           回前頁
         </router-link>
         <button

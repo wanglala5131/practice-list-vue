@@ -107,7 +107,7 @@ export default {
             icon: 'success',
             title: '成功註冊，請再登入一次'
           })
-          this.$router.push('/practice/signin')
+          this.$router.push('/signin')
         }
       } catch (err) {
         this.isProcessing = false
