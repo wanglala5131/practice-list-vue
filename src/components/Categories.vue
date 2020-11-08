@@ -14,7 +14,7 @@
             目前的運動項目
           </h2>
           <span class="setting-table-remind"
-            >點兩下可編輯名稱，若此類型尚有項目正在使用，則無法刪除
+            >點兩下可編輯名稱，若此項目尚有類別正在使用，則無法刪除
           </span>
         </div>
         <div
@@ -211,18 +211,15 @@ export default {
     },
     async addItem() {
       try {
-        if (!this.newName || this.newCategory < 0) {
+        if (!this.newName) {
           Toast.fire({
             icon: 'error',
-            title: '請填入名稱與選擇運動類型'
+            title: '請填入名稱'
           })
           return
         }
-        const name = this.newName
-        const CategoryId = this.newCategory
-        const { data, statusText } = await settingAPI.addSubcategory({
-          name,
-          CategoryId
+        const { data, statusText } = await settingAPI.addCategory({
+          name: this.newName
         })
         if (statusText !== 'OK') {
           throw new Error()
@@ -233,7 +230,7 @@ export default {
             title: data.message
           })
         }
-        this.subcategories.push({ ...data, Items: [] })
+        this.categories.push({ ...data, Subcategories: [] })
         Toast.fire({
           icon: 'success',
           title: '成功新增項目類別'
