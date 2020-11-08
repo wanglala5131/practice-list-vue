@@ -3,8 +3,15 @@
     <div class="setting-add-area">
       <div class="container">
         <h2>新增運動項目</h2>
-        <input type="text" placeholder="填入運動項目" v-model="newName" />
-        <button @click.stop.prevent="addItem">新增</button>
+        <input
+          type="text"
+          placeholder="填入運動項目"
+          v-model="newName"
+          @keyup.enter="addItem"
+        />
+        <button @click.stop.prevent="addItem">
+          新增
+        </button>
       </div>
     </div>
     <div class="setting-table">
@@ -167,7 +174,6 @@ export default {
           title: '成功刪除項目類別'
         })
       } catch (err) {
-        console.log(err)
         Toast.fire({
           icon: 'error',
           title: '目前無法刪除此項目類型，請稍後再試'
@@ -200,6 +206,7 @@ export default {
           icon: 'success',
           title: '成功新增項目類別'
         })
+        this.newName = ''
       } catch (err) {
         Toast.fire({
           icon: 'error',

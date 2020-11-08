@@ -3,7 +3,12 @@
     <div class="setting-add-area">
       <div class="container">
         <h2>新增項目類型</h2>
-        <input type="text" placeholder="填入類型名稱" v-model="newName" />
+        <input
+          type="text"
+          placeholder="填入類型名稱"
+          v-model="newName"
+          @keyup.enter="addItem"
+        />
         <select name="add-select" id="add-select" v-model="newCategory">
           <option value="-1" hidden>選擇運動類別</option>
           <option
@@ -272,6 +277,8 @@ export default {
           icon: 'success',
           title: '成功新增項目類別'
         })
+        this.newName = ''
+        this.newCategory = -1
       } catch (err) {
         Toast.fire({
           icon: 'error',
