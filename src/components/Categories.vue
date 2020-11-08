@@ -32,7 +32,7 @@
               name="category"
               v-model="editingItem.name"
               @blur="submitItem()"
-              @keyup.enter="submitItem()"
+              @keyup.enter="$event.target.blur"
               v-input-focus="editingItem.id === category.id"
             />
           </div>
@@ -58,7 +58,6 @@ export default {
       newCategory: -1,
       categories: [],
       editingItem: {},
-      editOriName: '',
       temEditingName: ''
     }
   },
@@ -93,19 +92,21 @@ export default {
     },
     async submitItem() {
       try {
+        console.log('最外面', this.editingItem.name)
         if (this.editingItem.name !== this.temEditingName) {
           if (!this.editingItem.name) {
+            console.log('裡面', this.editingItem.name)
             Toast.fire({
               icon: 'error',
               title: '名稱不可空白'
             })
             return
           }
-          const value = { name: this.editingItem.name }
-          const { data, statusText } = await settingAPI.putSubcategory({
-            value,
+          const { data, statusText } = await settingAPI.putCategory({
+            name: this.editingItem.name,
             id: this.editingItem.id
           })
+          console.log('外面', this.editingItem.name)
           if (statusText !== 'OK') {
             throw new Error()
           }
@@ -116,11 +117,11 @@ export default {
             })
             return
           }
-          this.subcategories = this.subcategories.map(subcategory => {
-            if (subcategory.id === this.editingItem.id) {
+          this.categories = this.categories.map(category => {
+            if (category.id === this.editingItem.id) {
               return this.editingItem
             }
-            return subcategory
+            return category
           })
           Toast.fire({
             icon: 'success',
@@ -132,46 +133,6 @@ export default {
         Toast.fire({
           icon: 'error',
           title: '目前無法修改名稱，請稍後再試'
-        })
-      }
-    },
-    async changeCategory(item) {
-      try {
-        if (item.Items.length > 0) {
-          for (let subcategory of this.subcategories) {
-            if (subcategory.id === item.id) {
-              subcategory.CategoryId = subcategory.oriCategoryId
-            }
-          }
-          Toast.fire({
-            icon: 'error',
-            title: '此類型仍有項目正在使用，無法修改運動類別唷！'
-          })
-          return
-        }
-        const value = { CategoryId: item.CategoryId }
-        const { data, statusText } = await settingAPI.putSubcategory({
-          value,
-          id: item.id
-        })
-        if (statusText !== 'OK') {
-          throw new Error()
-        }
-        if (data.status === 'error') {
-          Toast.fire({
-            icon: 'error',
-            title: data.message
-          })
-          return
-        }
-        Toast.fire({
-          icon: 'success',
-          title: '成功修改運動類別'
-        })
-      } catch (err) {
-        Toast.fire({
-          icon: 'error',
-          title: '目前無法修改運動類別，請稍後再試'
         })
       }
     },

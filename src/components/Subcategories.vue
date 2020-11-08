@@ -41,7 +41,7 @@
               name="subcategory"
               v-model="editingItem.name"
               @blur="submitItem()"
-              @keyup.enter="submitItem()"
+              @keyup.enter="$event.target.blur"
               v-input-focus="editingItem.id === subcategory.id"
             />
           </div>

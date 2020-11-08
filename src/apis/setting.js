@@ -18,5 +18,8 @@ export default {
   },
   addCategory({ name }) {
     return apiHelper.post('setting/categories', { name })
+  },
+  putCategory({ name, id }) {
+    return apiHelper.put(`setting/categories/${id}`, { name })
   }
 }
