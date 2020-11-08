@@ -224,7 +224,7 @@ export default {
     width: 100%;
     margin: 0 10px 10px 0;
     @extend .input-style;
-    padding-top: 5px; //對齊旁邊的select
+    padding-top: 5px;
   }
   select {
     @extend .input-style;
@@ -262,10 +262,10 @@ export default {
     border-radius: 20px;
     margin: 10px 0;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     height: 60px;
     .setting-item-text {
-      flex-basis: 80%;
       font-size: 1.4rem;
       p {
         padding-left: 7px;
@@ -287,8 +287,6 @@ export default {
       }
     }
     .setting-item-buttons {
-      flex-basis: 20%;
-      text-align: right;
       button {
         font-size: 2rem;
         cursor: pointer;
