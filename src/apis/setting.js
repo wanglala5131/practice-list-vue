@@ -21,5 +21,8 @@ export default {
   },
   putCategory({ name, id }) {
     return apiHelper.put(`setting/categories/${id}`, { name })
+  },
+  deleteCategory({ id }) {
+    return apiHelper.delete(`setting/categories/${id}`)
   }
 }

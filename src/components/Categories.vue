@@ -37,7 +37,10 @@
             />
           </div>
           <div class="setting-item-buttons">
-            <button @click.stop.prevent="deleteItem(category)">
+            <button
+              @click.stop.prevent="deleteItem(category)"
+              v-if="!isChangeable(category.Subcategories)"
+            >
               &times;
             </button>
           </div>
@@ -138,13 +141,13 @@ export default {
     },
     async deleteItem(item) {
       try {
-        if (item.Items.length > 0) {
+        if (item.Subcategories.length > 0) {
           Toast.fire({
             icon: 'error',
             title: '此類型尚有項目正在使用，無法刪除'
           })
         }
-        const { data, statusText } = await settingAPI.deleteSubcategory({
+        const { data, statusText } = await settingAPI.deleteCategory({
           id: item.id
         })
         if (statusText !== 'OK') {
@@ -156,14 +159,15 @@ export default {
             title: data.message
           })
         }
-        this.subcategories = this.subcategories.filter(
-          subcategory => subcategory.id !== item.id
+        this.categories = this.categories.filter(
+          category => category.id !== item.id
         )
         Toast.fire({
           icon: 'success',
           title: '成功刪除項目類別'
         })
       } catch (err) {
+        console.log(err)
         Toast.fire({
           icon: 'error',
           title: '目前無法刪除此項目類型，請稍後再試'
