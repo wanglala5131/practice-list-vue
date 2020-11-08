@@ -12,5 +12,8 @@ export default {
   },
   deleteSubcategory({ id }) {
     return apiHelper.delete(`setting/subcategories/${id}`)
+  },
+  getCategory() {
+    return apiHelper.get('/setting/categories')
   }
 }
