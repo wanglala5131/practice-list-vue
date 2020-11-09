@@ -14,11 +14,11 @@
           />
         </div>
         <p>請打開項目填入組數以及排列項目順序(拖曳)</p>
-        <draggable class="temlist-items" v-model="listItem">
+        <draggable class="temlist-items" v-model="listItems">
           <transition-group>
             <div
               class="temlist-item flip-list"
-              v-for="ele in listItem"
+              v-for="ele in listItems"
               :key="ele.order"
             >
               <div class="temlist-item-header">
@@ -67,6 +67,7 @@
                     :id="labelIndex(ele.item.id, 'temlist-reps-label-')"
                     class="temlist-reps-input"
                     placeholder="e.g.三組各10次、持續5分鐘"
+                    v-model="ele.item.reps"
                   />
                 </div>
                 <div class="temlist-item-remark">
@@ -79,6 +80,7 @@
                     type="text"
                     class="temlist-remark-input"
                     :id="labelIndex(ele.item.id, 'temlist-remark-label-')"
+                    v-model="ele.item.remark"
                   />
                 </div>
               </div>
@@ -86,8 +88,10 @@
           </transition-group>
         </draggable>
         <div class="temlist-buttons">
-          <button class="temlist-save-btn">儲存</button>
-          <button class="temlist-submit-btn" @click.stop.prevent="console">
+          <button class="temlist-save-btn" @click.stop.prevent="saveList">
+            儲存
+          </button>
+          <button class="temlist-submit-btn" @click.stop.prevent="submitList">
             送出清單
           </button>
         </div>
@@ -105,17 +109,25 @@ export default {
     draggable
   },
   props: {
-    oriListItem: {
+    oriListItems: {
       type: Array
     }
   },
+  created() {
+    this.fetchTemListName()
+  },
   data() {
     return {
-      listItem: [],
+      listItems: [],
       temlistName: ''
     }
   },
   methods: {
+    fetchTemListName() {
+      const oriTemListName = JSON.parse(localStorage.getItem('temListName'))
+      this.temlistName = oriTemListName
+      return
+    },
     labelIndex(id, front) {
       return front + id
     },
@@ -138,11 +150,56 @@ export default {
           title: '目前無法刪除暫定清單的項目，請稍後再試'
         })
       }
+    },
+    async submitList() {
+      try {
+        let updateList = this.listItems.map(ele => ({
+          ItemId: ele.item.ItemId,
+          sort: ele.order,
+          remark: ele.item.remark,
+          reps: ele.item.reps
+        }))
+        console.log(updateList)
+      } catch (err) {
+        Toast.fire({
+          icon: 'error',
+          title: '目前無法送出菜單，請稍後再試'
+        })
+      }
+    },
+    async saveList() {
+      try {
+        localStorage.setItem('temListName', JSON.stringify(this.temlistName))
+        let sortCount = 0
+        let updateItems = []
+        this.listItems.map(ele => {
+          updateItems.push({
+            ItemId: ele.item.ItemId,
+            sort: sortCount,
+            remark: ele.item.remark,
+            reps: ele.item.reps
+          })
+          sortCount++
+        })
+        const { statusText } = await cartsAPI.putCartItem({ updateItems })
+        if (statusText !== 'OK') {
+          throw new Error()
+        }
+        Toast.fire({
+          icon: 'success',
+          title: '成功儲存暫時菜單'
+        })
+      } catch (err) {
+        Toast.fire({
+          icon: 'error',
+          title: '目前儲存暫時菜單，請稍後再試'
+        })
+      }
     }
   },
   watch: {
-    oriListItem(newValue) {
-      this.listItem = newValue.map((item, index) => {
+    oriListItems(newValue) {
+      this.listItems = newValue.map((item, index) => {
         return { item, order: index }
       })
     }

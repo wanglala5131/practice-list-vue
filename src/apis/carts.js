@@ -9,5 +9,8 @@ export default {
   },
   deleteCartItem({ cartId }) {
     return apiHelper.delete(`/cart/${cartId}`)
+  },
+  putCartItem({ updateItems }) {
+    return apiHelper.put('/cart/edit', { updateItems })
   }
 }

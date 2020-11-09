@@ -8,7 +8,7 @@
       </template>
     </PageTitle>
     <ListItemTable
-      :ori-list-item="cartItems"
+      :ori-list-items="cartItems"
       @deleteCartItem="deleteCartItemHandler"
     />
   </main>
