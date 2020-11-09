@@ -69,6 +69,11 @@ const routes = [
     ]
   },
   {
+    path: '/cart',
+    name: 'cart',
+    component: () => import('../views/Cart.vue')
+  },
+  {
     path: '*',
     name: 'not-found',
     component: NotFound
