@@ -39,33 +39,46 @@
                     ele.item.Item.name
                   }}</a>
                 </div>
+                <button
+                  class="cart-simple-button"
+                  @click.stop.prevent="deleteCartItem(ele.item.id)"
+                >
+                  &times;
+                </button>
                 <label
-                  :for="labelIndex(ele.item.id)"
+                  :for="labelIndex(ele.item.id, 'temlist-item-')"
                   class="temlist-footer-toggle-label"
                   ><font-awesome-icon icon="chevron-down"
                 /></label>
               </div>
-              <input type="checkbox" :id="labelIndex(ele.item.id)" />
+              <input
+                type="checkbox"
+                :id="labelIndex(ele.item.id, 'temlist-item-')"
+              />
               <div class="temlist-footer">
                 <div class="temlist-item-reps">
-                  <label for="temlist-reps-input" class="temlist-reps-label"
+                  <label
+                    :for="labelIndex(ele.item.id, 'temlist-reps-label-')"
+                    class="temlist-reps-label"
                     >組數*：</label
                   >
                   <input
                     type="text"
-                    id="temlist-reps-input"
+                    :id="labelIndex(ele.item.id, 'temlist-reps-label-')"
                     class="temlist-reps-input"
                     placeholder="e.g.三組各10次、持續5分鐘"
                   />
                 </div>
                 <div class="temlist-item-remark">
-                  <label for="temlist-remark-input" class="temlist-remark-label"
+                  <label
+                    :for="labelIndex(ele.item.id, 'temlist-remark-label-')"
+                    class="temlist-remark-label"
                     >備註：</label
                   >
                   <input
                     type="text"
                     class="temlist-remark-input"
-                    id="temlist-remark-input"
+                    :id="labelIndex(ele.item.id, 'temlist-remark-label-')"
                   />
                 </div>
               </div>
@@ -84,6 +97,8 @@
 </template>
 <script>
 import draggable from 'vuedraggable'
+import { Toast } from '../utils/helpers'
+import cartsAPI from '../apis/carts'
 export default {
   name: 'ListItemTable',
   components: {
@@ -101,8 +116,28 @@ export default {
     }
   },
   methods: {
-    labelIndex(id) {
-      return `temlist-item-${id}`
+    labelIndex(id, front) {
+      return front + id
+    },
+    async deleteCartItem(cartId) {
+      try {
+        const { statusText } = await cartsAPI.deleteCartItem({
+          cartId
+        })
+        if (statusText !== 'OK') {
+          throw new Error()
+        }
+        Toast.fire({
+          icon: 'success',
+          title: '已成功刪除項目'
+        })
+        this.$emit('deleteCartItem', cartId)
+      } catch (err) {
+        Toast.fire({
+          icon: 'success',
+          title: '目前無法刪除暫定清單的項目，請稍後再試'
+        })
+      }
     }
   },
   watch: {
@@ -157,6 +192,16 @@ export default {
     display: flex;
     align-items: center;
     padding: 10px 15px;
+    .cart-simple-button {
+      font-size: 2.5rem;
+      margin-right: 10px;
+      color: $dark-red;
+      cursor: pointer;
+      &:hover {
+        color: $red;
+        text-shadow: 0px 2px 2px (rgba(0, 0, 0, 0.2));
+      }
+    }
     .temlist-footer-toggle-label {
       cursor: pointer;
       font-size: 1.5rem;

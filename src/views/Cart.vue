@@ -7,7 +7,10 @@
         暫定菜單
       </template>
     </PageTitle>
-    <ListItemTable :ori-list-item="cartItem" />
+    <ListItemTable
+      :ori-list-item="cartItems"
+      @deleteCartItem="deleteCartItemHandler"
+    />
   </main>
 </template>
 <script>
@@ -24,7 +27,7 @@ export default {
     return {
       bannerImgURL:
         'https://cdn.pixabay.com/photo/2016/12/19/23/50/volleyball-1919440_1280.jpg',
-      cartItem: []
+      cartItems: []
     }
   },
   created() {
@@ -37,13 +40,18 @@ export default {
         if (statusText !== 'OK') {
           throw new Error()
         }
-        this.cartItem = data
+        this.cartItems = data
       } catch (err) {
         Toast.fire({
           icon: 'error',
           title: '無法取得暫定菜單的資料，請稍後再試'
         })
       }
+    },
+    deleteCartItemHandler(payload) {
+      this.cartItems = this.cartItems.filter(
+        cartItem => cartItem.id !== payload
+      )
     }
   }
 }
