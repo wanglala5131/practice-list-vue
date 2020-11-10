@@ -37,10 +37,16 @@
     svg {
       margin-right: 6px;
     }
-    &.router-link-exact-active {
+    &.router-link-exact-active,
+    &.current {
       background-color: $logo-green;
       color: $white;
       font-weight: 500;
+    }
+    &.current:disabled {
+      font-weight: 700;
+      color: $white;
+      border-color: $white;
     }
     &.item-goback-btn {
       border-color: $dark-gray;

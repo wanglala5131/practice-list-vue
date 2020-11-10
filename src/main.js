@@ -8,11 +8,12 @@ import {
   faArrowUp,
   faListAlt,
   faStar,
-  faChevronDown
+  faChevronDown,
+  faCog
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faPlus, faArrowUp, faListAlt, faStar, faChevronDown)
+library.add(faPlus, faArrowUp, faListAlt, faStar, faChevronDown, faCog)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false
