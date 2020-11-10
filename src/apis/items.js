@@ -11,13 +11,13 @@ export default {
     return apiHelper.get(`/items/${itemId}`)
   },
   changeLike({ itemId }) {
-    return apiHelper.put(`/items/like/${itemId}`, null)
+    return apiHelper.patch(`/items/like/${itemId}`, null)
   },
   changeClosed({ itemId }) {
     return apiHelper.put(`/items/${itemId}/close`, null)
   },
   closeItem({ itemId }) {
-    return apiHelper.put(`/items/${itemId}/close`, null)
+    return apiHelper.patch(`/items/${itemId}/close`, null)
   },
   addItem({ formData }) {
     return apiHelper.post('/items', formData)
