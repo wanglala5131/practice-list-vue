@@ -12,7 +12,7 @@
           <router-link to="/items">訓練項目</router-link>
         </li>
         <li><router-link to="/cart">暫定菜單</router-link></li>
-        <li><router-link to="/lists">已排菜單</router-link></li>
+        <li><router-link to="/lists?isUsed=false">已排菜單</router-link></li>
         <li>
           <router-link to="/setting">類別設定</router-link>
         </li>

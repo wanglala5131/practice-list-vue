@@ -11,7 +11,7 @@
       <template v-slot:buttons>
         <div class="setting-links-wrapper">
           <router-link to="/" class="title-link item-goback-btn"
-            >回前頁</router-link
+            >回首頁</router-link
           >
           <button
             class="title-link item-star-btn active"

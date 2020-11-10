@@ -8,22 +8,18 @@
       </template>
       <template v-slot:buttons>
         <div class="setting-links-wrapper">
-          <button
+          <router-link
+            to="/lists?isUsed=false"
             class="title-link add-card-link"
-            :class="{ active: isUsed, current: !isUsed }"
-            :disabled="!isUsed"
-            @click.stop.prevent="changePage"
           >
             未使用的清單
-          </button>
-          <button
+          </router-link>
+          <router-link
+            to="/lists?isUsed=true"
             class="title-link close-card-link"
-            :class="{ active: !isUsed, current: isUsed }"
-            :disabled="isUsed"
-            @click.stop.prevent="changePage"
           >
             已使用的清單
-          </button>
+          </router-link>
         </div>
       </template>
     </PageTitle>
@@ -76,143 +72,57 @@
     <div class="lists">
       <div class="container">
         <div class="list-wrapper">
-          <h2>未結束的表單</h2>
-          <div class="list">
-            <input type="checkbox" id="list-1" class="list-toggle-button" />
-            <label for="list-1" class="list-toggle-label">
-              11/12 舉球自主練習
+          <h2>{{ isUsed ? '已使用的表單' : '未使用的表單' }}</h2>
+          <div class="list" v-for="list in lists" :key="list.id">
+            <input
+              type="checkbox"
+              :id="labelIndex(list.id, 'list-toggle-')"
+              class="list-toggle-button"
+            />
+            <label
+              :for="labelIndex(list.id, 'list-toggle-')"
+              class="list-toggle-label"
+            >
+              {{ list.name }}
               <div class="buttons">
                 <button class="list-link">刪除</button>
-                <button class="list-done">退回</button>
+                <button
+                  class="list-link"
+                  v-if="!isUsed"
+                  @click="gotoEdit(list.id)"
+                >
+                  編輯
+                </button>
+                <button class="list-done" :class="{ gotoend: !isUsed }">
+                  {{ isUsed ? '退回' : '標示已使用' }}
+                </button>
               </div>
             </label>
             <div class="list-content">
-              <div class="list-item">
+              <div class="list-item" v-for="item in list.Items" :key="item.id">
                 <div class="list-items-type">
-                  <span class="item-category" v-show="openCategory">排球</span>
+                  <span class="item-category" v-show="openCategory">{{
+                    item.Category.name
+                  }}</span>
                   <div class="item-subcategory" v-show="openSubcategory">
-                    <span>暖身</span>
-                    <span>低手</span>
-                    <span>高手</span>
-                  </div>
-                </div>
-                <div class="list-item-text">
-                  <span class="item-name"><a href="#">對碰暖身</a></span>
-                  <span class="item-reps" v-show="openReps">高低手100顆</span>
-                  <span class="item-remark"
-                    >要摸地，如果學妹做不到再自行斟酌</span
-                  >
-                </div>
-              </div>
-              <div class="list-item">
-                <div class="list-items-type">
-                  <span class="item-category" v-show="openCategory">排球</span>
-                  <div class="item-subcategory" v-show="openSubcategory">
-                    <span>暖身</span>
-                    <span>低手</span>
-                    <span>高手</span>
-                  </div>
-                </div>
-                <div class="list-item-text">
-                  <span class="item-name">對碰暖身</span>
-                  <span class="item-reps" v-show="openReps">高低手100顆</span>
-                  <span class="item-remark"
-                    >要摸地，如果學妹做不到再自行斟酌</span
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="list">
-            <input type="checkbox" id="list-2" class="list-toggle-button" />
-            <label for="list-2" class="list-toggle-label">
-              11/12 舉球自主練習
-              <div class="buttons">
-                <button href="#" class="list-link">刪除</button>
-                <button class="list-link">編輯</button>
-                <button class="list-done gotoend">標記成結束</button>
-              </div>
-            </label>
-            <div class="list-content">
-              <div class="list-item">
-                <div class="list-items-type">
-                  <span class="item-category" v-show="openCategory">排球</span>
-                  <div class="item-subcategory" v-show="openSubcategory">
-                    <span>暖身</span>
-                    <span>低手</span>
-                    <span>高手</span>
-                    <span>高手</span>
-                    <span>高手</span>
-                    <span>高手</span>
-                    <span>高手</span>
-                    <span>高手</span>
-                    <span>高手</span>
-                    <span>高手</span>
-                    <span>高手</span>
-                    <span>高手</span>
+                    <span
+                      v-for="subcategory in item.Subcategories"
+                      :key="subcategory.id"
+                      >{{ subcategory.name }}</span
+                    >
                   </div>
                 </div>
                 <div class="list-item-text">
                   <span class="item-name"
-                    >對碰暖身對碰暖身對碰暖身對碰暖身對碰暖身對碰暖身對碰暖身對碰暖身對碰暖身對碰暖身對碰暖身對碰暖身對碰暖身對碰暖身對碰暖身對碰暖身對碰暖身對碰暖身</span
+                    ><router-link
+                      :to="{ name: 'practice-item', params: { id: item.id } }"
+                      >{{ item.name }}</router-link
+                    ></span
                   >
-                  <span class="item-reps" v-show="openReps">高低手100顆</span>
-                  <span class="item-remark"
-                    >要摸地，如果學妹做不到再自行斟酌</span
-                  >
-                </div>
-              </div>
-              <div class="list-item">
-                <div class="list-items-type">
-                  <span class="item-category" v-show="openCategory">排球</span>
-                  <div class="item-subcategory" v-show="openSubcategory">
-                    <span>暖身</span>
-                    <span>低手</span>
-                    <span>高手</span>
-                  </div>
-                </div>
-                <div class="list-item-text">
-                  <span class="item-name">對碰暖身</span>
-                  <span class="item-reps" v-show="openReps"
-                    >高低手100顆高低手100顆高低手100顆高低手100顆高低手100顆高低手100顆高低手100顆高低手100顆高低手100顆</span
-                  >
-                  <span class="item-remark"
-                    >要摸地，如果學妹做不到再自行斟酌</span
-                  >
-                </div>
-              </div>
-              <div class="list-item">
-                <div class="list-items-type">
-                  <span class="item-category" v-show="openCategory">排球</span>
-                  <div class="item-subcategory" v-show="openSubcategory">
-                    <span>暖身</span>
-                    <span>低手</span>
-                    <span>高手</span>
-                  </div>
-                </div>
-                <div class="list-item-text">
-                  <span class="item-name">對碰暖身</span>
-                  <span class="item-reps" v-show="openReps">高低手100顆</span>
-                  <span class="item-remark"
-                    >要摸地，如果學妹做不到再自行斟酌要摸地，如果學妹做不到再自行斟酌要摸地，如果學妹做不到再自行斟酌要摸地，如果學妹做不到再自行斟酌要摸地，如果學妹做不到再自行斟酌要摸地，如果學妹做不到再自行斟酌要摸地，如果學妹做不到再自行斟酌要摸地，如果學妹做不到再自行斟酌要摸地，如果學妹做不到再自行斟酌</span
-                  >
-                </div>
-              </div>
-              <div class="list-item">
-                <div class="list-items-type">
-                  <span class="item-category" v-show="openCategory">排球</span>
-                  <div class="item-subcategory" v-show="openSubcategory">
-                    <span>暖身</span>
-                    <span>低手</span>
-                    <span>高手</span>
-                  </div>
-                </div>
-                <div class="list-item-text">
-                  <span class="item-name">對碰暖身</span>
-                  <span class="item-reps" v-show="openReps">高低手100顆</span>
-                  <span class="item-remark"
-                    >要摸地，如果學妹做不到再自行斟酌</span
-                  >
+                  <span class="item-reps" v-show="openReps">{{
+                    item.ListItem.reps
+                  }}</span>
+                  <span class="item-remark">{{ item.ListItem.remark }}</span>
                 </div>
               </div>
             </div>
@@ -227,6 +137,8 @@
 import Banner from '../components/Banner'
 import PageTitle from '../components/PageTitle'
 import ToTop from '../components/ToTop'
+import listsAPI from '../apis/lists'
+import { Toast } from '../utils/helpers'
 export default {
   name: 'Lists',
   components: {
@@ -238,16 +150,43 @@ export default {
     return {
       bannerImgURL:
         'https://cdn.pixabay.com/photo/2018/06/12/20/17/football-3471402_1280.jpg',
-      isUsed: false, //篩選頁面
       openCategory: true,
       openSubcategory: true,
-      openReps: true
+      openReps: true,
+      lists: [],
+      isUsed: false
     }
   },
+  created() {
+    let isUsed = this.$route.query.isUsed === 'false' ? false : true
+    this.fetchLists({ isUsed })
+  },
   methods: {
-    changePage() {
-      this.isUsed = !this.isUsed
+    async fetchLists({ isUsed }) {
+      try {
+        const { data } = await listsAPI.getLists({ isUsed })
+        this.lists = data
+      } catch (err) {
+        Toast.fire({
+          icon: 'error',
+          title: '目前無法取得菜單資料，請稍後再試'
+        })
+      }
+    },
+    labelIndex(id, front) {
+      return front + id
+    },
+    //TODO: 記得做
+    gotoEdit(id) {
+      console.log(id)
     }
+  },
+  beforeRouteUpdate(to, from, next) {
+    const oriIsUsed = to.query.isUsed
+    const isUsed = oriIsUsed === 'false' ? false : true
+    this.isUsed = isUsed
+    this.fetchLists({ isUsed })
+    next()
   }
 }
 </script>

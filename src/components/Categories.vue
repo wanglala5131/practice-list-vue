@@ -102,10 +102,8 @@ export default {
     },
     async submitItem() {
       try {
-        console.log('最外面', this.editingItem.name)
         if (this.editingItem.name !== this.temEditingName) {
           if (!this.editingItem.name) {
-            console.log('裡面', this.editingItem.name)
             Toast.fire({
               icon: 'error',
               title: '名稱不可空白'
@@ -116,7 +114,6 @@ export default {
             name: this.editingItem.name,
             id: this.editingItem.id
           })
-          console.log('外面', this.editingItem.name)
           if (statusText !== 'OK') {
             throw new Error()
           }
