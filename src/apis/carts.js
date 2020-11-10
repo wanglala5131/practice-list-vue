@@ -12,5 +12,8 @@ export default {
   },
   putCartItem({ updateItems }) {
     return apiHelper.put('/cart/edit', { updateItems })
+  },
+  submitCart({ updateItems, name }) {
+    return apiHelper.post('/lists', { updateItems, name })
   }
 }

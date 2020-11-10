@@ -60,7 +60,7 @@
                   <label
                     :for="labelIndex(ele.item.id, 'temlist-reps-label-')"
                     class="temlist-reps-label"
-                    >組數*：</label
+                    >組數：</label
                   >
                   <input
                     type="text"
@@ -103,6 +103,7 @@
 import draggable from 'vuedraggable'
 import { Toast } from '../utils/helpers'
 import cartsAPI from '../apis/carts'
+import listsAPI from '../apis/lists'
 export default {
   name: 'ListItemTable',
   components: {
@@ -147,19 +148,52 @@ export default {
       } catch (err) {
         Toast.fire({
           icon: 'success',
-          title: '目前無法刪除暫定清單的項目，請稍後再試'
+          title: '目前無法刪除暫定菜單的項目，請稍後再試'
         })
       }
     },
     async submitList() {
       try {
-        let updateList = this.listItems.map(ele => ({
+        if (this.listItems.length < 3) {
+          Toast.fire({
+            icon: 'error',
+            title: '暫定菜單的項目必須至少 3 項唷！'
+          })
+          return
+        }
+        if (!this.temlistName) {
+          Toast.fire({
+            icon: 'error',
+            title: '請輸入菜單名稱'
+          })
+          return
+        }
+        let updateItems = this.listItems.map(ele => ({
           ItemId: ele.item.ItemId,
           sort: ele.order,
           remark: ele.item.remark,
           reps: ele.item.reps
         }))
-        console.log(updateList)
+        const { data, statusText } = await listsAPI.submitCart({
+          updateItems,
+          listName: this.temlistName
+        })
+        if (statusText !== 'OK') {
+          throw new Error()
+        }
+        if (data.status === 'error') {
+          Toast.fire({
+            icon: 'error',
+            title: data.message
+          })
+          return
+        }
+        Toast.fire({
+          icon: 'success',
+          title: '成功送出菜單，跳轉至菜單頁面'
+        })
+        localStorage.removeItem('temListName')
+        this.$router.push('/lists')
       } catch (err) {
         Toast.fire({
           icon: 'error',
