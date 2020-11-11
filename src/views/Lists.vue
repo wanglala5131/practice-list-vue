@@ -66,14 +66,19 @@
     <div class="lists-search">
       <div class="container">
         <label>搜尋關鍵字：</label>
-        <input type="text" placeholder="11/12、自主、小狗追球" />
+        <input
+          type="text"
+          placeholder="11/12、自主、小狗追球"
+          v-model="search"
+          @input="searchLists"
+        />
       </div>
     </div>
     <div class="lists">
       <div class="container">
         <div class="list-wrapper">
           <h2>{{ isUsed ? '已使用的表單' : '未使用的表單' }}</h2>
-          <div class="list" v-for="list in lists" :key="list.id">
+          <div class="list" v-for="list in searchResults" :key="list.id">
             <input
               type="checkbox"
               :id="labelIndex(list.id, 'list-toggle-')"
@@ -163,7 +168,9 @@ export default {
       openSubcategory: true,
       openReps: true,
       lists: [],
-      isUsed: false
+      isUsed: false,
+      search: '',
+      searchResults: []
     }
   },
   created() {
@@ -176,6 +183,7 @@ export default {
       try {
         const { data } = await listsAPI.getLists({ isUsed })
         this.lists = data
+        this.searchResults = data
       } catch (err) {
         Toast.fire({
           icon: 'error',
@@ -240,6 +248,11 @@ export default {
         })
       }
     },
+    searchLists() {
+      this.searchResults = this.lists.filter(list =>
+        list.name.includes(this.search)
+      )
+    },
     labelIndex(id, front) {
       return front + id
     },
@@ -253,6 +266,7 @@ export default {
     const isUsed = oriIsUsed === 'false' ? false : true
     this.isUsed = isUsed
     this.fetchLists({ isUsed })
+    this.search = ''
     next()
   }
 }
