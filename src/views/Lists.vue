@@ -85,7 +85,12 @@
             >
               {{ list.name }}
               <div class="buttons">
-                <button class="list-link">刪除</button>
+                <button
+                  class="list-link"
+                  @click.stop.prevent="deleteList(list.id)"
+                >
+                  刪除
+                </button>
                 <button
                   class="list-link"
                   v-if="!isUsed"
@@ -163,6 +168,7 @@ export default {
   },
   created() {
     let isUsed = this.$route.query.isUsed === 'false' ? false : true
+    this.isUsed = isUsed
     this.fetchLists({ isUsed })
   },
   methods: {
@@ -206,6 +212,31 @@ export default {
         Toast.fire({
           icon: 'error',
           title: '目前無法改變狀態，請稍後再試'
+        })
+      }
+    },
+    async deleteList(id) {
+      try {
+        const { data, statusText } = await listsAPI.deleteList({ id })
+        if (statusText !== 'OK') {
+          throw new Error()
+        }
+        if (data.status === 'error') {
+          Toast.fire({
+            icon: 'error',
+            title: data.message
+          })
+          return
+        }
+        this.lists = this.lists.filter(list => list.id !== id)
+        Toast.fire({
+          icon: 'success',
+          title: '成功刪除此清單'
+        })
+      } catch (err) {
+        Toast.fire({
+          icon: 'error',
+          title: '目前無法刪除清單，請稍後再試1'
         })
       }
     },

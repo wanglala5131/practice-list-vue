@@ -10,5 +10,8 @@ export default {
   },
   changeListStatus({ id }) {
     return apiHelper.patch(`/lists/${id}`, null)
+  },
+  deleteList({ id }) {
+    return apiHelper.delete(`/lists/${id}`)
   }
 }
