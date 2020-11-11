@@ -79,6 +79,11 @@ const routes = [
     component: () => import('../views/Lists.vue')
   },
   {
+    path: '/lists/:id(\\d+)',
+    name: 'list',
+    component: () => import('../views/EditList.vue')
+  },
+  {
     path: '*',
     name: 'not-found',
     component: NotFound

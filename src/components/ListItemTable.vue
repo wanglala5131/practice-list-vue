@@ -112,6 +112,9 @@ export default {
   props: {
     oriListItems: {
       type: Array
+    },
+    oriListName: {
+      type: String
     }
   },
   created() {
@@ -236,6 +239,9 @@ export default {
       this.listItems = newValue.map((item, index) => {
         return { item, order: index }
       })
+    },
+    oriListName(newVlue) {
+      this.temlistName = newVlue
     }
   }
 }

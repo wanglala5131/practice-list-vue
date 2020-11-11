@@ -256,9 +256,8 @@ export default {
     labelIndex(id, front) {
       return front + id
     },
-    //TODO: 記得做
     gotoEdit(id) {
-      console.log(id)
+      this.$router.push(`/lists/${id}`)
     }
   },
   beforeRouteUpdate(to, from, next) {
