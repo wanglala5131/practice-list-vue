@@ -93,7 +93,11 @@
                 >
                   編輯
                 </button>
-                <button class="list-done" :class="{ gotoend: !isUsed }">
+                <button
+                  class="list-done"
+                  :class="{ gotoend: !isUsed }"
+                  @click.stop.prevent="changeListStatus(list.id, list.isUsed)"
+                >
                   {{ isUsed ? '退回' : '標示已使用' }}
                 </button>
               </div>
@@ -170,6 +174,38 @@ export default {
         Toast.fire({
           icon: 'error',
           title: '目前無法取得菜單資料，請稍後再試'
+        })
+      }
+    },
+    async changeListStatus(id, isUsed) {
+      try {
+        const { data, statusText } = await listsAPI.changeListStatus({ id })
+        if (statusText !== 'OK') {
+          throw new Error()
+        }
+        if (data.status === 'error') {
+          Toast.fire({
+            icon: 'error',
+            title: data.message
+          })
+          return
+        }
+        this.lists = this.lists.filter(list => list.id !== id)
+        if (isUsed === false) {
+          Toast.fire({
+            icon: 'success',
+            title: '成功將此清單標示為已使用'
+          })
+        } else {
+          Toast.fire({
+            icon: 'success',
+            title: '成功退回此清單'
+          })
+        }
+      } catch (err) {
+        Toast.fire({
+          icon: 'error',
+          title: '目前無法改變狀態，請稍後再試'
         })
       }
     },
@@ -303,7 +339,7 @@ export default {
   max-width: 900px;
   margin: 0 auto;
   h2 {
-    margin: 20px 0;
+    margin: 30px 0;
   }
   .list {
     height: auto;

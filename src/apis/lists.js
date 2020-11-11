@@ -7,5 +7,8 @@ export default {
   getLists({ isUsed }) {
     const searchParams = new URLSearchParams({ isUsed })
     return apiHelper.get(`/lists?${searchParams.toString()}`)
+  },
+  changeListStatus({ id }) {
+    return apiHelper.patch(`/lists/${id}`, null)
   }
 }
