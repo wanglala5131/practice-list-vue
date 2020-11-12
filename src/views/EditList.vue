@@ -11,6 +11,7 @@
       :ori-list-items="editList"
       :ori-list-name="listName"
       :list-type="'EditList'"
+      @deleteListItem="deleteListItemHandler"
     />
   </main>
 </template>
@@ -70,6 +71,10 @@ export default {
           title: '無法取得菜單資料，請稍後再試'
         })
       }
+    },
+    deleteListItemHandler(payload) {
+      this.editList = this.editList.filter(item => item.id !== payload)
+      this.list.Items = this.list.Items.filter(item => item.id !== payload)
     }
   }
 }

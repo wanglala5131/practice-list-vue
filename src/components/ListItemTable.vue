@@ -4,11 +4,11 @@
       <form action="">
         <div class="temlist-name">
           <label for="temlist-name-input" class="temlist-name-label"
-            >清單名稱*：</label
+            >菜單名稱*：</label
           >
           <input
             type="text"
-            placeholder="填入清單名稱"
+            placeholder="填入菜單名稱"
             id="temlist-name-input"
             v-model="temlistName"
           />
@@ -41,8 +41,7 @@
                 </div>
                 <button
                   class="cart-simple-button"
-                  @click.stop.prevent="deleteCartItem(ele.item.id)"
-                  v-if="listType === 'cart'"
+                  @click.stop.prevent="deleteCartItem(ele.item)"
                 >
                   &times;
                 </button>
@@ -90,7 +89,9 @@
         </draggable>
         <div class="temlist-buttons">
           <button class="temlist-save-btn" @click.stop.prevent="saveList">
-            {{ listType === 'cart' ? '儲存' : '更新此菜單' }}
+            {{
+              listType === 'cart' ? '儲存名稱/項目資料' : '更新名稱/項目資料'
+            }}
           </button>
           <button
             class="temlist-submit-btn"
@@ -145,19 +146,46 @@ export default {
     labelIndex(id, front) {
       return front + id
     },
-    async deleteCartItem(cartId) {
+    async deleteCartItem(item) {
       try {
-        const { statusText } = await cartsAPI.deleteCartItem({
-          cartId
-        })
-        if (statusText !== 'OK') {
-          throw new Error()
+        if (this.listType === 'cart') {
+          const cartId = item.id
+          const { statusText } = await cartsAPI.deleteCartItem({
+            cartId
+          })
+          if (statusText !== 'OK') {
+            throw new Error()
+          }
+          this.$emit('deleteCartItem', cartId)
+        } else {
+          if (this.listItems.length <= 3) {
+            Toast.fire({
+              icon: 'error',
+              title: '無法刪除，清單項目至少要三項'
+            })
+            return
+          }
+          const itemId = item.Item.id
+          const id = this.$route.params.id
+          const { data, statusText } = await listsAPI.deleteListItem({
+            id,
+            itemId
+          })
+          if (statusText !== 'OK') {
+            throw new Error()
+          }
+          if (data.status === 'error') {
+            Toast.fire({
+              icon: 'error',
+              title: data.message
+            })
+          }
+          this.$emit('deleteListItem', itemId)
         }
         Toast.fire({
           icon: 'success',
           title: '已成功刪除項目'
         })
-        this.$emit('deleteCartItem', cartId)
       } catch (err) {
         Toast.fire({
           icon: 'success',

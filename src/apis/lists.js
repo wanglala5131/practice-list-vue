@@ -19,5 +19,8 @@ export default {
   },
   putList({ updateItems, listName, id }) {
     return apiHelper.put(`/lists/${id}`, { updateItems, listName })
+  },
+  deleteListItem({ id, itemId }) {
+    return apiHelper.delete(`/lists/${id}/${itemId}`)
   }
 }
