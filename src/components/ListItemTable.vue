@@ -165,6 +165,7 @@ export default {
         })
       }
     },
+    //只有暫定菜單才有這個方法
     async submitList() {
       try {
         if (this.listItems.length < 3) {
@@ -183,7 +184,6 @@ export default {
         }
         let updateItems = this.listItems.map(ele => ({
           ItemId: ele.item.ItemId,
-          sort: ele.order,
           remark: ele.item.remark,
           reps: ele.item.reps
         }))
@@ -216,12 +216,11 @@ export default {
     },
     async saveList() {
       try {
-        localStorage.setItem('temListName', JSON.stringify(this.temlistName))
         let sortCount = 0
         let updateItems = []
         this.listItems.map(ele => {
           updateItems.push({
-            ItemId: ele.item.ItemId,
+            ItemId: ele.item.Item.id,
             sort: sortCount,
             remark: ele.item.remark,
             reps: ele.item.reps
@@ -229,21 +228,35 @@ export default {
           sortCount++
         })
         if (this.listType === 'cart') {
+          localStorage.setItem('temListName', JSON.stringify(this.temlistName))
           const { statusText } = await cartsAPI.putCartItem({ updateItems })
           if (statusText !== 'OK') {
             throw new Error()
           }
           Toast.fire({
             icon: 'success',
-            title: '成功儲存暫時菜單'
+            title: '成功儲存菜單'
           })
         } else {
-          console.log(this.listType)
+          const { id } = this.$route.params
+          const { statusText } = await listsAPI.putList({
+            updateItems,
+            listName: this.temlistName,
+            id
+          })
+          if (statusText !== 'OK') {
+            throw new Error()
+          }
+          Toast.fire({
+            icon: 'success',
+            title: '成功更新菜單'
+          })
+          //this.$router.push('/lists')
         }
       } catch (err) {
         Toast.fire({
           icon: 'error',
-          title: '目前儲存暫時菜單，請稍後再試'
+          title: '目前儲存菜單，請稍後再試'
         })
       }
     }
