@@ -9,6 +9,7 @@
     </PageTitle>
     <ListItemTable
       :ori-list-items="cartItems"
+      :list-type="'cart'"
       @deleteCartItem="deleteCartItemHandler"
     />
   </main>

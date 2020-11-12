@@ -42,6 +42,7 @@
                 <button
                   class="cart-simple-button"
                   @click.stop.prevent="deleteCartItem(ele.item.id)"
+                  v-if="listType === 'cart'"
                 >
                   &times;
                 </button>
@@ -89,10 +90,14 @@
         </draggable>
         <div class="temlist-buttons">
           <button class="temlist-save-btn" @click.stop.prevent="saveList">
-            儲存
+            {{ listType === 'cart' ? '儲存' : '更新此菜單' }}
           </button>
-          <button class="temlist-submit-btn" @click.stop.prevent="submitList">
-            送出清單
+          <button
+            class="temlist-submit-btn"
+            @click.stop.prevent="submitList"
+            v-if="listType === 'cart'"
+          >
+            送出菜單
           </button>
         </div>
       </form>
@@ -115,6 +120,9 @@ export default {
     },
     oriListName: {
       type: String
+    },
+    listType: {
+      type: String
     }
   },
   created() {
@@ -128,9 +136,11 @@ export default {
   },
   methods: {
     fetchTemListName() {
-      const oriTemListName = JSON.parse(localStorage.getItem('temListName'))
-      this.temlistName = oriTemListName
-      return
+      if (this.listType === 'cart') {
+        const oriTemListName = JSON.parse(localStorage.getItem('temListName'))
+        this.temlistName = oriTemListName
+        return
+      }
     },
     labelIndex(id, front) {
       return front + id
@@ -218,14 +228,18 @@ export default {
           })
           sortCount++
         })
-        const { statusText } = await cartsAPI.putCartItem({ updateItems })
-        if (statusText !== 'OK') {
-          throw new Error()
+        if (this.listType === 'cart') {
+          const { statusText } = await cartsAPI.putCartItem({ updateItems })
+          if (statusText !== 'OK') {
+            throw new Error()
+          }
+          Toast.fire({
+            icon: 'success',
+            title: '成功儲存暫時菜單'
+          })
+        } else {
+          console.log(this.listType)
         }
-        Toast.fire({
-          icon: 'success',
-          title: '成功儲存暫時菜單'
-        })
       } catch (err) {
         Toast.fire({
           icon: 'error',
@@ -240,8 +254,8 @@ export default {
         return { item, order: index }
       })
     },
-    oriListName(newVlue) {
-      this.temlistName = newVlue
+    oriListName(newValue) {
+      this.temlistName = newValue
     }
   }
 }

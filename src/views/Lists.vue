@@ -9,14 +9,16 @@
       <template v-slot:buttons>
         <div class="setting-links-wrapper">
           <router-link
-            to="/lists?isUsed=false"
+            :to="{ path: 'lists', query: { isUsed: false } }"
             class="title-link add-card-link"
+            :class="{ current: !isUsed }"
           >
             未使用的清單
           </router-link>
           <router-link
-            to="/lists?isUsed=true"
+            :to="{ path: 'lists', query: { isUsed: true } }"
             class="title-link close-card-link"
+            :class="{ current: isUsed }"
           >
             已使用的清單
           </router-link>
@@ -174,7 +176,10 @@ export default {
     }
   },
   created() {
-    let isUsed = this.$route.query.isUsed === 'false' ? false : true
+    let isUsed = false
+    if (this.$route.query.isUsed) {
+      isUsed = this.$route.query.isUsed === 'false' ? false : true
+    }
     this.isUsed = isUsed
     this.fetchLists({ isUsed })
   },

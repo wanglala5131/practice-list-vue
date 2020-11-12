@@ -7,7 +7,11 @@
         編輯菜單
       </template>
     </PageTitle>
-    <ListItemTable :ori-list-items="cartItems" :ori-list-name="listName" />
+    <ListItemTable
+      :ori-list-items="editList"
+      :ori-list-name="listName"
+      :list-type="'EditList'"
+    />
   </main>
 </template>
 
@@ -31,7 +35,8 @@ export default {
       bannerImgURL:
         'https://cdn.pixabay.com/photo/2018/06/12/20/17/football-3471402_1280.jpg',
       list: [],
-      listName: ''
+      listName: '',
+      editList: []
     }
   },
   created() {
@@ -53,6 +58,12 @@ export default {
         }
         this.list = data
         this.listName = data.name
+        this.editList = data.Items.map(item => ({
+          id: item.id,
+          Item: item,
+          reps: item.ListItem.reps,
+          remark: item.ListItem.remark
+        }))
       } catch (err) {
         Toast.fire({
           icon: 'error',
