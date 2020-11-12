@@ -237,6 +237,7 @@ export default {
           return
         }
         this.lists = this.lists.filter(list => list.id !== id)
+        this.searchResults = this.lists.filter(list => list.id !== id)
         Toast.fire({
           icon: 'success',
           title: '成功刪除此清單'
@@ -381,7 +382,7 @@ export default {
 .lists {
   width: 100%;
   max-width: 900px;
-  margin: 0 auto;
+  margin: 0 auto 80px auto;
   h2 {
     margin: 30px 0;
   }

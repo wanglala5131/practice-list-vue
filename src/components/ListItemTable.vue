@@ -196,7 +196,7 @@ export default {
           title: '成功送出菜單，跳轉至菜單頁面'
         })
         localStorage.removeItem('temListName')
-        this.$router.push('/lists')
+        this.$router.push('/lists?isUsed=false')
       } catch (err) {
         Toast.fire({
           icon: 'error',

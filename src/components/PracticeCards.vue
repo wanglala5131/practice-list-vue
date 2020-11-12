@@ -163,7 +163,7 @@ export default {
 }
 .cards-wrapper {
   margin-top: 30px;
-  margin-bottom: 30px;
+  margin-bottom: 80px;
   display: grid;
   grid-template-columns: repeat(auto-fit, 300px);
   grid-gap: 1.5rem;
