@@ -32,7 +32,7 @@
             :disabled="item.isInCart"
             v-if="!item.isClosed"
           >
-            {{ item.isInCart ? '已加入暫定清單' : '加到暫定清單中' }}
+            {{ item.isInCart ? '已加入暫定菜單' : '加到暫定菜單中' }}
           </button>
           <button
             class="title-link item-close-btn"
@@ -48,6 +48,7 @@
     </PageTitle>
     <div class="item-content">
       <div class="container">
+        <span class="title-closed" v-if="item.isClosed">※ 此為封存項目</span>
         <div class="item-section one-line">
           <h3>運動類別：</h3>
           <span>{{ item.Category.name }}</span>
@@ -194,7 +195,7 @@ export default {
         this.item.isInCart = true
         Toast.fire({
           icon: 'success',
-          title: '成功加入暫定清單'
+          title: '成功加入暫定菜單'
         })
         this.cartItems.push({
           ...data.data,
@@ -204,7 +205,7 @@ export default {
       } catch (err) {
         Toast.fire({
           icon: 'error',
-          title: '暫時無法加入暫定清單，請稍後再試'
+          title: '暫時無法加入暫定菜單，請稍後再試'
         })
       }
     },
@@ -213,7 +214,7 @@ export default {
         if (this.item.isInCart) {
           Toast.fire({
             icon: 'error',
-            title: '請先移除從暫定清單移除此項目，再進行封存'
+            title: '請先移除從暫定菜單移除此項目，再進行封存'
           })
           return
         }
@@ -265,6 +266,11 @@ export default {
     color: $font-green;
     font-weight: 500;
     margin: 10px 10px 10px 0;
+  }
+  .title-closed {
+    font-size: 1.5rem;
+    color: $dark-red;
+    font-weight: 700;
   }
   .item-section {
     padding: 10px 0;

@@ -85,7 +85,7 @@ export default {
       } catch (err) {
         Toast.fire({
           icon: 'success',
-          title: '目前無法刪除暫定清單的項目，請稍後再試'
+          title: '目前無法刪除暫定菜單的項目，請稍後再試'
         })
       }
     }

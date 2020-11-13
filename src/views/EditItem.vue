@@ -52,7 +52,7 @@ export default {
       } catch (err) {
         Toast.fire({
           icon: 'error',
-          title: '目前無法取得運動項目與運動類型，請稍後再試'
+          title: '目前無法取得運動項目與運動類別，請稍後再試'
         })
       }
     },

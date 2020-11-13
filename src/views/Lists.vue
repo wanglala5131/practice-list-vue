@@ -13,14 +13,14 @@
             class="title-link add-card-link"
             :class="{ current: !isUsed }"
           >
-            未使用的清單
+            未使用的菜單
           </router-link>
           <router-link
             :to="{ path: 'lists', query: { isUsed: true } }"
             class="title-link close-card-link"
             :class="{ current: isUsed }"
           >
-            已使用的清單
+            已使用的菜單
           </router-link>
         </div>
       </template>
@@ -51,7 +51,7 @@
             <span class="btn-box">
               <span class="btn"></span>
             </span>
-            <span class="btn-text">項目類別</span>
+            <span class="btn-text">項目類型</span>
           </label>
         </div>
         <div class="toggle-switch">
@@ -223,12 +223,12 @@ export default {
           if (isUsed === false) {
             Toast.fire({
               icon: 'success',
-              title: '成功將此清單標示為已使用'
+              title: '成功將此菜單標示為已使用'
             })
           } else {
             Toast.fire({
               icon: 'success',
-              title: '成功退回此清單'
+              title: '成功退回此菜單'
             })
           }
         }
@@ -261,13 +261,13 @@ export default {
           this.searchResults = this.lists.filter(list => list.id !== id)
           Toast.fire({
             icon: 'success',
-            title: '成功刪除此清單'
+            title: '成功刪除此菜單'
           })
         }
       } catch (err) {
         Toast.fire({
           icon: 'error',
-          title: '目前無法刪除清單，請稍後再試1'
+          title: '目前無法刪除菜單，請稍後再試'
         })
       }
     },

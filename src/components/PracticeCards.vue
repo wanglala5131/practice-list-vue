@@ -52,7 +52,7 @@
               :disabled="item.isInCart"
               v-if="!isCloseType"
             >
-              {{ item.isInCart ? '已加入暫定清單' : '加到暫定清單中' }}
+              {{ item.isInCart ? '已加入暫定菜單' : '加到暫定菜單中' }}
             </button>
           </div>
         </div>
@@ -95,7 +95,7 @@ export default {
         }
         Toast.fire({
           icon: 'success',
-          title: '已成功加入暫定清單'
+          title: '已成功加入暫定菜單'
         })
         const cartItem = {
           ...data.data,
@@ -105,7 +105,7 @@ export default {
       } catch (err) {
         Toast.fire({
           icon: 'error',
-          title: '目前無法加入暫定清單，請稍後再試'
+          title: '目前無法加入暫定菜單，請稍後再試'
         })
       }
     },
