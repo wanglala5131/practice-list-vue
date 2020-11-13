@@ -6,8 +6,14 @@
       </router-link>
     </div>
     <nav class="nav" v-if="isAuthenticated">
-      <input type="checkbox" id="nav-toggle" class="nav-toggle" />
-      <ul class="nav-list">
+      <input
+        type="checkbox"
+        id="nav-toggle"
+        class="nav-toggle"
+        v-model="isOpenNav"
+      />
+      <div class="nav-modal" @click.stop.prevent="closeNav"></div>
+      <ul class="nav-list" @click.stop.prevent="closeNav">
         <li class="nav-active">
           <router-link to="/items">訓練項目</router-link>
         </li>
@@ -30,13 +36,22 @@
 import { mapState } from 'vuex'
 export default {
   name: 'Navbar',
+  data() {
+    return {
+      isOpenNav: false
+    }
+  },
   computed: {
     ...mapState(['currentUser', 'isAuthenticated'])
   },
   methods: {
     logout() {
+      this.closeNav()
       this.$store.commit('revokeAuthentication')
       this.$router.push('/signin')
+    },
+    closeNav() {
+      this.isOpenNav = false
     }
   }
 }
@@ -121,6 +136,19 @@ header {
       &:checked ~ .nav-list {
         transform: scale(1, 1);
       }
+      &:checked ~ .nav-modal {
+        display: block;
+      }
+    }
+    .nav-modal {
+      display: none;
+      z-index: -10;
+      position: fixed;
+      top: 70px;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: $op-light-black;
     }
     .nav-toggle-label {
       height: 30px;
@@ -167,8 +195,9 @@ header {
       margin-right: 1.5rem;
       display: flex;
       font-size: 1.3rem;
-      .nav-toggle-label {
-        display: none;
+      .nav-toggle-label,
+      .nav-modal {
+        visibility: hidden;
       }
       .nav-list {
         display: flex;

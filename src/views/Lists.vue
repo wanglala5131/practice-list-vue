@@ -30,7 +30,9 @@
         type="checkbox"
         id="open-toggle-switches"
         class="open-toggle-switches"
+        v-model="isOpenSetting"
       />
+      <div class="list-display-modal" @click.stop.prevent="closeSetting"></div>
       <label for="open-toggle-switches" class="open-toggle-switches-label"
         ><font-awesome-icon icon="cog"
       /></label>
@@ -169,6 +171,7 @@ export default {
     return {
       bannerImgURL:
         'https://cdn.pixabay.com/photo/2018/06/12/20/17/football-3471402_1280.jpg',
+      isOpenSetting: false,
       openCategory: true,
       openSubcategory: true,
       openReps: true,
@@ -281,6 +284,9 @@ export default {
     },
     gotoEdit(id) {
       this.$router.push(`/lists/${id}`)
+    },
+    closeSetting() {
+      this.isOpenSetting = false
     }
   },
   beforeRouteUpdate(to, from, next) {
@@ -299,6 +305,15 @@ export default {
   z-index: 20;
   position: fixed;
   top: 0;
+  .list-display-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $op-light-black;
+  }
   .open-toggle-switches-label {
     position: fixed;
     z-index: 30;
@@ -380,8 +395,13 @@ export default {
         }
       }
     }
-    &.open-toggle-switches:checked ~ .toggle-switches {
-      transform: scale(1, 1);
+    &.open-toggle-switches {
+      &:checked ~ .toggle-switches {
+        transform: scale(1, 1);
+      }
+      &:checked ~ .list-display-modal {
+        display: block;
+      }
     }
   }
 }

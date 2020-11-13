@@ -3,7 +3,13 @@
     <label for="cart-simple-input" class="cart-simple-label"
       ><font-awesome-icon icon="list-alt"
     /></label>
-    <input type="checkbox" class="cart-simple-input" id="cart-simple-input" />
+    <input
+      type="checkbox"
+      class="cart-simple-input"
+      id="cart-simple-input"
+      v-model="isOpenCart"
+    />
+    <div class="card-simple-modal" @click.stop.prevent="closeCart"></div>
     <div class="cart-simple-content">
       <h3>暫定菜單</h3>
       <ul class="cart-simple-ul">
@@ -57,7 +63,8 @@ export default {
   },
   data() {
     return {
-      cartItems: this.oriCartItems
+      cartItems: this.oriCartItems,
+      isOpenCart: false
     }
   },
   watch: {
@@ -91,6 +98,9 @@ export default {
           title: '目前無法刪除暫定菜單的項目，請稍後再試'
         })
       }
+    },
+    closeCart() {
+      return (this.isOpenCart = false)
     }
   }
 }
@@ -107,6 +117,9 @@ export default {
     display: none;
     &:checked ~ .cart-simple-content {
       transform: scale(1, 1);
+    }
+    &:checked ~ .card-simple-modal {
+      display: block;
     }
   }
   .cart-simple-label {
@@ -126,6 +139,16 @@ export default {
       color: $white;
     }
   }
+  .card-simple-modal {
+    z-index: -20;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: $op-light-black;
+    width: 100%;
+    height: 100%;
+  }
   .cart-simple-content {
     z-index: -10;
     position: absolute;
@@ -137,7 +160,7 @@ export default {
     overflow-y: scroll;
     @extend .scroll-style;
     padding: 0px 15px 80px 15px;
-    transform: scale(0, 1); //0,1
+    transform: scale(0, 1);
     transform-origin: left;
     transition: transform 0.2s ease-out;
     h3 {
