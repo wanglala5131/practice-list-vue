@@ -13,7 +13,10 @@
           :key="cartItem.id"
         >
           <div class="cart-simple-title">
-            <a href="#" class="cart-simple-link"></a>
+            <router-link
+              :to="{ name: 'practice-item', params: { id: cartItem.Item.id } }"
+              class="cart-simple-link"
+            ></router-link>
             <p>{{ cartItem.Item.name }}</p>
             <p class="cart-simple-category">
               {{ cartItem.Item.Category.name }}

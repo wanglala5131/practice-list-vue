@@ -35,9 +35,14 @@
                       >
                     </div>
                   </div>
-                  <a href="#" class="temlist-item-name">{{
-                    ele.item.Item.name
-                  }}</a>
+                  <router-link
+                    :to="{
+                      name: 'practice-item',
+                      params: { id: ele.item.Item.id }
+                    }"
+                    class="temlist-item-name"
+                    >{{ ele.item.Item.name }}</router-link
+                  >
                 </div>
                 <button
                   class="cart-simple-button"

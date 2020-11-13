@@ -44,7 +44,12 @@
             >
               {{ isCloseType ? '取消封存' : '封存' }}
             </button>
-            <button class="card-edit-button active">編輯</button>
+            <button
+              class="card-edit-button active"
+              @click.stop.prevent="toEditPage(item.id)"
+            >
+              編輯
+            </button>
             <button
               class="card-cart-button"
               :class="{ active: !item.isInCart }"
@@ -149,6 +154,9 @@ export default {
           title: '目前無法改變項目狀態，請稍後再試'
         })
       }
+    },
+    toEditPage(id) {
+      this.$router.push(`/items/${id}/edit`)
     }
   },
   watch: {
