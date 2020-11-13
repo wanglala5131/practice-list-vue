@@ -26,7 +26,7 @@
             編輯
           </button>
           <button
-            class="title-link item-close-btn"
+            class="title-link"
             :class="{ active: !item.isInCart }"
             @click.stop.prevent="addToCart"
             :disabled="item.isInCart"
@@ -42,7 +42,6 @@
           >
             {{ item.isClosed ? '取消封存' : '封存' }}
           </button>
-          <button class="title-link item-delete-btn">永久刪除</button>
         </div>
       </template>
     </PageTitle>

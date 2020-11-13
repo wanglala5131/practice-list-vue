@@ -56,19 +56,19 @@
         color: $light-gray;
       }
     }
-    &.item-delete-btn {
-      border: 2px solid $red;
-      color: $red;
-      &:hover {
-        background-color: $red;
-        color: $white;
-        cursor: pointer;
-      }
-    }
     &.active:hover {
       background-color: $logo-green;
       color: $white;
       cursor: pointer;
+    }
+    &.item-close-btn {
+      border: 2px solid $red;
+      color: $red;
+      &.active:hover {
+        background-color: $red;
+        color: $white;
+        cursor: pointer;
+      }
     }
     &:disabled {
       border-color: $light-gray;
@@ -102,7 +102,7 @@
           color: $dark-gray;
         }
       }
-      &.item-delete-btn {
+      &.item-close-btn {
         background-color: rgba(0, 0, 0, 0.8);
         color: $red;
         &:hover {
