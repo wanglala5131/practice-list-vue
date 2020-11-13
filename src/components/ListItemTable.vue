@@ -93,17 +93,20 @@
           </transition-group>
         </draggable>
         <div class="temlist-buttons">
-          <button class="temlist-save-btn" @click.stop.prevent="saveList">
-            {{
-              listType === 'cart' ? '儲存名稱/項目資料' : '更新名稱/項目資料'
-            }}
+          <button
+            class="temlist-save-btn"
+            @click.stop.prevent="saveList"
+            :disabled="isProcessing"
+          >
+            {{ saveText }}
           </button>
           <button
             class="temlist-submit-btn"
             @click.stop.prevent="submitList"
             v-if="listType === 'cart'"
+            :disabled="isProcessing"
           >
-            送出菜單
+            {{ submitText }}
           </button>
         </div>
       </form>
@@ -134,11 +137,15 @@ export default {
   },
   created() {
     this.fetchTemListName()
+    this.fetchSaveText()
   },
   data() {
     return {
       listItems: [],
-      temlistName: ''
+      temlistName: '',
+      isProcessing: false,
+      saveText: '',
+      submitText: '送出菜單'
     }
   },
   methods: {
@@ -147,6 +154,13 @@ export default {
         const oriTemListName = JSON.parse(localStorage.getItem('temListName'))
         this.temlistName = oriTemListName
         return
+      }
+    },
+    fetchSaveText() {
+      if (this.listType === 'cart') {
+        this.saveText = '儲存菜單名稱/項目資料'
+      } else {
+        this.saveText = '更新菜單名稱/項目資料'
       }
     },
     labelIndex(id, front) {
@@ -240,6 +254,8 @@ export default {
           confirmButtonText: `送出`
         })
         if (result.isConfirmed) {
+          this.isProcessing = true
+          this.submitText = '送出中'
           let updateItems = this.listItems.map(ele => ({
             ItemId: ele.item.ItemId,
             remark: ele.item.remark,
@@ -267,6 +283,8 @@ export default {
           this.$router.push('/lists?isUsed=false')
         }
       } catch (err) {
+        this.isProcessing = false
+        this.submitText = '送出菜單'
         Toast.fire({
           icon: 'error',
           title: '目前無法送出菜單，請稍後再試'
@@ -277,6 +295,8 @@ export default {
       try {
         let sortCount = 0
         let updateItems = []
+        this.isProcessing = true
+
         this.listItems.map(ele => {
           updateItems.push({
             ItemId: ele.item.Item.id,
@@ -287,6 +307,7 @@ export default {
           sortCount++
         })
         if (this.listType === 'cart') {
+          this.saveText = '儲存中'
           localStorage.setItem('temListName', JSON.stringify(this.temlistName))
           const { statusText } = await cartsAPI.putCartItem({ updateItems })
           if (statusText !== 'OK') {
@@ -297,6 +318,7 @@ export default {
             title: '成功儲存菜單'
           })
         } else {
+          this.saveText = '更新中'
           const { id } = this.$route.params
           const { statusText } = await listsAPI.putList({
             updateItems,
@@ -310,9 +332,13 @@ export default {
             icon: 'success',
             title: '成功更新菜單'
           })
-          //this.$router.push('/lists')
+          this.$router.push('/lists')
         }
+        this.isProcessing = false
+        this.fetchSaveText()
       } catch (err) {
+        this.isProcessing = false
+        this.fetchSaveText()
         Toast.fire({
           icon: 'error',
           title: '目前無法儲存菜單，請稍後再試'
@@ -454,6 +480,12 @@ export default {
     }
     &:hover {
       box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.2);
+    }
+    &:disabled {
+      border-color: $gray;
+      &:hover {
+        box-shadow: none;
+      }
     }
   }
 }

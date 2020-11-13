@@ -18,7 +18,9 @@
             >{{ category.name }}</option
           >
         </select>
-        <button @click.stop.prevent="addItem">新增</button>
+        <button @click.stop.prevent="addItem" :disabled="isProcessing">
+          {{ isProcessing ? '新增中' : '新增' }}
+        </button>
       </div>
     </div>
     <div class="setting-table">
@@ -95,7 +97,8 @@ export default {
       editingItem: {},
       editOriName: '',
       temEditingName: '',
-      temEditCategory: -1
+      temEditCategory: -1,
+      isProcessing: false
     }
   },
   created() {
@@ -266,6 +269,7 @@ export default {
         }
         const name = this.newName
         const CategoryId = this.newCategory
+        this.isProcessing = true
         const { data, statusText } = await settingAPI.addSubcategory({
           name,
           CategoryId
@@ -286,7 +290,9 @@ export default {
         })
         this.newName = ''
         this.newCategory = -1
+        this.isProcessing = false
       } catch (err) {
+        this.isProcessing = false
         Toast.fire({
           icon: 'error',
           title: '目前無法新增項目類型，請稍後再試'
@@ -326,8 +332,16 @@ export default {
     border: 2px solid $white;
     color: $dark-gray;
     background-color: $gray;
+    cursor: pointer;
     &:hover {
       border: 2px solid $dark-gray;
+    }
+    &:disabled {
+      color: $gray;
+      background-color: $light-gray;
+      &:hover {
+        border: 2px solid $white;
+      }
     }
   }
 }

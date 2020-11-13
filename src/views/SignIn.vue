@@ -11,11 +11,23 @@
         <div class="form-item">
           <div class="form-input">
             <label for="name">信箱：</label>
-            <input type="email" v-model="email" id="name" required />
+            <input
+              type="email"
+              v-model="email"
+              id="name"
+              required
+              autocomplete
+            />
           </div>
           <div class="form-input">
             <label for="password">密碼：</label>
-            <input type="password" v-model="password" id="password" required />
+            <input
+              type="password"
+              v-model="password"
+              id="password"
+              required
+              autocomplete
+            />
           </div>
         </div>
         <div class="form-buttons">

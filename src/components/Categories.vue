@@ -9,8 +9,8 @@
           v-model="newName"
           @keyup.enter="addItem"
         />
-        <button @click.stop.prevent="addItem">
-          新增
+        <button @click.stop.prevent="addItem" :disabled="isProcessing">
+          {{ isProcessing ? '新增中' : '新增' }}
         </button>
       </div>
     </div>
@@ -69,7 +69,8 @@ export default {
       newCategory: -1,
       categories: [],
       editingItem: {},
-      temEditingName: ''
+      temEditingName: '',
+      isProcessing: false
     }
   },
   created() {
@@ -193,6 +194,7 @@ export default {
           })
           return
         }
+        this.isProcessing = true
         const { data, statusText } = await settingAPI.addCategory({
           name: this.newName
         })
@@ -211,7 +213,9 @@ export default {
           title: '成功新增項目類型'
         })
         this.newName = ''
+        this.isProcessing = false
       } catch (err) {
+        this.isProcessing = false
         Toast.fire({
           icon: 'error',
           title: '目前無法新增項目類型，請稍後再試'
@@ -251,8 +255,16 @@ export default {
     border: 2px solid $white;
     color: $dark-gray;
     background-color: $gray;
+    cursor: pointer;
     &:hover {
       border: 2px solid $dark-gray;
+    }
+    &:disabled {
+      color: $gray;
+      background-color: $light-gray;
+      &:hover {
+        border: 2px solid $white;
+      }
     }
   }
 }
