@@ -29,7 +29,9 @@
           </div>
           <button
             class="cart-simple-button"
-            @click.stop.prevent="deleteCartItem(cartItem.id, cartItem.ItemId)"
+            @click.stop.prevent="
+              deleteCartItem(cartItem.id, cartItem.ItemId, cartItem.Item.name)
+            "
           >
             &times;
           </button>
@@ -42,6 +44,7 @@
 <script>
 import cartsAPI from '../apis/carts'
 import { Toast } from '../utils/helpers'
+import { Confirm } from '../utils/helpers'
 export default {
   name: 'CartSimple',
   props: {
@@ -60,19 +63,25 @@ export default {
     }
   },
   methods: {
-    async deleteCartItem(cartId, itemId) {
+    async deleteCartItem(cartId, itemId, name) {
       try {
-        const { statusText } = await cartsAPI.deleteCartItem({
-          cartId
+        const result = await Confirm.fire({
+          title: `確定要刪除暫定菜單中的  「${name}」嗎？`,
+          confirmButtonText: `刪除`
         })
-        if (statusText !== 'OK') {
-          throw new Error()
+        if (result.isConfirmed) {
+          const { statusText } = await cartsAPI.deleteCartItem({
+            cartId
+          })
+          if (statusText !== 'OK') {
+            throw new Error()
+          }
+          Toast.fire({
+            icon: 'success',
+            title: '已成功刪除項目'
+          })
+          this.$emit('deleteCartItem', { cartId, itemId })
         }
-        Toast.fire({
-          icon: 'success',
-          title: '已成功刪除項目'
-        })
-        this.$emit('deleteCartItem', { cartId, itemId })
       } catch (err) {
         Toast.fire({
           icon: 'success',

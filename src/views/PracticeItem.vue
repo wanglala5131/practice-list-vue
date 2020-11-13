@@ -90,6 +90,7 @@ import PageTitle from '../components/PageTitle'
 import ToTop from '../components/ToTop'
 import CartSimple from '../components/CartSimple'
 import { Toast } from '../utils/helpers'
+import { Confirm } from '../utils/helpers'
 import itemsAPI from '../apis/items'
 import cartsAPI from '../apis/carts'
 export default {
@@ -216,18 +217,25 @@ export default {
           })
           return
         }
-        const itemId = this.item.id
-        const { data, statusText } = await itemsAPI.closeItem({ itemId })
-        if (statusText !== 'OK') {
-          throw new Error()
+        const confirmText = this.item.isClosed ? '取消封存' : '封存'
+        const result = await Confirm.fire({
+          title: `確定要${confirmText}「${this.item.name}」嗎？`,
+          confirmButtonText: `確定`
+        })
+        if (result.isConfirmed) {
+          const itemId = this.item.id
+          const { data, statusText } = await itemsAPI.changeClosed({ itemId })
+          if (statusText !== 'OK') {
+            throw new Error()
+          }
+          if (data.status === 'error') {
+            Toast.fire({
+              icon: 'error',
+              title: data.message
+            })
+          }
+          this.item.isClosed = !this.item.isClosed
         }
-        if (data.status === 'error') {
-          Toast.fire({
-            icon: 'error',
-            title: data.message
-          })
-        }
-        this.item.isClosed = !this.item.isClosed
       } catch (err) {
         Toast.fire({
           icon: 'error',

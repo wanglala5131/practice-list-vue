@@ -24,5 +24,10 @@ export const Toast = Swal.mixin({
   toast: true,
   position: 'top',
   showConfirmButton: false,
-  timer: 3000
+  timer: 2000
+})
+export const Confirm = Swal.mixin({
+  showCancelButton: true,
+  showConfirmButton: true,
+  cancelButtonText: `取消`
 })

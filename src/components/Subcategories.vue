@@ -83,6 +83,7 @@
 <script>
 import settingAPI from '../apis/setting'
 import { Toast } from '../utils/helpers'
+import { Confirm } from '../utils/helpers'
 export default {
   name: 'subcategories',
   data() {
@@ -222,25 +223,31 @@ export default {
             title: '此類型尚有項目正在使用，無法刪除'
           })
         }
-        const { data, statusText } = await settingAPI.deleteSubcategory({
-          id: item.id
+        const result = await Confirm.fire({
+          title: `確定要刪除「${item.name}」嗎？`,
+          confirmButtonText: `刪除`
         })
-        if (statusText !== 'OK') {
-          throw new Error()
-        }
-        if (data.status === 'error') {
+        if (result.isConfirmed) {
+          const { data, statusText } = await settingAPI.deleteSubcategory({
+            id: item.id
+          })
+          if (statusText !== 'OK') {
+            throw new Error()
+          }
+          if (data.status === 'error') {
+            Toast.fire({
+              icon: 'error',
+              title: data.message
+            })
+          }
+          this.subcategories = this.subcategories.filter(
+            subcategory => subcategory.id !== item.id
+          )
           Toast.fire({
-            icon: 'error',
-            title: data.message
+            icon: 'success',
+            title: '成功刪除項目類別'
           })
         }
-        this.subcategories = this.subcategories.filter(
-          subcategory => subcategory.id !== item.id
-        )
-        Toast.fire({
-          icon: 'success',
-          title: '成功刪除項目類別'
-        })
       } catch (err) {
         Toast.fire({
           icon: 'error',

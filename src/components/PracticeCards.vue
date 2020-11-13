@@ -38,7 +38,9 @@
               class="card-close-button"
               :disabled="item.isInCart"
               :class="{ active: !item.isInCart }"
-              @click.stop.prevent="changeClosed(item.id)"
+              @click.stop.prevent="
+                changeClosed(item.id, item.isClosed, item.name)
+              "
             >
               {{ isCloseType ? '取消封存' : '封存' }}
             </button>
@@ -63,6 +65,7 @@
 import cartsAPI from '../apis/carts'
 import itemsAPI from '../apis/items'
 import { Toast } from '../utils/helpers'
+import { Confirm } from '../utils/helpers'
 export default {
   name: 'PracticeCards',
   props: {
@@ -123,16 +126,23 @@ export default {
         })
       }
     },
-    async changeClosed(itemId) {
+    async changeClosed(itemId, isClosed, name) {
       try {
-        const { data, statusText } = await itemsAPI.changeClosed({ itemId })
-        if (statusText !== 'OK') {
-          throw new Error()
+        const confirmText = isClosed ? '取消封存' : '封存'
+        const result = await Confirm.fire({
+          title: `要${confirmText}「${name}」嗎？`,
+          confirmButtonText: `確定`
+        })
+        if (result.isConfirmed) {
+          const { data, statusText } = await itemsAPI.changeClosed({ itemId })
+          if (statusText !== 'OK') {
+            throw new Error()
+          }
+          if (data.status === 'error') {
+            throw new Error(data.message)
+          }
+          this.$emit('changeClosed', itemId)
         }
-        if (data.status === 'error') {
-          throw new Error(data.message)
-        }
-        this.$emit('changeClosed', itemId)
       } catch (err) {
         Toast.fire({
           icon: 'error',

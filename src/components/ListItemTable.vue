@@ -108,6 +108,7 @@
 <script>
 import draggable from 'vuedraggable'
 import { Toast } from '../utils/helpers'
+import { Confirm } from '../utils/helpers'
 import cartsAPI from '../apis/carts'
 import listsAPI from '../apis/lists'
 export default {
@@ -148,44 +149,63 @@ export default {
     },
     async deleteCartItem(item) {
       try {
+        //暫定菜單
         if (this.listType === 'cart') {
-          const cartId = item.id
-          const { statusText } = await cartsAPI.deleteCartItem({
-            cartId
+          const result = await Confirm.fire({
+            title: `確定要刪除「${item.Item.name}」嗎？`,
+            confirmButtonText: `刪除`
           })
-          if (statusText !== 'OK') {
-            throw new Error()
+          if (result.isConfirmed) {
+            const cartId = item.id
+            const { statusText } = await cartsAPI.deleteCartItem({
+              cartId
+            })
+            if (statusText !== 'OK') {
+              throw new Error()
+            }
+            this.$emit('deleteCartItem', cartId)
+            Toast.fire({
+              icon: 'success',
+              title: '已成功刪除項目'
+            })
           }
-          this.$emit('deleteCartItem', cartId)
         } else {
+          //編輯已定菜單
           if (this.listItems.length <= 3) {
             Toast.fire({
               icon: 'error',
-              title: '無法刪除，清單項目至少要三項'
+              title: '無法刪除，菜單項目至少要三項'
             })
             return
           }
-          const itemId = item.Item.id
-          const id = this.$route.params.id
-          const { data, statusText } = await listsAPI.deleteListItem({
-            id,
-            itemId
+          const result = await Confirm.fire({
+            title: `確定要刪除「${item.Item.name}」嗎？`,
+            confirmButtonText: `刪除`
           })
-          if (statusText !== 'OK') {
-            throw new Error()
-          }
-          if (data.status === 'error') {
+          if (result.isConfirmed) {
+            const itemId = item.Item.id
+            const id = this.$route.params.id
+            const { data, statusText } = await listsAPI.deleteListItem({
+              id,
+              itemId
+            })
+            if (statusText !== 'OK') {
+              throw new Error()
+            }
+            if (data.status === 'error') {
+              Toast.fire({
+                icon: 'error',
+                title: data.message
+              })
+              return
+            }
+            this.$emit('deleteListItem', itemId)
             Toast.fire({
-              icon: 'error',
-              title: data.message
+              icon: 'success',
+              title: '已成功刪除項目'
             })
           }
-          this.$emit('deleteListItem', itemId)
         }
-        Toast.fire({
-          icon: 'success',
-          title: '已成功刪除項目'
-        })
       } catch (err) {
         Toast.fire({
           icon: 'success',
@@ -210,31 +230,37 @@ export default {
           })
           return
         }
-        let updateItems = this.listItems.map(ele => ({
-          ItemId: ele.item.ItemId,
-          remark: ele.item.remark,
-          reps: ele.item.reps
-        }))
-        const { data, statusText } = await listsAPI.submitCart({
-          updateItems,
-          listName: this.temlistName
+        const result = await Confirm.fire({
+          title: '確定要送出菜單了？',
+          confirmButtonText: `送出`
         })
-        if (statusText !== 'OK') {
-          throw new Error()
-        }
-        if (data.status === 'error') {
-          Toast.fire({
-            icon: 'error',
-            title: data.message
+        if (result.isConfirmed) {
+          let updateItems = this.listItems.map(ele => ({
+            ItemId: ele.item.ItemId,
+            remark: ele.item.remark,
+            reps: ele.item.reps
+          }))
+          const { data, statusText } = await listsAPI.submitCart({
+            updateItems,
+            listName: this.temlistName
           })
-          return
+          if (statusText !== 'OK') {
+            throw new Error()
+          }
+          if (data.status === 'error') {
+            Toast.fire({
+              icon: 'error',
+              title: data.message
+            })
+            return
+          }
+          Toast.fire({
+            icon: 'success',
+            title: '成功送出菜單，跳轉至菜單頁面'
+          })
+          localStorage.removeItem('temListName')
+          this.$router.push('/lists?isUsed=false')
         }
-        Toast.fire({
-          icon: 'success',
-          title: '成功送出菜單，跳轉至菜單頁面'
-        })
-        localStorage.removeItem('temListName')
-        this.$router.push('/lists?isUsed=false')
       } catch (err) {
         Toast.fire({
           icon: 'error',
@@ -284,7 +310,7 @@ export default {
       } catch (err) {
         Toast.fire({
           icon: 'error',
-          title: '目前儲存菜單，請稍後再試'
+          title: '目前無法儲存菜單，請稍後再試'
         })
       }
     }

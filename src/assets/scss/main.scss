@@ -98,6 +98,11 @@ $dark-red: #e6005c;
   letter-spacing: 1px;
 }
 
+.swal2-title {
+  font-size: 1.3rem;
+  line-height: 1.4;
+}
+
 @keyframes swing {
   15% {
     transform: translateX(1px);

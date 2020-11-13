@@ -94,7 +94,7 @@
               <div class="buttons">
                 <button
                   class="list-link"
-                  @click.stop.prevent="deleteList(list.id)"
+                  @click.stop.prevent="deleteList(list.id, list.name)"
                 >
                   刪除
                 </button>
@@ -108,7 +108,9 @@
                 <button
                   class="list-done"
                   :class="{ gotoend: !isUsed }"
-                  @click.stop.prevent="changeListStatus(list.id, list.isUsed)"
+                  @click.stop.prevent="
+                    changeListStatus(list.id, list.isUsed, list.name)
+                  "
                 >
                   {{ isUsed ? '退回' : '標示已使用' }}
                 </button>
@@ -155,6 +157,7 @@ import PageTitle from '../components/PageTitle'
 import ToTop from '../components/ToTop'
 import listsAPI from '../apis/lists'
 import { Toast } from '../utils/helpers'
+import { Confirm } from '../utils/helpers'
 export default {
   name: 'Lists',
   components: {
@@ -196,30 +199,38 @@ export default {
         })
       }
     },
-    async changeListStatus(id, isUsed) {
+    async changeListStatus(id, isUsed, name) {
       try {
-        const { data, statusText } = await listsAPI.changeListStatus({ id })
-        if (statusText !== 'OK') {
-          throw new Error()
-        }
-        if (data.status === 'error') {
-          Toast.fire({
-            icon: 'error',
-            title: data.message
-          })
-          return
-        }
-        this.lists = this.lists.filter(list => list.id !== id)
-        if (isUsed === false) {
-          Toast.fire({
-            icon: 'success',
-            title: '成功將此清單標示為已使用'
-          })
-        } else {
-          Toast.fire({
-            icon: 'success',
-            title: '成功退回此清單'
-          })
+        const confirmText = isUsed ? '退回' : '標示成已使用'
+        const result = await Confirm.fire({
+          title: `確定要將「${name}」${confirmText}嗎？`,
+          confirmButtonText: `確定`
+        })
+        if (result.isConfirmed) {
+          const { data, statusText } = await listsAPI.changeListStatus({ id })
+          if (statusText !== 'OK') {
+            throw new Error()
+          }
+          if (data.status === 'error') {
+            Toast.fire({
+              icon: 'error',
+              title: data.message
+            })
+            return
+          }
+          this.lists = this.lists.filter(list => list.id !== id)
+          this.searchResults = this.lists.filter(list => list.id !== id)
+          if (isUsed === false) {
+            Toast.fire({
+              icon: 'success',
+              title: '成功將此清單標示為已使用'
+            })
+          } else {
+            Toast.fire({
+              icon: 'success',
+              title: '成功退回此清單'
+            })
+          }
         }
       } catch (err) {
         Toast.fire({
@@ -228,25 +239,31 @@ export default {
         })
       }
     },
-    async deleteList(id) {
+    async deleteList(id, name) {
       try {
-        const { data, statusText } = await listsAPI.deleteList({ id })
-        if (statusText !== 'OK') {
-          throw new Error()
-        }
-        if (data.status === 'error') {
-          Toast.fire({
-            icon: 'error',
-            title: data.message
-          })
-          return
-        }
-        this.lists = this.lists.filter(list => list.id !== id)
-        this.searchResults = this.lists.filter(list => list.id !== id)
-        Toast.fire({
-          icon: 'success',
-          title: '成功刪除此清單'
+        const result = await Confirm.fire({
+          title: `確定要刪除「${name}」嗎？`,
+          confirmButtonText: `刪除`
         })
+        if (result.isConfirmed) {
+          const { data, statusText } = await listsAPI.deleteList({ id })
+          if (statusText !== 'OK') {
+            throw new Error()
+          }
+          if (data.status === 'error') {
+            Toast.fire({
+              icon: 'error',
+              title: data.message
+            })
+            return
+          }
+          this.lists = this.lists.filter(list => list.id !== id)
+          this.searchResults = this.lists.filter(list => list.id !== id)
+          Toast.fire({
+            icon: 'success',
+            title: '成功刪除此清單'
+          })
+        }
       } catch (err) {
         Toast.fire({
           icon: 'error',

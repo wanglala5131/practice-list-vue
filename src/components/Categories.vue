@@ -60,6 +60,7 @@
 <script>
 import settingAPI from '../apis/setting'
 import { Toast } from '../utils/helpers'
+import { Confirm } from '../utils/helpers'
 export default {
   name: 'categories',
   data() {
@@ -151,25 +152,31 @@ export default {
             title: '此類型尚有項目正在使用，無法刪除'
           })
         }
-        const { data, statusText } = await settingAPI.deleteCategory({
-          id: item.id
+        const result = await Confirm.fire({
+          title: `確定要刪除「${item.name}」嗎？`,
+          confirmButtonText: `刪除`
         })
-        if (statusText !== 'OK') {
-          throw new Error()
-        }
-        if (data.status === 'error') {
+        if (result.isConfirmed) {
+          const { data, statusText } = await settingAPI.deleteCategory({
+            id: item.id
+          })
+          if (statusText !== 'OK') {
+            throw new Error()
+          }
+          if (data.status === 'error') {
+            Toast.fire({
+              icon: 'error',
+              title: data.message
+            })
+          }
+          this.categories = this.categories.filter(
+            category => category.id !== item.id
+          )
           Toast.fire({
-            icon: 'error',
-            title: data.message
+            icon: 'success',
+            title: '成功刪除項目類型'
           })
         }
-        this.categories = this.categories.filter(
-          category => category.id !== item.id
-        )
-        Toast.fire({
-          icon: 'success',
-          title: '成功刪除項目類別'
-        })
       } catch (err) {
         Toast.fire({
           icon: 'error',
@@ -201,7 +208,7 @@ export default {
         this.categories.push({ ...data, Subcategories: [] })
         Toast.fire({
           icon: 'success',
-          title: '成功新增項目類別'
+          title: '成功新增項目類型'
         })
         this.newName = ''
       } catch (err) {
