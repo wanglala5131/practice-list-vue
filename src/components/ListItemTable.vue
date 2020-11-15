@@ -108,6 +108,7 @@
           >
             {{ submitText }}
           </button>
+          <addItemModal :listType="listType" />
         </div>
       </form>
     </div>
@@ -115,6 +116,7 @@
 </template>
 <script>
 import draggable from 'vuedraggable'
+import addItemModal from '../components/addItemModal'
 import { Toast } from '../utils/helpers'
 import { Confirm } from '../utils/helpers'
 import cartsAPI from '../apis/carts'
@@ -122,7 +124,8 @@ import listsAPI from '../apis/lists'
 export default {
   name: 'ListItemTable',
   components: {
-    draggable
+    draggable,
+    addItemModal
   },
   props: {
     oriListItems: {
@@ -468,9 +471,11 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-around;
+  flex-wrap: wrap;
   button {
     @extend .button-style;
     font-size: 1.3rem;
+    margin: 3px;
     &.temlist-submit-btn {
       background-color: $logo-green;
       border: 2px solid $dark-green;
