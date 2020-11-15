@@ -108,7 +108,7 @@
           >
             {{ submitText }}
           </button>
-          <addItemModal :listType="listType" />
+          <addItemModal :listType="listType" :ori-list-items="oriListItems" />
         </div>
       </form>
     </div>

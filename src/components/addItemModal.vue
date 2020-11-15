@@ -139,21 +139,80 @@
   </main>
 </template>
 <script>
+import itemsAPI from '../apis/items'
+import settingAPI from '../apis/setting'
+import { Toast } from '../utils/helpers'
 export default {
   name: 'addItemModal',
   props: {
     listType: {
       type: String
+    },
+    oriListItems: {
+      type: Array
     }
   },
   data() {
     return {
-      showModal: false
+      showModal: false,
+      //undefined表示未取得資料，打開modal時會進行fetch
+      items: undefined,
+      itemsFilter: [],
+      categories: undefined,
+      subcategories: undefined,
+      listItemsArr: []
     }
   },
   methods: {
     openModal() {
+      if (!this.items) {
+        this.fetchItems()
+      }
+      if (!this.categories || !this.subcategories) {
+        this.fetchType()
+      }
       this.showModal = !this.showModal
+    },
+    async fetchType() {
+      try {
+        const { data, statusText } = await settingAPI.getSubcategory()
+        if (statusText !== 'OK') {
+          throw new Error()
+        }
+        this.subcategories = data.subcategories
+        this.categories = data.categories
+      } catch (err) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法取得運動項目與項目種類資料，請稍後再試'
+        })
+      }
+    },
+    async fetchItems() {
+      try {
+        const { data, statusText } = await itemsAPI.getItems()
+        if (statusText !== 'OK') {
+          throw new Error()
+        }
+
+        this.items = data.items.map(item => ({
+          ...item,
+          isInList: this.listItemsArr.includes(item.id)
+        }))
+        this.itemsFilter = data.items
+      } catch (err) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法取得練習項目，請稍後再試'
+        })
+      }
+    }
+  },
+  watch: {
+    oriListItems(newValue) {
+      this.listItems = newValue.map(item => {
+        this.listItemsArr.push(item.Item.id)
+      })
     }
   }
 }
