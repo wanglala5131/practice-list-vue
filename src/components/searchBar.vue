@@ -1,5 +1,5 @@
 <template>
-  <div class="cards-search">
+  <div class="cards-search" :class="{ list: searchPosition === 'listModal' }">
     <div class="container">
       <input
         type="checkbox"
@@ -128,6 +128,9 @@ export default {
     },
     oriItemsFilter: {
       type: Array
+    },
+    searchPosition: {
+      type: String
     }
   },
   methods: {
@@ -315,6 +318,18 @@ export default {
     }
   }
 }
+//在list modal的情況下
+.cards-search {
+  &.list {
+    padding: 10px 0 20px 0;
+    .container {
+      width: 90%;
+    }
+    label {
+      margin: 0;
+    }
+  }
+}
 @media (min-width: 768px) {
   //search
   .cards-search {
@@ -348,6 +363,16 @@ export default {
       }
       .search-item {
         margin: 15px 0;
+      }
+    }
+  }
+  //在list modal的情況下
+  .cards-search {
+    &.list {
+      padding: 20px 0 30px 0;
+      .cards-search-toggle-label,
+      .cards-search-form {
+        width: 90%;
       }
     }
   }
