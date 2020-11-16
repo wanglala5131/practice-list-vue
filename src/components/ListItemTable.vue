@@ -225,6 +225,9 @@ export default {
               })
               return
             }
+            this.listItems = this.listItems.filter(
+              item => item.item.ItemId !== itemId
+            )
             this.$emit('deleteListItem', itemId)
             Toast.fire({
               icon: 'success',

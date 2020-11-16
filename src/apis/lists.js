@@ -22,5 +22,8 @@ export default {
   },
   deleteListItem({ id, itemId }) {
     return apiHelper.delete(`/lists/${id}/${itemId}`)
+  },
+  addItemToList({ ListId, ItemId }) {
+    return apiHelper.post(`/lists/${ListId}/additem`, { ItemId })
   }
 }

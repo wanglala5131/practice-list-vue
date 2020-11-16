@@ -74,7 +74,7 @@ export default {
       }
     },
     deleteListItemHandler(payload) {
-      this.editList = this.editList.filter(item => item.id !== payload)
+      this.editList = this.editList.filter(item => item.Item.id !== payload)
       this.list.Items = this.list.Items.filter(item => item.id !== payload)
     },
     listitemTableToTopHandler(payload) {

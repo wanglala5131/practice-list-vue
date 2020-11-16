@@ -63,6 +63,7 @@
 <script>
 import itemsAPI from '../apis/items'
 import settingAPI from '../apis/setting'
+import listsAPI from '../apis/lists'
 import searchBar from '../components/searchBar'
 import { Toast } from '../utils/helpers'
 export default {
@@ -143,7 +144,6 @@ export default {
     },
     async addItemToList(item) {
       try {
-        //傳送API到後端
         if (item.isInList) {
           Toast.fire({
             icon: 'error',
@@ -158,6 +158,9 @@ export default {
           })
           return
         }
+        const ListId = this.$route.params.id
+        const ItemId = item.id
+        const newListItem = await listsAPI.addItemToList({ ListId, ItemId })
         for (let curItem of this.items) {
           if (curItem.id === item.id) {
             curItem.isInList = true
@@ -170,26 +173,21 @@ export default {
             break
           }
         }
-        //這裡要再改
         const ListItem = {
-          id: 1000,
+          id: newListItem.id,
           ListId: Number(this.$route.params.id),
           ItemId: item.id,
           Item: {
             ...item,
-            Listitem: {
-              ItemId: item.id,
-              ListId: Number(this.$route.params.id),
-              id: 1000,
-              remark: '',
-              reps: '',
-              sort: 1000
-            }
+            Listitem: newListItem
           },
           remark: '',
           reps: ''
         }
-        //要傳item本身和listItems添加後回傳的值
+        Toast.fire({
+          icon: 'success',
+          title: `已成功添加「${item.name}」`
+        })
         this.$emit('addItemToList', { item: ListItem })
       } catch (err) {
         Toast.fire({
