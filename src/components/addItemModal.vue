@@ -27,25 +27,6 @@
             @filterCards="filterCardsHandler"
           />
           <div class="add-item-cards">
-            <div class="add-item-card">
-              <div class="add-card-info">
-                <span class="add-card-name">
-                  小狗追球
-                </span>
-                <div class="add-card-type">
-                  <span class="add-card-category">
-                    體能
-                  </span>
-                  <div class="add-card-subcategories">
-                    <span>體力</span>
-                    <span>腿力</span>
-                  </div>
-                </div>
-              </div>
-              <div class="add-card-buttons">
-                <button>添加</button>
-              </div>
-            </div>
             <div class="add-item-card" v-for="item in items" :key="item.id">
               <div class="add-card-info">
                 <span class="add-card-name">
@@ -65,7 +46,12 @@
                 </div>
               </div>
               <div class="add-card-buttons">
-                <button>添加</button>
+                <button
+                  @click.stop.prevent="addItemToList(item)"
+                  :disabled="item.isInList"
+                >
+                  {{ item.isInList ? '已有' : '添加' }}
+                </button>
               </div>
             </div>
           </div>
@@ -155,6 +141,63 @@ export default {
         })
       }
     },
+    async addItemToList(item) {
+      try {
+        //傳送API到後端
+        if (item.isInList) {
+          Toast.fire({
+            icon: 'error',
+            title: '已在菜單中，無法添加'
+          })
+          return
+        }
+        if (this.listItemsArr.length >= 20) {
+          Toast.fire({
+            icon: 'error',
+            title: '菜單已達20項上限'
+          })
+          return
+        }
+        for (let curItem of this.items) {
+          if (curItem.id === item.id) {
+            curItem.isInList = true
+          }
+          break
+        }
+        for (let curItem of this.itemsFilter) {
+          if (curItem.id === item.id) {
+            curItem.isInList = true
+            break
+          }
+        }
+        //這裡要再改
+        const ListItem = {
+          id: 1000,
+          ListId: Number(this.$route.params.id),
+          ItemId: item.id,
+          Item: {
+            ...item,
+            Listitem: {
+              ItemId: item.id,
+              ListId: Number(this.$route.params.id),
+              id: 1000,
+              remark: '',
+              reps: '',
+              sort: 1000
+            }
+          },
+          remark: '',
+          reps: ''
+        }
+        //要傳item本身和listItems添加後回傳的值
+        this.$emit('addItemToList', { item: ListItem })
+      } catch (err) {
+        Toast.fire({
+          icon: 'error',
+          title: '目前無法添加項目，請稍後再試'
+        })
+      }
+    },
     toTop() {
       const cards = document.querySelector('.add-item-cards')
       cards.scrollTo({
@@ -168,6 +211,7 @@ export default {
   },
   watch: {
     oriListItems(newValue) {
+      this.listItemsArr = []
       this.listItems = newValue.map(item => {
         this.listItemsArr.push(item.Item.id)
       })

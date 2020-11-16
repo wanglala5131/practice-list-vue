@@ -12,6 +12,7 @@
       :ori-list-name="listName"
       :list-type="'EditList'"
       @deleteListItem="deleteListItemHandler"
+      @listitemTableToTop="listitemTableToTopHandler"
     />
   </main>
 </template>
@@ -75,6 +76,10 @@ export default {
     deleteListItemHandler(payload) {
       this.editList = this.editList.filter(item => item.id !== payload)
       this.list.Items = this.list.Items.filter(item => item.id !== payload)
+    },
+    listitemTableToTopHandler(payload) {
+      this.list.Items.push(payload.item.Item)
+      this.editList.push(payload.item)
     }
   }
 }

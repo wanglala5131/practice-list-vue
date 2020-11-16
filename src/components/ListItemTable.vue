@@ -108,7 +108,11 @@
           >
             {{ submitText }}
           </button>
-          <addItemModal :listType="listType" :ori-list-items="oriListItems" />
+          <addItemModal
+            :listType="listType"
+            :ori-list-items="oriListItems"
+            @addItemToList="addItemToListHandler"
+          />
         </div>
       </form>
     </div>
@@ -347,6 +351,14 @@ export default {
           title: '目前無法儲存菜單，請稍後再試'
         })
       }
+    },
+    addItemToListHandler(payload) {
+      const item = {
+        item: payload.item,
+        order: this.listItems.length
+      }
+      this.listItems.push(item)
+      this.$emit('listitemTableToTop', item)
     }
   },
   watch: {
