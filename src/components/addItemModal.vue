@@ -160,7 +160,19 @@ export default {
         }
         const ListId = this.$route.params.id
         const ItemId = item.id
-        const newListItem = await listsAPI.addItemToList({ ListId, ItemId })
+        const { data, statusText } = await listsAPI.addItemToList({
+          ListId,
+          ItemId
+        })
+        if (statusText !== 'OK') {
+          throw new Error()
+        }
+        if (data.status === 'error') {
+          Toast.fire({
+            icon: 'error',
+            title: data.message
+          })
+        }
         for (let curItem of this.items) {
           if (curItem.id === item.id) {
             curItem.isInList = true
@@ -174,12 +186,12 @@ export default {
           }
         }
         const ListItem = {
-          id: newListItem.id,
+          id: data.id,
           ListId: Number(this.$route.params.id),
           ItemId: item.id,
           Item: {
             ...item,
-            Listitem: newListItem
+            Listitem: data
           },
           remark: '',
           reps: ''

@@ -342,7 +342,7 @@ export default {
             icon: 'success',
             title: '成功更新菜單'
           })
-          this.$router.push('/lists')
+          //this.$router.push('/lists')
         }
         this.isProcessing = false
         this.fetchSaveText()
