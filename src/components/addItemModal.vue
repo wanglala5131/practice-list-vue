@@ -213,6 +213,22 @@ export default {
       this.listItems = newValue.map(item => {
         this.listItemsArr.push(item.Item.id)
       })
+      //刪除時，重新渲染一次modal裡的item
+      if (this.items) {
+        const items = this.items.map(item => {
+          const subcategoriesArr = []
+          for (let subcategory of item.Subcategories) {
+            subcategoriesArr.push(subcategory.id)
+          }
+          return {
+            ...item,
+            isInList: this.listItemsArr.includes(item.id),
+            subcategoriesArr: subcategoriesArr
+          }
+        })
+        this.items = items
+        this.itemsFilter = items
+      }
     }
   }
 }
