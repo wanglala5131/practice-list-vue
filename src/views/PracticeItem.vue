@@ -262,27 +262,27 @@ export default {
   font-size: 1.4rem;
   color: $dark-gray;
   h3 {
+    margin: 10px 10px 10px 0;
     color: $font-green;
     font-weight: 500;
-    margin: 10px 10px 10px 0;
   }
   .title-closed {
     font-size: 1.5rem;
-    color: $dark-red;
     font-weight: 700;
+    color: $dark-red;
   }
   .item-section {
     padding: 10px 0;
     .item-subcategories-box {
-      width: 100%;
-      padding-top: 10px;
       display: flex;
       flex-wrap: wrap;
+      width: 100%;
+      padding-top: 10px;
       span {
-        border: 1px solid $dark-gray;
-        border-radius: 10px;
         padding: 0px 5px;
         margin: 2px;
+        border: 1px solid $dark-gray;
+        border-radius: 10px;
       }
     }
     &.one-line {

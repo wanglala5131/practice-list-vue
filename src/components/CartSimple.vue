@@ -123,16 +123,16 @@ export default {
     }
   }
   .cart-simple-label {
-    width: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 8px 8px 6px 8px;
-    font-size: 28px;
-    color: $light-logo-green;
+    width: 50px;
     border-radius: 40%;
     background-color: $op-black;
     box-shadow: 0 0 3px 2px rgba(255, 255, 255, 0.2);
+    font-size: 28px;
+    color: $light-logo-green;
     cursor: pointer;
     &:hover {
       background-color: $logo-green;
@@ -145,37 +145,37 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
-    background-color: $op-light-black;
     width: 100%;
     height: 100%;
+    background-color: $op-light-black;
   }
   .cart-simple-content {
     z-index: -10;
     position: absolute;
     top: -10px;
     left: -10px;
-    background-color: $white;
     width: 100%;
     height: 100vh;
+    padding: 0px 15px 80px 15px;
+    background-color: $white;
     overflow-y: scroll;
     @extend .scroll-style;
-    padding: 0px 15px 80px 15px;
     transform: scale(0, 1);
     transform-origin: left;
     transition: transform 0.2s ease-out;
     h3 {
-      text-align: center;
       padding: 20px 0;
       border-bottom: 2px solid $font-green;
       font-size: 1.3rem;
       color: $font-green;
+      text-align: center;
     }
     .cart-simple-li {
       display: flex;
       align-items: center;
+      margin: 10px;
       background-color: $light-logo-green;
       border-radius: 10px;
-      margin: 10px;
 
       &:hover {
         box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.1);
@@ -203,8 +203,7 @@ export default {
         }
         p {
           flex-basis: 40%;
-          padding: 5px 20px 5px 5px;
-          padding-left: 20px;
+          padding: 5px 20px;
           font-size: 1.2rem;
           padding-bottom: 5px;
         }
@@ -218,8 +217,8 @@ export default {
         }
       }
       .cart-simple-button {
-        font-size: 2.5rem;
         margin-right: 10px;
+        font-size: 2.5rem;
         cursor: pointer;
         &:hover {
           color: $dark-gray;
@@ -236,9 +235,9 @@ export default {
     border-radius: 20px;
     .cart-simple-content {
       padding: 10px;
-      border-radius: 10px;
       width: 600px;
       height: 600px;
+      border-radius: 10px;
       box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.2);
     }
   }

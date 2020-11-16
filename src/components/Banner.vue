@@ -21,14 +21,14 @@ export default {
 }
 @media (min-width: 768px) {
   .banner {
+    z-index: -100;
     display: block;
     position: absolute;
-    z-index: -100;
+    width: 100%;
+    height: 350px;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    width: 100%;
-    height: 350px;
   }
 }
 </style>

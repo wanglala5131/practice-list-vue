@@ -311,15 +311,15 @@ export default {
 <style lang="scss">
 .setting-add-area {
   margin: 0 auto;
-  max-width: 800px;
   padding: 60px 0 20px 0;
+  max-width: 800px;
   h2 {
     margin-bottom: 20px;
   }
   input {
+    @extend .input-style;
     width: 100%;
     margin-bottom: 10px;
-    @extend .input-style;
     padding-top: 5px; //對齊旁邊的select
   }
   select {
@@ -330,15 +330,15 @@ export default {
     @extend .button-style;
     margin-top: 10px;
     border: 2px solid $white;
-    color: $dark-gray;
     background-color: $gray;
+    color: $dark-gray;
     cursor: pointer;
     &:hover {
       border: 2px solid $dark-gray;
     }
     &:disabled {
-      color: $gray;
       background-color: $light-gray;
+      color: $gray;
       &:hover {
         border: 2px solid $white;
       }
@@ -347,37 +347,36 @@ export default {
 }
 .setting-table {
   margin: 0 auto 50px auto;
-  max-width: 800px;
   padding: 20px 0;
+  max-width: 800px;
   .setting-table-title {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
   }
   .setting-table-remind {
-    font-size: 1.2rem;
-    padding: 5px;
     display: inline-block;
+    padding: 5px;
+    font-size: 1.2rem;
     color: $dark-gray;
   }
   .setting-item {
-    background-color: $light-logo-green;
-    padding: 0px 30px;
-    border-radius: 20px;
-    margin: 10px 0;
     display: flex;
     align-items: center;
+    padding: 0px 30px;
+    margin: 10px 0;
+    background-color: $light-logo-green;
+    border-radius: 20px;
     .setting-item-text {
       flex-basis: 80%;
       font-size: 1.4rem;
       p {
-        padding-left: 7px;
-        padding-bottom: 2px;
+        padding: 0 7px 2px 0;
       }
       input {
         @extend .input-style;
-        width: 100%;
         display: none;
+        width: 100%;
         font-size: 1.4rem;
       }
       &.editing {
@@ -401,9 +400,9 @@ export default {
       flex-basis: 5%;
 
       button {
+        padding: 0;
         font-size: 2rem;
         cursor: pointer;
-        padding: 0;
         &:hover {
           color: $font-green;
         }
@@ -413,15 +412,15 @@ export default {
 }
 @media (min-width: 768px) {
   .setting-add-area {
-    margin-top: 50px;
     display: flex;
+    margin-top: 50px;
     h2 {
-      font-size: 1.8rem;
       margin-bottom: 20px;
+      font-size: 1.8rem;
     }
     input {
-      width: 50%;
       flex-grow: 1;
+      width: 50%;
     }
     select {
       margin: 10px 10px 0 10px;
@@ -429,8 +428,8 @@ export default {
   }
   .setting-table {
     h2 {
-      font-size: 1.8rem;
       margin-bottom: 10px;
+      font-size: 1.8rem;
     }
     .setting-item-category {
       margin-right: 20px;

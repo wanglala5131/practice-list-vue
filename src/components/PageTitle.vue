@@ -13,11 +13,9 @@
   max-width: 1300px;
 }
 .page-title {
-  padding-top: 100px;
-  padding-left: 20px;
-  padding-bottom: 20px;
-  color: $font-green;
+  padding: 100px 20px 20px 0;
   border-bottom: 3px solid $logo-green;
+  color: $font-green;
 }
 .card-page-links {
   margin-top: 20px;
@@ -27,13 +25,13 @@
   }
   .title-link {
     margin: 5px;
+    padding: 5px 10px;
     background-color: $white;
+    border: 2px solid $logo-green;
+    border-radius: 10px;
     color: $font-green;
     font-weight: 700;
-    padding: 5px 10px;
-    border-radius: 10px;
     font-size: 1.3rem;
-    border: 2px solid $logo-green;
     svg {
       margin-right: 6px;
     }
@@ -44,9 +42,9 @@
       font-weight: 500;
     }
     &.current:disabled {
+      border-color: $white;
       font-weight: 700;
       color: $white;
-      border-color: $white;
     }
     &.item-goback-btn {
       border-color: $dark-gray;
@@ -78,8 +76,7 @@
 }
 @media (min-width: 768px) {
   .page-title {
-    padding-top: 150px;
-    padding-left: 50px;
+    padding: 150px 50px 20px 0;
     border: none;
     letter-spacing: 2px;
     color: $white;
@@ -89,9 +86,9 @@
   .card-page-links {
     padding-left: 50px;
     .title-link {
-      color: $op-white;
       background-color: rgba(0, 0, 0, 0.8);
       border-color: $op-white;
+      color: $op-white;
       font-size: 1.3rem;
       &.item-goback-btn {
         border-color: $dark-yellow;

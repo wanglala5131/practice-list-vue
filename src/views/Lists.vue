@@ -315,11 +315,10 @@ export default {
     background-color: $op-light-black;
   }
   .open-toggle-switches-label {
-    position: fixed;
     z-index: 30;
+    position: fixed;
     display: inline-block;
-    margin-top: 75px;
-    margin-left: 10px;
+    margin: 75px 10px 0 0;
     svg {
       font-size: 2rem;
       color: $font-green;
@@ -332,21 +331,21 @@ export default {
   }
   .toggle-switches {
     z-index: 20;
-    position: fixed;
-    width: 100%;
-    transform: scale(0, 1);
-    transform-origin: left;
-    transition: transform 0.2s ease-out;
-    margin: 60px auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: fixed;
+    width: 100%;
     min-width: 350px;
-    font-size: 1.4rem;
+    margin: 60px auto;
     padding: 10px 0;
     background-color: $white;
     border-bottom: 3px solid $font-gray;
+    font-size: 1.4rem;
+    transform: scale(0, 1);
+    transform-origin: left;
+    transition: transform 0.2s ease-out;
     .toggle-switch {
       margin: 10px 0;
       label {
@@ -360,21 +359,20 @@ export default {
     }
     h3 {
       margin: 10px 0px 10px 10px;
-      text-align: center;
-      border-bottom: 3px solid $gray;
       padding-bottom: 20px;
+      border-bottom: 3px solid $gray;
+      text-align: center;
     }
   }
   //toggle-btn
   .btn-box {
-    display: inline-block;
-    width: 40px;
-    height: 20px;
-    border-radius: 100px;
-    background-color: #ccc;
     display: flex;
     align-items: center;
+    width: 40px;
+    height: 20px;
     margin-right: 10px;
+    border-radius: 100px;
+    background-color: #ccc;
   }
   .btn {
     display: inline-block;
@@ -417,8 +415,7 @@ export default {
     @extend .input-style;
     width: 100%;
     max-width: 400px;
-    margin-top: 10px;
-    margin-bottom: 20px;
+    margin: 10px 0 20px 0;
   }
 }
 .lists {
@@ -435,8 +432,8 @@ export default {
   .list-toggle-button {
     display: none;
     &:checked ~ .list-content {
-      transform: scale(1, 1);
       height: auto;
+      transform: scale(1, 1);
       transition: transform 0.2s ease;
     }
     &:checked ~ .list-toggle-label {
@@ -444,30 +441,30 @@ export default {
     }
   }
   .list-toggle-label {
-    cursor: pointer;
-    width: 100%;
-    background-color: $dark-green;
-    padding: 10px 20px;
-    border-radius: 10px;
-    color: $white;
-    letter-spacing: 1px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 10px 20px;
+    width: 100%;
+    background-color: $dark-green;
+    border-radius: 10px;
+    color: $white;
+    letter-spacing: 1px;
     font-size: 1.4rem;
+    cursor: pointer;
     .buttons {
       display: flex;
       justify-content: flex-end;
       flex-wrap: wrap;
     }
     button {
-      cursor: pointer;
-      display: inline-block;
-      background-color: $light-logo-green;
       @extend .button-style;
+      display: inline-block;
+      margin: 3px;
+      background-color: $light-logo-green;
       font-size: 1.2rem;
       color: $op-black;
-      margin: 3px;
+      cursor: pointer;
       &.list-done {
         background-color: $red;
       }
@@ -477,13 +474,13 @@ export default {
     }
   }
   .list-content {
+    padding: 0 10px;
     height: 0; //list會有高度撐起來，需要這個
+    background-color: $light-logo-green;
+    border-radius: 0 0 10px 10px;
     transform: scale(1, 0);
     transform-origin: top;
     transition: none;
-    background-color: $light-logo-green;
-    border-radius: 0 0 10px 10px;
-    padding: 0 10px;
     .list-item {
       padding: 20px;
       border-bottom: 3px solid $logo-green;
@@ -495,9 +492,9 @@ export default {
         align-items: center;
         margin-bottom: 5px;
         .item-category {
+          margin-right: 10px;
           font-weight: 700;
           font-size: 1.2rem;
-          margin-right: 10px;
           color: $font-green;
           letter-spacing: 1px;
         }
@@ -505,10 +502,10 @@ export default {
           span {
             display: inline-block;
             padding: 0px 3px;
+            margin: 1px;
             border: 1px solid $dark-gray;
             border-radius: 10px;
             color: $dark-gray;
-            margin: 1px;
             font-size: 1rem;
           }
         }
@@ -530,8 +527,8 @@ export default {
           font-size: 1.2rem;
         }
         .item-remark {
-          font-size: 1.1rem;
           grid-column: 1/3;
+          font-size: 1.1rem;
           color: $dark-gray;
         }
       }
@@ -545,18 +542,18 @@ export default {
     }
     .toggle-switches {
       width: 30%;
-      border-radius: 0px 10px 10px 0px;
       background-color: $op-black;
       border-bottom: none;
+      border-radius: 0px 10px 10px 0px;
       h3,
       label {
         color: $white;
       }
       h3 {
         margin: 10px 0px 10px 10px;
-        text-align: center;
-        border-bottom: 1px solid $white;
         padding-bottom: 20px;
+        border-bottom: 1px solid $white;
+        text-align: center;
       }
     }
   }

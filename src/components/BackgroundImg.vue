@@ -4,6 +4,7 @@
 
 <style lang="scss">
 .bg-img {
+  z-index: -100;
   position: fixed;
   height: 100%;
   width: 100%;
@@ -12,6 +13,5 @@
   background-position: right;
   background-attachment: fixed;
   background-repeat: no-repeat;
-  z-index: -100;
 }
 </style>

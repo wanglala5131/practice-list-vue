@@ -191,29 +191,29 @@ export default {
 }
 .card-form {
   margin: 90px auto 40px auto;
+  padding: 10px 20px;
   background-color: $light-logo-green;
   box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.5);
-  padding: 10px 20px;
   border-radius: 10px;
   h2 {
-    color: $dark-gray;
     border-bottom: 2px solid $dark-gray;
     padding: 20px 0 30px 5px;
     font-weight: 700;
     letter-spacing: 2px;
     text-align: center;
+    color: $dark-gray;
   }
   .form-content {
     padding: 0 10px;
   }
   .form-item {
-    font-size: 1.3rem;
     padding: 20px 0;
     border-bottom: 1px solid $gray;
+    font-size: 1.3rem;
     input[type='text'] {
-      width: 100%;
       margin-top: 10px;
       margin-bottom: 10px;
+      width: 100%;
       @extend .input-style;
     }
     select {
@@ -222,11 +222,11 @@ export default {
     input[type='checkbox'] {
       display: none;
       ~ label {
-        border: 2px solid rgba(0, 0, 0, 0.2);
-        color: rgba(0, 0, 0, 0.2);
-        border-radius: 10px;
         padding: 0 3px;
         margin: 3px;
+        border: 2px solid rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        color: rgba(0, 0, 0, 0.2);
         line-height: 2;
       }
       &:checked ~ label {
@@ -235,21 +235,21 @@ export default {
       }
     }
     input[type='file'] {
-      font-size: 1.2rem;
       border-radius: 5px;
+      font-size: 1.2rem;
     }
     .form-subcategory-wrapper {
-      margin: 10px;
       display: flex;
       flex-wrap: wrap;
+      margin: 10px;
     }
     textarea {
+      margin: 10px 0;
       width: 100%;
       height: 100px;
-      resize: none;
-      margin: 10px 0;
       font-size: 1.2rem;
       line-height: 1.4;
+      resize: none;
       @extend .input-style;
     }
     input[type='file'] {
@@ -266,8 +266,7 @@ export default {
   .form-buttons {
     display: flex;
     justify-content: space-around;
-    padding: 10px;
-    padding-top: 20px;
+    padding: 20px 10px 10px 10px;
     .form-button {
       @extend .button-style;
       color: $black;
@@ -299,8 +298,6 @@ export default {
 @media (min-width: 768px) {
   .card-form {
     max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
     background-color: $op-white;
     .form-content {
       display: grid;

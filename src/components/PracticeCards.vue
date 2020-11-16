@@ -180,12 +180,11 @@ export default {
   }
 }
 .cards-wrapper {
-  margin-top: 30px;
-  margin-bottom: 80px;
   display: grid;
   grid-template-columns: repeat(auto-fit, 300px);
   grid-gap: 1.5rem;
   justify-content: center;
+  margin: 30px 0 80px 0;
 }
 .no-card {
   h2 {
@@ -226,18 +225,18 @@ export default {
   .card-category {
     top: 5px;
     left: 5px;
-    background-color: rgba(0, 0, 0, 0.6);
     padding: 1px 10px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 2px solid rgba(0, 0, 0, 0.6);
     border-radius: 20px;
     font-size: 1.1rem;
     color: $light-gray;
-    border: 2px solid rgba(0, 0, 0, 0.6);
     font-weight: 500;
   }
   .card-header {
     display: block;
-    height: 200px;
     position: relative;
+    height: 200px;
     img {
       width: 100%;
       height: 100%;
@@ -246,13 +245,13 @@ export default {
     }
   }
   .card-title {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
     position: absolute;
     bottom: 0;
     padding: 18px 0 8px 0;
     width: 100%;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
     background-image: linear-gradient(
       transparent,
       rgba(255, 255, 255, 0.9) 10%
@@ -269,19 +268,19 @@ export default {
       display: flex;
       justify-content: center;
       span {
+        padding: 0 5px;
+        margin: 0 1px;
         border: 1px solid $dark-green;
         border-radius: 10px;
         color: $dark-green;
-        padding: 0 5px;
-        margin: 0 1px;
       }
     }
   }
   .card-footer {
-    border-top: 4px solid $op-black;
     display: grid;
     grid-template-columns: 1fr 1fr 3fr;
     grid-template-rows: auto;
+    border-top: 4px solid $op-black;
     &.close {
       grid-template-columns: 1fr 1fr;
     }

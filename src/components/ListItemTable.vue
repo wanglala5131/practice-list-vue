@@ -380,13 +380,13 @@ export default {
 <style lang="scss">
 .temlist {
   margin: 0 auto 80px auto;
+  padding: 0 10px;
   width: 100%;
   max-width: 900px;
-  padding: 0 10px;
   font-size: 1.4rem;
   input {
-    width: 100%;
     @extend .input-style;
+    width: 100%;
   }
   label {
     display: inline-block;
@@ -414,14 +414,14 @@ export default {
 .temlist-item {
   margin: 10px 0;
   .temlist-item-header {
-    border-radius: 10px;
-    background-color: $light-logo-green;
     display: flex;
     align-items: center;
     padding: 10px 15px;
+    border-radius: 10px;
+    background-color: $light-logo-green;
     .cart-simple-button {
-      font-size: 2.5rem;
       margin-right: 10px;
+      font-size: 2.5rem;
       color: $dark-red;
       cursor: pointer;
       &:hover {
@@ -449,9 +449,9 @@ export default {
       align-items: center;
       margin-bottom: 2px;
       .temlist-item-category {
+        margin-right: 10px;
         font-weight: 700;
         font-size: 1.4rem;
-        margin-right: 10px;
         color: $font-green;
         letter-spacing: 1px;
       }
@@ -459,38 +459,38 @@ export default {
         span {
           display: inline-block;
           padding: 0px 2px;
+          margin: 0 1px 3px 1px;
           border: 1px solid $dark-gray;
           border-radius: 10px;
           color: $dark-gray;
-          margin: 0 1px 3px 1px;
           font-size: 0.8em;
         }
       }
     }
   }
   .temlist-footer {
+    padding: 0 30px;
     height: 0;
     transform: scale(1, 0);
     transform-origin: top;
     transition: none;
-    padding: 0 30px;
     .temlist-item-remark {
       padding-bottom: 10px;
     }
   }
 }
 .temlist-buttons {
-  border-top: 2px solid $gray;
   margin-top: 30px;
   padding-top: 20px;
   display: flex;
   align-items: center;
   justify-content: space-around;
   flex-wrap: wrap;
+  border-top: 2px solid $gray;
   button {
     @extend .button-style;
-    font-size: 1.3rem;
     margin: 3px;
+    font-size: 1.3rem;
     &.temlist-submit-btn {
       background-color: $logo-green;
       border: 2px solid $dark-green;
@@ -520,8 +520,8 @@ export default {
       padding-left: 10px;
       .temlist-item-name {
         order: -1;
-        margin-right: 20px;
         flex-basis: 50%;
+        margin-right: 20px;
       }
     }
     .temlist-footer-toggle-label {

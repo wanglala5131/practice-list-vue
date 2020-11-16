@@ -125,13 +125,6 @@ export default {
 <style lang="scss">
 /* 登入頁 */
 .form-area {
-  // height: 100%;
-  // width: 100%;
-  // background-image: $login-bg-img;
-  // background-size: cover;
-  // background-position: right;
-  // background-attachment: fixed;
-  // background-repeat: no-repeat;
   .container {
     display: flex;
     justify-content: center;
@@ -140,19 +133,19 @@ export default {
   }
 }
 .login-form {
-  background-color: $op-black;
-  border-radius: 5px;
   padding: 20px;
   width: 600px;
   min-width: 320px;
+  background-color: $op-black;
+  border-radius: 5px;
   h1 {
-    font-size: 1.7rem;
-    color: $logo-green;
+    padding-bottom: 20px;
+    border-bottom: 1px solid $logo-green;
     letter-spacing: 2px;
     text-align: center;
     font-weight: 700;
-    padding-bottom: 20px;
-    border-bottom: 1px solid $logo-green;
+    font-size: 1.7rem;
+    color: $logo-green;
   }
   .form-item {
     padding: 10px 20px 30px 20px;
@@ -162,27 +155,27 @@ export default {
     }
     label {
       display: block;
+      margin-bottom: 10px;
       color: $logo-green;
       font-size: 1.3rem;
-      margin-bottom: 10px;
       letter-spacing: 1px;
     }
     input {
       display: block;
-      width: 100%;
-      font-size: 1.1rem;
       padding: 4px 7px;
+      width: 100%;
       border-radius: 3px;
+      font-size: 1.1rem;
     }
   }
   .form-buttons {
-    padding: 30px 20px;
     display: grid;
     grid-gap: 20px;
+    padding: 30px 20px;
     .form-button {
       padding: 7px 0;
-      font-size: 1rem;
       border-radius: 2px;
+      font-size: 1rem;
       color: $white;
       letter-spacing: 3px;
       &:hover {

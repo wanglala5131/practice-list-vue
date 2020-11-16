@@ -234,16 +234,16 @@ export default {
 <style lang="scss">
 .setting-add-area {
   margin: 0 auto;
-  max-width: 800px;
   padding: 60px 0 20px 0;
+  max-width: 800px;
   h2 {
     margin-bottom: 20px;
   }
   input {
-    width: 100%;
-    margin: 0 10px 10px 0;
     @extend .input-style;
+    margin: 0 10px 10px 0;
     padding-top: 5px;
+    width: 100%;
   }
   select {
     @extend .input-style;
@@ -270,38 +270,37 @@ export default {
 }
 .setting-table {
   margin: 0 auto 50px auto;
-  max-width: 800px;
   padding: 20px 0;
+  max-width: 800px;
   .setting-table-title {
     display: flex;
-    flex-wrap: wrap;
     align-items: baseline;
+    flex-wrap: wrap;
   }
   .setting-table-remind {
-    font-size: 1.2rem;
-    padding: 5px;
     display: inline-block;
+    padding: 5px;
+    font-size: 1.2rem;
     color: $dark-gray;
   }
   .setting-item {
-    background-color: $light-logo-green;
-    padding: 0px 30px;
-    border-radius: 20px;
-    margin: 10px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0px 30px;
+    margin: 10px 0;
     height: 60px;
+    background-color: $light-logo-green;
+    border-radius: 20px;
     .setting-item-text {
       font-size: 1.4rem;
       p {
-        padding-left: 7px;
-        padding-bottom: 2px;
+        padding: 0 0 2px 7px;
       }
       input {
         @extend .input-style;
-        width: 100%;
         display: none;
+        width: 100%;
         font-size: 1.4rem;
       }
       &.editing {
@@ -327,21 +326,21 @@ export default {
 }
 @media (min-width: 768px) {
   .setting-add-area {
-    margin-top: 50px;
     display: flex;
+    margin-top: 50px;
     h2 {
-      font-size: 1.8rem;
       margin-bottom: 20px;
+      font-size: 1.8rem;
     }
     input {
-      width: 50%;
       flex-grow: 1;
+      width: 50%;
     }
   }
   .setting-table {
     h2 {
-      font-size: 1.8rem;
       margin-bottom: 10px;
+      font-size: 1.8rem;
     }
   }
 }

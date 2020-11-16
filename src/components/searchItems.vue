@@ -122,18 +122,18 @@ export default {
   }
   .cards-search-toggle-label {
     display: block;
-    text-align: center;
-    font-weight: 500;
     padding: 5px;
     background-color: $logo-green;
     border-radius: 4px;
+    text-align: center;
+    font-weight: 500;
     letter-spacing: 1px;
     cursor: pointer;
   }
   .cards-search-form {
     display: none;
-    border: 3px solid $logo-green;
     padding: 5px 20px;
+    border: 3px solid $logo-green;
     h2 {
       display: none;
     }
@@ -142,17 +142,17 @@ export default {
       .keyword {
         width: 100%;
         padding: 6px 5px 3px 5px;
-        font-size: 1rem;
         border-radius: 3px;
         border: 1.5px solid $logo-green;
+        font-size: 1rem;
         color: $font-green;
       }
       input[type='checkbox'] {
         display: none;
         ~ label {
+          padding: 0 5px;
           border: 1px solid $light-gray;
           border-radius: 10px;
-          padding: 0 5px;
           color: $font-gray;
         }
         &:checked ~ label {
@@ -170,13 +170,13 @@ export default {
         display: flex;
         align-items: center;
         select {
-          font-size: 0.9rem;
           width: 20%;
+          min-width: 100px;
           padding: 3px;
           margin-left: 10px;
           border: 1px solid $logo-green;
           border-radius: 4px;
-          min-width: 100px;
+          font-size: 0.9rem;
         }
       }
       &.subcategory {
@@ -190,11 +190,11 @@ export default {
             align-items: center;
             margin-right: 5px;
             .subcategory-controller-button {
-              font-size: 0.9rem;
               background-color: $logo-green;
               border-radius: 15px;
               color: $light-gray;
               letter-spacing: 1px;
+              font-size: 0.9rem;
               &:hover {
                 background-color: $logo-green;
                 color: $white;
@@ -229,11 +229,9 @@ export default {
       padding: 10px;
     }
     .cards-search-form {
-      width: 50%;
       width: 700px;
-      border-radius: 0 0 10px 10px;
       padding: 10px 30px 0px 30px;
-      //color: $logo-green;
+      border-radius: 0 0 10px 10px;
       h2 {
         display: block;
         padding-bottom: 20px;

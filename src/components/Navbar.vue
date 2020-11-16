@@ -60,16 +60,16 @@ export default {
 <style lang="scss">
 header {
   z-index: 100;
-  background-color: $op-black;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.5);
-  height: 4rem;
   position: fixed;
-  width: 100%;
   top: 0;
   left: 0;
+  height: 4rem;
+  width: 100%;
+  background-color: $op-black;
+  box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.5);
   .logo {
     img {
       width: 8rem;
@@ -78,19 +78,19 @@ header {
     }
   }
   .nav {
-    margin-right: 1rem;
-    padding: 0.9rem 0px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    margin-right: 1rem;
+    padding: 0.9rem 0px;
     font-size: 1.3rem;
     .nav-list {
       position: absolute;
       top: 4rem;
       left: 0;
-      background-color: $white;
       width: 100%;
       box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.5);
+      background-color: $white;
       transform: scale(1, 0);
       transform-origin: top;
       transition: transform 0.2s ease-out;
@@ -99,20 +99,20 @@ header {
         a {
           display: block;
           padding: 12px 0;
+          border-bottom: 3px solid $light-gray;
           letter-spacing: 2px;
           color: $dark-gray;
-          border-bottom: 3px solid $light-gray;
           &:hover,
           &.router-link-active {
             background-color: $light-logo-green;
           }
         }
         button {
-          width: 100%;
           display: block;
-          border-bottom: 0px solid $light-gray;
+          width: 100%;
           padding: 12px 0;
           background-color: transparent;
+          border-bottom: 0px solid $light-gray;
           font-size: 1.3rem;
           letter-spacing: 2px;
           color: $logo-green;
@@ -141,8 +141,8 @@ header {
       }
     }
     .nav-modal {
-      display: none;
       z-index: -10;
+      display: none;
       position: fixed;
       top: 70px;
       left: 0;
@@ -151,11 +151,11 @@ header {
       background-color: $op-light-black;
     }
     .nav-toggle-label {
-      height: 30px;
-      width: 30px;
-      margin-right: 15px;
       display: flex;
       align-items: center;
+      margin-right: 15px;
+      height: 30px;
+      width: 30px;
       .hamburger {
         display: block;
         width: 30px;
@@ -163,11 +163,11 @@ header {
         background-color: $light-gray;
         &::before,
         &::after {
+          content: '';
+          position: absolute;
           width: 30px;
           height: 3px;
           background-color: $light-gray;
-          position: absolute;
-          content: '';
         }
         &::before {
           top: 20px;
@@ -202,16 +202,16 @@ header {
       .nav-list {
         display: flex;
         align-items: center;
-        box-shadow: none;
         position: static;
-        transform: scale(1, 1);
         background-color: transparent;
+        box-shadow: none;
+        transform: scale(1, 1);
         li {
           padding: 0 15px;
           a {
-            color: $light-gray;
-            border-bottom: none;
             padding: 0;
+            border-bottom: none;
+            color: $light-gray;
             &.router-link-active,
             &:hover {
               background-color: transparent;
@@ -223,8 +223,8 @@ header {
           }
 
           &.logout {
-            margin-left: 10px;
             display: inline-block;
+            margin-left: 10px;
             padding: 2px 7px;
             border: 1px solid $logo-green;
             border-radius: 5px;

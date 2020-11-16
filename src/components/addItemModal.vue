@@ -261,7 +261,6 @@ export default {
   align-items: center;
   justify-content: center;
 }
-
 .add-item-modal {
   z-index: -10;
   background-color: $op-light-black;
@@ -270,8 +269,8 @@ export default {
   position: relative;
   margin: 50px 20px;
   padding: 10px;
-  max-width: 800px;
   width: 80%;
+  max-width: 800px;
   height: 80%;
   border-radius: 3px;
   background-color: $white;
@@ -300,28 +299,27 @@ export default {
   }
   .add-item-cards {
     margin: 0 auto;
+    padding: 15px;
     width: 95%;
     overflow-y: auto;
     @extend .scroll-style;
     font-size: 1rem;
-    padding: 15px;
     .add-item-card {
       display: flex;
       align-items: center;
+      margin-bottom: 10px;
       border-radius: 5px;
       background-color: $light-gray;
-      margin-bottom: 10px;
       .add-card-info {
         flex-grow: 1;
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
-        //flex-direction: column;
         padding: 18px 0 15px 15px;
         .add-card-name {
+          margin-bottom: 5px;
           font-size: 1.3rem;
           font-weight: 700;
-          margin-bottom: 5px;
         }
         .add-card-type {
           display: flex;
@@ -329,8 +327,8 @@ export default {
           .add-card-category {
             padding: 0 5px;
             font-size: 1.3rem;
-            color: $font-green;
             font-weight: 500;
+            color: $font-green;
           }
           .add-card-subcategories {
             padding: 2px;
