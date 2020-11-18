@@ -1,11 +1,12 @@
 <template>
-  <main v-show="!isLoading">
+  <main>
     <BackgroundImg />
     <CardForm
       :ori-categories="categories"
       :ori-subcategories="subcategories"
       :ori-item="item"
       :is-processing="isProcessing"
+      :is-loading="isLoading"
       @submitFile="submitFileHandler"
       >修改項目</CardForm
     >

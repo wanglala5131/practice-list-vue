@@ -1,6 +1,13 @@
 <template>
   <div class="temlist">
-    <div class="container">
+    <div v-if="isLoading">
+      <loading
+        id="loading-box"
+        :active.sync="isLoading"
+        :can-cancel="true"
+      ></loading>
+    </div>
+    <div class="container" v-else>
       <form action="">
         <div class="temlist-name">
           <label for="temlist-name-input" class="temlist-name-label"
@@ -140,6 +147,9 @@ export default {
     },
     listType: {
       type: String
+    },
+    isLoading: {
+      type: Boolean
     }
   },
   created() {

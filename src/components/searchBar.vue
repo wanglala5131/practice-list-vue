@@ -10,87 +10,101 @@
       <label for="cards-search-toggle" class="cards-search-toggle-label">{{
         searchToggle ? '收起篩選列' : '打開篩選列'
       }}</label>
+
       <div class="cards-search-form">
-        <div class="search-item">
-          <input
-            type="text"
-            placeholder="搜尋關鍵字"
-            id="keyword"
-            class="keyword"
-            name="keyword"
-            v-model="keyword"
-            @input="filterCards"
-          />
+        <div v-show="isTypeLoading">
+          <loading
+            id="loading-box"
+            :active.sync="isTypeLoading"
+            :can-cancel="true"
+            :is-full-page="false"
+          ></loading>
         </div>
-        <div class="search-item">
-          <div class="search-item choice">
-            <div class="search-star">
-              <input
-                type="checkbox"
-                class="like"
-                name="like"
-                v-model="isLiked"
-                id="like"
-                @change="filterCards"
-              />
-              <label for="like">只顯示星號項目</label>
+        <div v-show="!isTypeLoading">
+          <div class="search-item">
+            <input
+              type="text"
+              placeholder="搜尋關鍵字"
+              id="keyword"
+              class="keyword"
+              name="keyword"
+              v-model="keyword"
+              @input="filterCards"
+            />
+          </div>
+          <div class="search-item">
+            <div class="search-item choice">
+              <div class="search-star">
+                <input
+                  type="checkbox"
+                  class="like"
+                  name="like"
+                  v-model="isLiked"
+                  id="like"
+                  @change="filterCards"
+                />
+                <label for="like">只顯示星號項目</label>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="search-item category">
-          <span for="category">運動類別</span>
-          <select
-            name="category"
-            id="category"
-            v-model="categorySelect"
-            @change="filterSubcategory"
+          <div class="search-item category">
+            <span for="category">運動類別</span>
+            <select
+              name="category"
+              id="category"
+              v-model="categorySelect"
+              @change="filterSubcategory"
+            >
+              <option value="all" selected="selected">全部</option>
+              <option
+                v-for="category in categories"
+                :key="category.id"
+                :value="category.id"
+                >{{ category.name }}</option
+              >
+            </select>
+          </div>
+          <div
+            class="search-item subcategory"
+            v-show="categorySelect !== 'all'"
           >
-            <option value="all" selected="selected">全部</option>
-            <option
-              v-for="category in categories"
-              :key="category.id"
-              :value="category.id"
-              >{{ category.name }}</option
-            >
-          </select>
-        </div>
-        <div class="search-item subcategory" v-show="categorySelect !== 'all'">
-          <span>項目類型</span>
-          <div class="subcategory-controller">
-            <div class="subcategory-controller-item">
-              <button
-                class="subcategory-controller-button"
-                @click.stop.prevent="clearSubcategory"
-              >
-                全不選
-              </button>
+            <span>項目類型</span>
+            <div class="subcategory-controller">
+              <div class="subcategory-controller-item">
+                <button
+                  class="subcategory-controller-button"
+                  @click.stop.prevent="clearSubcategory"
+                >
+                  全不選
+                </button>
+              </div>
+              <div class="subcategory-controller-item">
+                <button
+                  class="subcategory-controller-button"
+                  @click.stop.prevent="allSubcategory"
+                >
+                  全選
+                </button>
+              </div>
             </div>
-            <div class="subcategory-controller-item">
-              <button
-                class="subcategory-controller-button"
-                @click.stop.prevent="allSubcategory"
+            <div class="subcategory-items">
+              <div
+                class="check-item"
+                v-for="subcategory in subcategoryFilter"
+                :key="subcategory.id"
               >
-                全選
-              </button>
-            </div>
-          </div>
-          <div class="subcategory-items">
-            <div
-              class="check-item"
-              v-for="subcategory in subcategoryFilter"
-              :key="subcategory.id"
-            >
-              <input
-                type="checkbox"
-                class="subcategory"
-                :value="subcategory.id"
-                v-model="subcategorySelect"
-                :id="labelIndex(subcategory.id)"
-                @change="filterCards"
-              />
-              <label :for="labelIndex(subcategory.id)">{{
-                subcategory.name
-              }}</label>
+                <input
+                  type="checkbox"
+                  class="subcategory"
+                  :value="subcategory.id"
+                  v-model="subcategorySelect"
+                  :id="labelIndex(subcategory.id)"
+                  @change="filterCards"
+                />
+                <label :for="labelIndex(subcategory.id)">{{
+                  subcategory.name
+                }}</label>
+              </div>
             </div>
           </div>
         </div>
@@ -131,6 +145,9 @@ export default {
     },
     searchPosition: {
       type: String
+    },
+    isTypeLoading: {
+      type: Boolean
     }
   },
   methods: {

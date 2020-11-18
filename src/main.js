@@ -12,9 +12,13 @@ import {
   faCog
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import Loading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/vue-loading.css'
 
 library.add(faPlus, faArrowUp, faListAlt, faStar, faChevronDown, faCog)
+
 Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.component('Loading', Loading)
 
 Vue.config.productionTip = false
 

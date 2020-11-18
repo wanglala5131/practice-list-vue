@@ -4,7 +4,15 @@
       <h2 class="form-title">
         <slot></slot>
       </h2>
-      <div class="form-content">
+      <div>
+        <loading
+          id="loading-box"
+          :active.sync="isLoading"
+          :can-cancel="true"
+          :opacity="opacity"
+        ></loading>
+      </div>
+      <div class="form-content" v-show="!isLoading">
         <div class="form-item form-name">
           <label for="name">項目名稱*：</label>
           <input
@@ -80,7 +88,7 @@
           </div>
         </div>
       </div>
-      <div class="form-buttons">
+      <div class="form-buttons" v-show="!isLoading">
         <router-link to="/" class="form-button go-back-button">
           回前頁
         </router-link>
@@ -102,6 +110,7 @@ export default {
   name: 'CardForm',
   data() {
     return {
+      opacity: 0,
       subcategoryFilter: [],
       item: {},
       categories: [],
@@ -119,6 +128,9 @@ export default {
       type: Object
     },
     isProcessing: {
+      type: Boolean
+    },
+    isLoading: {
       type: Boolean
     }
   },
@@ -188,6 +200,9 @@ export default {
 <style lang="scss">
 .card-form-container {
   padding-top: 20px;
+  #loading-box {
+    margin-top: 10px;
+  }
 }
 .card-form {
   margin: 90px auto 40px auto;

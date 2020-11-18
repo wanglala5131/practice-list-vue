@@ -104,6 +104,10 @@ $dark-red: #e6005c;
   line-height: 1.4;
 }
 
+#loading-box {
+  position: relative;
+}
+
 @keyframes swing {
   15% {
     transform: translateX(1px);

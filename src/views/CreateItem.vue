@@ -1,9 +1,10 @@
 <template>
-  <main v-show="!isLoading">
+  <main>
     <BackgroundImg />
     <CardForm
       :categories="categories"
       :subcategories="subcategories"
+      :is-loading="isLoading"
       @submitFile="submitFileHandler"
       >新增項目</CardForm
     >

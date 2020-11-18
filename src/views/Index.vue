@@ -5,6 +5,7 @@
     <CartSimple
       :ori-cart-items="cartItems"
       @deleteCartItem="deleteCartItemHandler"
+      v-if="!isItemsLoading"
     />
     <PageTitle>
       <template v-slot:title>
@@ -30,11 +31,13 @@
       :ori-subcategories="subcategories"
       :ori-items="items"
       :ori-items-filter="itemsFilter"
+      :is-type-loading="isTypeLoading"
       @filterCards="filterCardsHandler"
     />
     <PracticeCards
       :ori-items-filter="itemsFilter"
       :isCloseType="false"
+      :is-items-loading="isItemsLoading"
       @addToCart="addToCartHandler"
       @changeLike="changeLikeHandler"
       @changeClosed="changeClosedHandler"
@@ -64,6 +67,8 @@ export default {
   },
   data() {
     return {
+      isItemsLoading: true,
+      isTypeLoading: true,
       bannerImgURL:
         'https://c.pxhere.com/photos/d9/72/basketball_ball_hoop_tree_sport-1398290.jpg!d',
       items: undefined,
@@ -87,6 +92,7 @@ export default {
         }
         this.subcategories = data.subcategories
         this.categories = data.categories
+        this.isTypeLoading = false
       } catch (err) {
         Toast.fire({
           icon: 'error',
@@ -116,6 +122,7 @@ export default {
         this.itemsFilter = items
         this.cartItems = data.cartItems
         this.cartItemsArr = data.cartItemsArr
+        this.isItemsLoading = false
       } catch (err) {
         Toast.fire({
           icon: 'error',

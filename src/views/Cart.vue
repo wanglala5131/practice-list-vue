@@ -10,6 +10,7 @@
     <ListItemTable
       :ori-list-items="cartItems"
       :list-type="'cart'"
+      :is-loading="isLoading"
       @deleteCartItem="deleteCartItemHandler"
     />
   </main>
@@ -28,7 +29,8 @@ export default {
     return {
       bannerImgURL:
         'https://cdn.pixabay.com/photo/2016/12/19/23/50/volleyball-1919440_1280.jpg',
-      cartItems: []
+      cartItems: [],
+      isLoading: true
     }
   },
   created() {
@@ -42,6 +44,7 @@ export default {
           throw new Error()
         }
         this.cartItems = data
+        this.isLoading = false
       } catch (err) {
         Toast.fire({
           icon: 'error',

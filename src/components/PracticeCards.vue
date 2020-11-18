@@ -1,5 +1,12 @@
 <template>
   <div class="cards" :class="{ close: isCloseType }">
+    <div>
+      <loading
+        id="loading-box"
+        :active.sync="isItemsLoading"
+        :can-cancel="true"
+      ></loading>
+    </div>
     <div class="container">
       <h2 class="cards-num">共有 {{ oriItemsFilter.length }} 個結果</h2>
       <div class="cards-wrapper">
@@ -78,6 +85,9 @@ export default {
       type: Array
     },
     isCloseType: {
+      type: Boolean
+    },
+    isItemsLoading: {
       type: Boolean
     }
   },
