@@ -33,7 +33,7 @@
             required
             @change="filterSubcategory"
           >
-            <option value="-1" hidden>請選擇</option>
+            <option value="-1" hidden disabled>請選擇</option>
             <option
               :value="category.id"
               v-for="category in categories"
@@ -112,7 +112,9 @@ export default {
     return {
       opacity: 0,
       subcategoryFilter: [],
-      item: {},
+      item: {
+        CategoryId: -1
+      },
       categories: [],
       subcategories: []
     }
@@ -185,13 +187,24 @@ export default {
     },
     oriSubcategories(newValue) {
       this.subcategories = newValue
-      this.subcategoryFilter = this.oriSubcategories.filter(
-        //選擇同一個運動項目下的運動類別
-        subcategory => subcategory.CategoryId === this.oriItem.CategoryId
-      )
+      //如果subcategories比item晚進來，就跑下面if
+      if (this.subcategoryFilter.length === 0 && this.item.CategoryId !== -1) {
+        this.subcategoryFilter = newValue.filter(
+          subcategory => subcategory.CategoryId === this.oriItem.CategoryId
+        )
+      }
     },
     oriItem(newValue) {
       this.item = newValue
+      //如果items比subcategories晚進來，就跑下面if
+      if (
+        this.subcategoryFilter.length === 0 &&
+        this.subcategories.length !== 0
+      ) {
+        this.subcategoryFilter = this.subcategories.filter(
+          subcategory => subcategory.CategoryId === this.oriItem.CategoryId
+        )
+      }
     }
   }
 }

@@ -2,8 +2,8 @@
   <main>
     <BackgroundImg />
     <CardForm
-      :categories="categories"
-      :subcategories="subcategories"
+      :ori-categories="categories"
+      :ori-subcategories="subcategories"
       :is-loading="isLoading"
       @submitFile="submitFileHandler"
       >新增項目</CardForm

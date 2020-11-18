@@ -31,7 +31,6 @@ export default {
       isProcessing: false,
       categories: [],
       subcategories: [],
-      subcategoryFilter: [],
       item: {}
     }
   },
@@ -98,16 +97,17 @@ export default {
             icon: 'error',
             title: data.message
           })
-          this.$router.push(`/`)
+          return
         }
         Toast.fire({
           icon: 'success',
-          title: '成功編輯項目，若資料無更新，請先重新整理確認是否成功'
+          title: '成功編輯項目'
         })
         const { updateItem } = data
         this.$router.push(`/items/${updateItem.id}`)
       } catch (err) {
         this.isProcessing = false
+        console.log(err)
         Toast.fire({
           icon: 'error',
           title: '目前暫時無法編輯項目，請稍後再試'

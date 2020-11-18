@@ -63,60 +63,6 @@
                   </button>
                 </div>
               </div>
-              <div class="add-item-card" v-for="item in items" :key="item.id">
-                <div class="add-card-info">
-                  <span class="add-card-name">
-                    {{ item.name }}
-                  </span>
-                  <div class="add-card-type">
-                    <span class="add-card-category">
-                      {{ item.Category.name }}
-                    </span>
-                    <div class="add-card-subcategories">
-                      <span
-                        v-for="subcategory in item.Subcategories"
-                        :key="subcategory.id"
-                        >{{ subcategory.name }}</span
-                      >
-                    </div>
-                  </div>
-                </div>
-                <div class="add-card-buttons">
-                  <button
-                    @click.stop.prevent="addItemToList(item)"
-                    :disabled="item.isInList"
-                  >
-                    {{ item.isInList ? '已有' : '添加' }}
-                  </button>
-                </div>
-              </div>
-              <div class="add-item-card" v-for="item in items" :key="item.id">
-                <div class="add-card-info">
-                  <span class="add-card-name">
-                    {{ item.name }}
-                  </span>
-                  <div class="add-card-type">
-                    <span class="add-card-category">
-                      {{ item.Category.name }}
-                    </span>
-                    <div class="add-card-subcategories">
-                      <span
-                        v-for="subcategory in item.Subcategories"
-                        :key="subcategory.id"
-                        >{{ subcategory.name }}</span
-                      >
-                    </div>
-                  </div>
-                </div>
-                <div class="add-card-buttons">
-                  <button
-                    @click.stop.prevent="addItemToList(item)"
-                    :disabled="item.isInList"
-                  >
-                    {{ item.isInList ? '已有' : '添加' }}
-                  </button>
-                </div>
-              </div>
             </div>
           </div>
         </div>
