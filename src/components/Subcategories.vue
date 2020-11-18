@@ -251,6 +251,7 @@ export default {
               icon: 'error',
               title: data.message
             })
+            return
           }
           this.subcategories = this.subcategories.filter(
             subcategory => subcategory.id !== item.id
@@ -291,6 +292,7 @@ export default {
             icon: 'error',
             title: data.message
           })
+          return
         }
         this.subcategories.push({ ...data, Items: [] })
         Toast.fire({

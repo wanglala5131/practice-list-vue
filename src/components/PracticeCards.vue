@@ -106,7 +106,11 @@ export default {
           throw new Error()
         }
         if (data.status === 'error') {
-          throw new Error(data.message)
+          Toast.fire({
+            icon: 'error',
+            title: data.message
+          })
+          return
         }
         Toast.fire({
           icon: 'success',
@@ -131,7 +135,11 @@ export default {
           throw new Error()
         }
         if (data.status === 'error') {
-          throw new Error(data.message)
+          Toast.fire({
+            icon: 'error',
+            title: data.message
+          })
+          return
         }
         this.$emit('changeLike', itemId)
       } catch (err) {
@@ -154,7 +162,11 @@ export default {
             throw new Error()
           }
           if (data.status === 'error') {
-            throw new Error(data.message)
+            Toast.fire({
+              icon: 'error',
+              title: data.message
+            })
+            return
           }
           this.$emit('changeClosed', itemId)
         }

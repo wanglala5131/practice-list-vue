@@ -59,6 +59,7 @@ export default {
             icon: 'error',
             title: data.message
           })
+          return
         }
         this.list = data
         this.listName = data.name

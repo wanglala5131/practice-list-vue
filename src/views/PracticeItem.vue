@@ -146,11 +146,11 @@ export default {
           throw new Error()
         }
         if (data.status === 'error') {
-          this.$router.push('/')
           Toast.fire({
             icon: 'error',
             title: '無法取得項目資料，返回首頁'
           })
+          this.$router.push('/')
         }
         this.item = {
           ...data.item,
@@ -204,6 +204,7 @@ export default {
             icon: 'error',
             title: data.message
           })
+          return
         }
         this.item.isInCart = true
         Toast.fire({
@@ -247,6 +248,7 @@ export default {
               icon: 'error',
               title: data.message
             })
+            return
           }
           this.item.isClosed = !this.item.isClosed
         }

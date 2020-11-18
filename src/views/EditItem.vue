@@ -67,6 +67,7 @@ export default {
             icon: 'error',
             title: data.message
           })
+          return
         }
         const subcategoriesArr = []
         data.item.Subcategories.map(subcategory => {

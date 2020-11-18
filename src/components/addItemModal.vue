@@ -186,6 +186,7 @@ export default {
             icon: 'error',
             title: data.message
           })
+          return
         }
         for (let curItem of this.items) {
           if (curItem.id === item.id) {
