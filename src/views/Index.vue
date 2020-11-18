@@ -5,7 +5,7 @@
     <CartSimple
       :ori-cart-items="cartItems"
       @deleteCartItem="deleteCartItemHandler"
-      v-if="!isItemsLoading"
+      v-show="!isItemsLoading"
     />
     <PageTitle>
       <template v-slot:title>

@@ -7,7 +7,7 @@
         :can-cancel="true"
       ></loading>
     </div>
-    <div class="container">
+    <div class="container" v-show="!isItemsLoading">
       <h2 class="cards-num">共有 {{ oriItemsFilter.length }} 個結果</h2>
       <div class="cards-wrapper">
         <div class="card" v-for="item in itemsFilter" :key="item.id">

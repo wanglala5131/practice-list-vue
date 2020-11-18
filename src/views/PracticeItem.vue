@@ -3,11 +3,12 @@
     <Banner :bannerImgURL="bannerImgURL" />
     <ToTop />
     <CartSimple
+      v-show="!isLoading"
       :ori-cart-items="cartItems"
       @deleteCartItem="deleteCartItemHandler"
     />
     <PageTitle>
-      <template v-slot:title> {{ item.name }} </template>
+      <template v-slot:title> {{ isLoading ? '' : item.name }} </template>
       <template v-slot:buttons>
         <div class="setting-links-wrapper">
           <router-link to="/" class="title-link item-goback-btn"
@@ -16,12 +17,14 @@
           <button
             class="title-link item-star-btn active"
             @click.stop.prevent="changeLike"
+            v-show="!isLoading"
           >
             {{ item.isLiked ? '移除星號' : '加上星號' }}
           </button>
           <button
             class="title-link item-edit-btn active"
             @click.stop.prevent="toEditPage"
+            v-show="!isLoading"
           >
             編輯
           </button>
@@ -31,6 +34,7 @@
             @click.stop.prevent="addToCart"
             :disabled="item.isInCart"
             v-if="!item.isClosed"
+            v-show="!isLoading"
           >
             {{ item.isInCart ? '已加入暫定菜單' : '加到暫定菜單中' }}
           </button>
@@ -39,6 +43,7 @@
             :class="{ active: !item.isInCart }"
             :disabled="item.isInCart"
             @click.stop.prevent="closeItem"
+            v-show="!isLoading"
           >
             {{ item.isClosed ? '取消封存' : '封存' }}
           </button>
@@ -46,7 +51,14 @@
       </template>
     </PageTitle>
     <div class="item-content">
-      <div class="container">
+      <div v-show="isLoading">
+        <loading
+          id="loading-box"
+          :active.sync="isLoading"
+          :can-cancel="true"
+        ></loading>
+      </div>
+      <div class="container" v-show="!isLoading">
         <span class="title-closed" v-if="item.isClosed">※ 此為封存項目</span>
         <div class="item-section one-line">
           <h3>運動類別：</h3>
@@ -118,7 +130,8 @@ export default {
         CategoryId: undefined,
         Category: {},
         Subcategories: []
-      }
+      },
+      isLoading: true
     }
   },
   created() {
@@ -145,6 +158,7 @@ export default {
         }
         this.cartItems = data.cartItems
         this.cartItemsArr = data.cartItemsArr
+        this.isLoading = false
       } catch (err) {
         Toast.fire({
           icon: 'error',

@@ -17,6 +17,7 @@
     <PracticeCards
       :ori-items-filter="items"
       :isCloseType="true"
+      :is-items-loading="isLoading"
       @changeClosed="changeClosedHandler"
     />
   </main>
@@ -40,7 +41,8 @@ export default {
     return {
       bannerImgURL:
         'https://c.pxhere.com/photos/d9/72/basketball_ball_hoop_tree_sport-1398290.jpg!d',
-      items: [] //PracticeCards要用到長度，所以預設為陣列
+      items: [], //PracticeCards要用到長度，所以預設為陣列
+      isLoading: true
     }
   },
   created() {
@@ -54,6 +56,7 @@ export default {
           throw new Error()
         }
         this.items = data.items
+        this.isLoading = false
       } catch (err) {
         Toast.fire({
           icon: 'error',

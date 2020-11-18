@@ -1,13 +1,13 @@
 <template>
   <div class="temlist">
-    <div v-if="isLoading">
+    <div v-show="isLoading">
       <loading
         id="loading-box"
         :active.sync="isLoading"
         :can-cancel="true"
       ></loading>
     </div>
-    <div class="container" v-else>
+    <div class="container" v-show="!isLoading">
       <form action="">
         <div class="temlist-name">
           <label for="temlist-name-input" class="temlist-name-label"

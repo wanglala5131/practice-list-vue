@@ -1,7 +1,14 @@
 <template>
   <main>
     <div class="setting-add-area">
-      <div class="container">
+      <div v-show="isLoading">
+        <loading
+          id="loading-box"
+          :active.sync="isLoading"
+          :can-cancel="true"
+        ></loading>
+      </div>
+      <div class="container" v-show="!isLoading">
         <h2>新增項目類型</h2>
         <input
           type="text"
@@ -23,7 +30,7 @@
         </button>
       </div>
     </div>
-    <div class="setting-table">
+    <div class="setting-table" v-show="!isLoading">
       <div class="container">
         <div class="setting-table-title">
           <h2>
@@ -98,7 +105,8 @@ export default {
       editOriName: '',
       temEditingName: '',
       temEditCategory: -1,
-      isProcessing: false
+      isProcessing: false,
+      isLoading: true
     }
   },
   created() {
@@ -116,6 +124,7 @@ export default {
           oriCategoryId: subcategory.CategoryId
         }))
         this.categories = data.categories
+        this.isLoading = false
       } catch (err) {
         Toast.fire({
           icon: 'error',
@@ -311,7 +320,7 @@ export default {
 <style lang="scss">
 .setting-add-area {
   margin: 0 auto;
-  padding: 60px 0 20px 0;
+  padding: 30px 0 20px 0;
   max-width: 800px;
   h2 {
     margin-bottom: 20px;
@@ -413,6 +422,8 @@ export default {
 @media (min-width: 768px) {
   .setting-add-area {
     display: flex;
+    justify-content: center;
+    padding-top: 60px;
     margin-top: 50px;
     h2 {
       margin-bottom: 20px;

@@ -68,7 +68,14 @@
       </div>
     </div>
     <div class="lists-search">
-      <div class="container">
+      <div v-show="isLoading">
+        <loading
+          id="loading-box"
+          :active.sync="isLoading"
+          :can-cancel="true"
+        ></loading>
+      </div>
+      <div class="container" v-show="!isLoading">
         <label>搜尋關鍵字：</label>
         <input
           type="text"
@@ -78,7 +85,7 @@
         />
       </div>
     </div>
-    <div class="lists">
+    <div class="lists" v-show="!isLoading">
       <div class="container">
         <div class="list-wrapper">
           <h2>{{ isUsed ? '已使用的表單' : '未使用的表單' }}</h2>
@@ -178,7 +185,8 @@ export default {
       lists: [],
       isUsed: false,
       search: '',
-      searchResults: []
+      searchResults: [],
+      isLoading: true
     }
   },
   created() {
@@ -195,6 +203,7 @@ export default {
         const { data } = await listsAPI.getLists({ isUsed })
         this.lists = data
         this.searchResults = data
+        this.isLoading = false
       } catch (err) {
         Toast.fire({
           icon: 'error',

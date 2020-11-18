@@ -18,40 +18,50 @@
             <font-awesome-icon icon="arrow-up" />
           </div>
           <h2 class="add-item-title">添加項目</h2>
-          <searchBar
-            :search-position="'listModal'"
-            :ori-categories="categories"
-            :ori-subcategories="subcategories"
-            :ori-items="items"
-            :ori-items-filter="itemsFilter"
-            @filterCards="filterCardsHandler"
-          />
-          <div class="add-item-cards">
-            <div class="add-item-card" v-for="item in items" :key="item.id">
-              <div class="add-card-info">
-                <span class="add-card-name">
-                  {{ item.name }}
-                </span>
-                <div class="add-card-type">
-                  <span class="add-card-category">
-                    {{ item.Category.name }}
+          <div class="add-item-content-box">
+            <searchBar
+              :search-position="'listModal'"
+              :ori-categories="categories"
+              :ori-subcategories="subcategories"
+              :ori-items="items"
+              :ori-items-filter="itemsFilter"
+              :is-type-loading="isTypeLoading"
+              @filterCards="filterCardsHandler"
+            />
+            <div v-show="isItemsLoading">
+              <loading
+                id="loading-box"
+                :active.sync="isItemsLoading"
+                :can-cancel="true"
+              ></loading>
+            </div>
+            <div class="add-item-cards" v-show="!isItemsLoading">
+              <div class="add-item-card" v-for="item in items" :key="item.id">
+                <div class="add-card-info">
+                  <span class="add-card-name">
+                    {{ item.name }}
                   </span>
-                  <div class="add-card-subcategories">
-                    <span
-                      v-for="subcategory in item.Subcategories"
-                      :key="subcategory.id"
-                      >{{ subcategory.name }}</span
-                    >
+                  <div class="add-card-type">
+                    <span class="add-card-category">
+                      {{ item.Category.name }}
+                    </span>
+                    <div class="add-card-subcategories">
+                      <span
+                        v-for="subcategory in item.Subcategories"
+                        :key="subcategory.id"
+                        >{{ subcategory.name }}</span
+                      >
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="add-card-buttons">
-                <button
-                  @click.stop.prevent="addItemToList(item)"
-                  :disabled="item.isInList"
-                >
-                  {{ item.isInList ? '已有' : '添加' }}
-                </button>
+                <div class="add-card-buttons">
+                  <button
+                    @click.stop.prevent="addItemToList(item)"
+                    :disabled="item.isInList"
+                  >
+                    {{ item.isInList ? '已有' : '添加' }}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -87,7 +97,9 @@ export default {
       itemsFilter: [],
       categories: undefined,
       subcategories: undefined,
-      listItemsArr: []
+      listItemsArr: [],
+      isItemsLoading: true,
+      isTypeLoading: true
     }
   },
   methods: {
@@ -108,6 +120,7 @@ export default {
         }
         this.subcategories = data.subcategories
         this.categories = data.categories
+        this.isTypeLoading = false
       } catch (err) {
         Toast.fire({
           icon: 'error',
@@ -135,6 +148,7 @@ export default {
         })
         this.items = items
         this.itemsFilter = items
+        this.isItemsLoading = false
       } catch (err) {
         Toast.fire({
           icon: 'error',

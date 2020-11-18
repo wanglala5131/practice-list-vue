@@ -11,6 +11,7 @@
       :ori-list-items="editList"
       :ori-list-name="listName"
       :list-type="'EditList'"
+      :is-loading="isLoading"
       @deleteListItem="deleteListItemHandler"
       @listitemTableToTop="listitemTableToTopHandler"
     />
@@ -38,7 +39,8 @@ export default {
         'https://cdn.pixabay.com/photo/2018/06/12/20/17/football-3471402_1280.jpg',
       list: [],
       listName: '',
-      editList: []
+      editList: [],
+      isLoading: true
     }
   },
   created() {
@@ -66,6 +68,7 @@ export default {
           reps: item.ListItem.reps,
           remark: item.ListItem.remark
         }))
+        this.isLoading = false
       } catch (err) {
         Toast.fire({
           icon: 'error',
