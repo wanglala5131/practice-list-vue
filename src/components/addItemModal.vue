@@ -63,6 +63,60 @@
                   </button>
                 </div>
               </div>
+              <div class="add-item-card" v-for="item in items" :key="item.id">
+                <div class="add-card-info">
+                  <span class="add-card-name">
+                    {{ item.name }}
+                  </span>
+                  <div class="add-card-type">
+                    <span class="add-card-category">
+                      {{ item.Category.name }}
+                    </span>
+                    <div class="add-card-subcategories">
+                      <span
+                        v-for="subcategory in item.Subcategories"
+                        :key="subcategory.id"
+                        >{{ subcategory.name }}</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="add-card-buttons">
+                  <button
+                    @click.stop.prevent="addItemToList(item)"
+                    :disabled="item.isInList"
+                  >
+                    {{ item.isInList ? '已有' : '添加' }}
+                  </button>
+                </div>
+              </div>
+              <div class="add-item-card" v-for="item in items" :key="item.id">
+                <div class="add-card-info">
+                  <span class="add-card-name">
+                    {{ item.name }}
+                  </span>
+                  <div class="add-card-type">
+                    <span class="add-card-category">
+                      {{ item.Category.name }}
+                    </span>
+                    <div class="add-card-subcategories">
+                      <span
+                        v-for="subcategory in item.Subcategories"
+                        :key="subcategory.id"
+                        >{{ subcategory.name }}</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="add-card-buttons">
+                  <button
+                    @click.stop.prevent="addItemToList(item)"
+                    :disabled="item.isInList"
+                  >
+                    {{ item.isInList ? '已有' : '添加' }}
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -223,7 +277,7 @@ export default {
       }
     },
     toTop() {
-      const cards = document.querySelector('.add-item-cards')
+      const cards = document.querySelector('.add-item-content-box')
       cards.scrollTo({
         top: 0,
         behavior: 'smooth' //立即:instant
@@ -280,8 +334,10 @@ export default {
   background-color: $op-light-black;
 }
 .add-item-content {
+  display: flex;
+  flex-direction: column;
   position: relative;
-  margin: 50px 20px;
+  margin: 70px 20px 20px 20px;
   padding: 10px;
   width: 80%;
   max-width: 800px;
@@ -310,13 +366,17 @@ export default {
   .add-item-title {
     text-align: center;
     color: $logo-green;
+    font-size: 1.5rem;
+  }
+  .add-item-content-box {
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto;
+    @extend .scroll-style;
   }
   .add-item-cards {
     margin: 0 auto;
     padding: 15px;
-    width: 95%;
-    overflow-y: auto;
-    @extend .scroll-style;
     font-size: 1rem;
     .add-item-card {
       display: flex;
@@ -332,20 +392,20 @@ export default {
         padding: 18px 0 15px 15px;
         .add-card-name {
           margin-bottom: 5px;
-          font-size: 1.3rem;
+          font-size: 1.2rem;
           font-weight: 700;
         }
         .add-card-type {
           display: flex;
-          padding-top: 1px;
+          align-items: center;
           .add-card-category {
             padding: 0 5px;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 500;
             color: $font-green;
+            white-space: nowrap;
           }
           .add-card-subcategories {
-            padding: 2px;
             span {
               display: inline-block;
               margin: 1px;
@@ -381,6 +441,22 @@ export default {
   .add-item-content {
     .add-item-cards {
       width: 85%;
+    }
+    .add-item-title {
+      font-size: 2rem;
+    }
+    .add-card-name {
+      font-size: 1.3rem;
+    }
+    .add-card-type {
+      .add-card-category {
+        font-size: 1.3rem;
+      }
+      .add-card-subcategories {
+        span {
+          font-size: 1rem;
+        }
+      }
     }
   }
 }

@@ -199,6 +199,9 @@ export default {
 
 <style lang="scss">
 .card-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding-top: 20px;
   #loading-box {
     margin-top: 10px;

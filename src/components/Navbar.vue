@@ -81,7 +81,6 @@ header {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin-right: 1rem;
     padding: 0.9rem 0px;
     font-size: 1.3rem;
     .nav-list {
@@ -192,7 +191,6 @@ header {
       }
     }
     .nav {
-      margin-right: 1.5rem;
       display: flex;
       font-size: 1.3rem;
       .nav-toggle-label,

@@ -186,7 +186,7 @@ export default {
   width: 100%;
   &.close {
     //用在closeItem page
-    padding-top: 115px;
+    padding-top: 25px;
   }
 }
 .cards-wrapper {
@@ -318,6 +318,15 @@ export default {
         background-color: $logo-green;
         cursor: pointer;
       }
+    }
+  }
+}
+@media (min-width: 768px) {
+  .cards {
+    width: 100%;
+    &.close {
+      //用在closeItem page
+      padding-top: 115px;
     }
   }
 }
