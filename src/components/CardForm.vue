@@ -105,7 +105,7 @@
 </template>
 
 <script>
-import { Toast } from '../utils/helpers'
+import { Toast, Confirm } from '../utils/helpers'
 export default {
   name: 'CardForm',
   data() {
@@ -113,6 +113,7 @@ export default {
       opacity: 0,
       subcategoryFilter: [],
       item: {
+        image: '',
         CategoryId: -1
       },
       categories: [],
@@ -161,6 +162,7 @@ export default {
         this.item.image = ''
       } else {
         const imageURL = window.URL.createObjectURL(files[0])
+        console.log(imageURL)
         this.item.image = imageURL
       }
     },
@@ -178,7 +180,14 @@ export default {
       }
       const form = e.target
       const formData = new FormData(form)
-      this.$emit('submitFile', formData)
+      Confirm.fire({
+        title: `確定要送出了嗎？若有上傳圖片會花較久時間，請見諒`,
+        confirmButtonText: `送出`
+      }).then(result => {
+        if (result.isConfirmed) {
+          this.$emit('submitFile', formData)
+        }
+      })
     }
   },
   watch: {

@@ -1,10 +1,14 @@
 <template>
   <main>
     <BackgroundImg />
+    <div>
+      <loading :active.sync="isProcessing"></loading>
+    </div>
     <CardForm
       :ori-categories="categories"
       :ori-subcategories="subcategories"
       :is-loading="isLoading"
+      :is-processing="isProcessing"
       @submitFile="submitFileHandler"
       >新增項目</CardForm
     >
@@ -25,6 +29,7 @@ export default {
   },
   data() {
     return {
+      isProcessing: false,
       isLoading: true,
       categories: [],
       subcategories: [],
@@ -62,6 +67,7 @@ export default {
     },
     async submitFileHandler(formData) {
       try {
+        this.isProcessing = true
         const { data, statusText } = await itemsAPI.addItem({ formData })
         if (statusText !== 'OK') {
           throw new Error()
@@ -71,6 +77,7 @@ export default {
             icon: 'error',
             title: data.message
           })
+          this.isProcessing = false
           return
         }
         Toast.fire({
@@ -79,6 +86,7 @@ export default {
         })
         this.$router.push(`/items/${data.newItem.id}`)
       } catch (err) {
+        this.isProcessing = false
         Toast.fire({
           icon: 'error',
           title: '目前暫時無法新增項目，請稍後再試'

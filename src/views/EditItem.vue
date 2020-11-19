@@ -1,6 +1,9 @@
 <template>
   <main>
     <BackgroundImg />
+    <div>
+      <loading :active.sync="isProcessing"></loading>
+    </div>
     <CardForm
       :ori-categories="categories"
       :ori-subcategories="subcategories"
@@ -98,6 +101,7 @@ export default {
             icon: 'error',
             title: data.message
           })
+          this.isProcessing = false
           return
         }
         Toast.fire({
