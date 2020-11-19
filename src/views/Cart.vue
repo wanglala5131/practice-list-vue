@@ -28,7 +28,7 @@ export default {
   data() {
     return {
       bannerImgURL:
-        'https://cdn.pixabay.com/photo/2016/12/19/23/50/volleyball-1919440_1280.jpg',
+        'https://github.com/wanglala5131/practice-list-vue/blob/main/src/assets/img/cart-page.jpg?raw=true',
       cartItems: [],
       isLoading: true
     }

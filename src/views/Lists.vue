@@ -177,7 +177,7 @@ export default {
   data() {
     return {
       bannerImgURL:
-        'https://cdn.pixabay.com/photo/2018/06/12/20/17/football-3471402_1280.jpg',
+        'https://github.com/wanglala5131/practice-list-vue/blob/main/src/assets/img/lists-page.jpg?raw=true',
       isOpenSetting: false,
       openCategory: true,
       openSubcategory: true,

@@ -40,7 +40,7 @@ export default {
   data() {
     return {
       bannerImgURL:
-        'https://c.pxhere.com/photos/d9/72/basketball_ball_hoop_tree_sport-1398290.jpg!d',
+        'https://github.com/wanglala5131/practice-list-vue/blob/main/src/assets/img/index-page.jpg?raw=true',
       items: [], //PracticeCards要用到長度，所以預設為陣列
       isLoading: true
     }

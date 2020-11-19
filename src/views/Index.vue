@@ -70,7 +70,7 @@ export default {
       isItemsLoading: true,
       isTypeLoading: true,
       bannerImgURL:
-        'https://c.pxhere.com/photos/d9/72/basketball_ball_hoop_tree_sport-1398290.jpg!d',
+        'https://github.com/wanglala5131/practice-list-vue/blob/main/src/assets/img/index-page.jpg?raw=true',
       items: undefined,
       itemsFilter: [],
       cartItems: undefined,

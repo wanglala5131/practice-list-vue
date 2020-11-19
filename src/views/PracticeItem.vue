@@ -116,7 +116,7 @@ export default {
   data() {
     return {
       bannerImgURL:
-        'https://image.freepik.com/free-photo/exercise-weights-iron-dumbbell-with-extra-plates_1423-223.jpg',
+        'https://github.com/wanglala5131/practice-list-vue/blob/main/src/assets/img/item-page.jpg?raw=true',
       cartItems: [],
       cartItemsArr: [],
       item: {

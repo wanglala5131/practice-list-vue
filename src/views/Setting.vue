@@ -29,7 +29,7 @@ export default {
   data() {
     return {
       bannerImgURL:
-        'https://images.pexels.com/photos/863988/pexels-photo-863988.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260'
+        'https://github.com/wanglala5131/practice-list-vue/blob/main/src/assets/img/setting-page.jpg?raw=true'
     }
   }
 }

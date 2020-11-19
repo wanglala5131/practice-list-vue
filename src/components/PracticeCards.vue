@@ -94,7 +94,8 @@ export default {
   data() {
     return {
       itemsFilter: this.oriItemsFilter,
-      defaultImgURL: 'https://i.imgur.com/3XaSsJX.png'
+      defaultImgURL:
+        'https://github.com/wanglala5131/practice-list-vue/blob/main/src/assets/img/no-img.png?raw=true'
     }
   },
   methods: {
