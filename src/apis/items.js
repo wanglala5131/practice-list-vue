@@ -21,5 +21,8 @@ export default {
   },
   putItem({ itemId, formData }) {
     return apiHelper.put(`/items/${itemId}`, formData)
+  },
+  deleteItemImage({ itemId }) {
+    return apiHelper.patch(`items/${itemId}/image`, null)
   }
 }

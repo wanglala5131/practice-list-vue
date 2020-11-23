@@ -90,14 +90,21 @@
       </div>
       <div class="form-buttons" v-show="!isLoading">
         <router-link to="/" class="form-button go-back-button">
-          回前頁
+          回首頁
         </router-link>
+        <button
+          v-if="oriImage"
+          class="form-button delete-image-button"
+          @click.stop.prevent="deleteImage(item.id)"
+        >
+          只刪除圖片
+        </button>
         <button
           type="submit"
           class="form-button card-submit-button"
           :disabled="isProcessing"
         >
-          {{ isProcessing ? '送出中' : '送出' }}
+          {{ isProcessing ? '送出中' : '送出表單' }}
         </button>
       </div>
     </form>
@@ -106,6 +113,7 @@
 
 <script>
 import { Toast, Confirm } from '../utils/helpers'
+import itemsAPI from '../apis/items'
 export default {
   name: 'CardForm',
   data() {
@@ -116,6 +124,7 @@ export default {
         image: '',
         CategoryId: -1
       },
+      oriImage: undefined,
       categories: [],
       subcategories: []
     }
@@ -135,6 +144,9 @@ export default {
     },
     isLoading: {
       type: Boolean
+    },
+    formTtpe: {
+      type: String
     }
   },
   methods: {
@@ -188,6 +200,40 @@ export default {
           this.$emit('submitFile', formData)
         }
       })
+    },
+    //只有有圖片的項目才有此方法
+    async deleteImage(id) {
+      try {
+        const result = await Confirm.fire({
+          title: '確定要刪除圖片嗎？',
+          confirmButtonText: `確定`
+        })
+        if (result.isConfirmed) {
+          const { data, statusText } = await itemsAPI.deleteItemImage({
+            itemId: id
+          })
+          if (statusText !== 'OK') {
+            throw new Error()
+          }
+          if (data.status === 'error') {
+            Toast.fire({
+              icon: 'error',
+              title: data.message
+            })
+            return
+          }
+          Toast.fire({
+            icon: 'success',
+            title: '已成功刪除圖片'
+          })
+          this.$router.push(`/items/${id}`)
+        }
+      } catch (err) {
+        Toast.fire({
+          icon: 'error',
+          title: '目前無法刪除圖片，請稍後再試'
+        })
+      }
     }
   },
   watch: {
@@ -205,6 +251,7 @@ export default {
     },
     oriItem(newValue) {
       this.item = newValue
+      this.oriImage = newValue.image
       //如果items比subcategories晚進來，就跑下面if
       if (
         this.subcategoryFilter.length === 0 &&
@@ -317,7 +364,8 @@ export default {
           border: 2px solid $dark-gray;
         }
       }
-      &.card-submit-button {
+      &.card-submit-button,
+      &.delete-image-button {
         border: 2px solid $logo-green;
         background-color: $logo-green;
         &:hover {

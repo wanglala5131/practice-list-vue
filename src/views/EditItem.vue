@@ -10,6 +10,7 @@
       :ori-item="item"
       :is-processing="isProcessing"
       :is-loading="isLoading"
+      :form-type="'edit'"
       @submitFile="submitFileHandler"
       >修改項目</CardForm
     >
