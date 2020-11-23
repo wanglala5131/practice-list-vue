@@ -9,7 +9,7 @@
     </div>
     <div class="container" v-show="!isItemsLoading">
       <h2 class="cards-num">共有 {{ oriItemsFilter.length }} 個結果</h2>
-      <div class="cards-wrapper">
+      <div class="cards-wrapper" :class="{ bullet: isBullet }">
         <div class="card" v-for="item in itemsFilter" :key="item.id">
           <div class="card-header">
             <router-link
@@ -87,6 +87,9 @@ export default {
       type: Boolean
     },
     isItemsLoading: {
+      type: Boolean
+    },
+    isBullet: {
       type: Boolean
     }
   },
@@ -207,6 +210,19 @@ export default {
   grid-gap: 1.5rem;
   justify-content: center;
   margin: 30px 0 80px 0;
+  &.bullet {
+    .card {
+      .card-header {
+        height: 75px;
+        img {
+          display: none;
+        }
+        .card-title {
+          background-image: none;
+        }
+      }
+    }
+  }
 }
 .no-card {
   h2 {

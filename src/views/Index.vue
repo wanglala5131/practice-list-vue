@@ -32,12 +32,15 @@
       :ori-items="items"
       :ori-items-filter="itemsFilter"
       :is-type-loading="isTypeLoading"
+      :ori-is-bullet="isBullet"
       @filterCards="filterCardsHandler"
+      @changeBullet="changeBulletHandler"
     />
     <PracticeCards
       :ori-items-filter="itemsFilter"
       :isCloseType="false"
       :is-items-loading="isItemsLoading"
+      :is-bullet="isBullet"
       @addToCart="addToCartHandler"
       @changeLike="changeLikeHandler"
       @changeClosed="changeClosedHandler"
@@ -69,6 +72,7 @@ export default {
     return {
       isItemsLoading: true,
       isTypeLoading: true,
+      isBullet: false,
       bannerImgURL:
         'https://github.com/wanglala5131/practice-list-vue/blob/main/src/assets/img/index-page.jpg?raw=true',
       items: undefined,
@@ -182,6 +186,9 @@ export default {
     },
     filterCardsHandler(payload) {
       this.itemsFilter = payload
+    },
+    changeBulletHandler(payload) {
+      this.isBullet = payload
     }
   }
 }

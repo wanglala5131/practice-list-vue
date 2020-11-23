@@ -45,6 +45,17 @@
                 />
                 <label for="like">只顯示星號項目</label>
               </div>
+              <div class="search-bullet">
+                <input
+                  type="checkbox"
+                  class="bullet"
+                  name="bullet"
+                  v-model="isBullet"
+                  id="bullet"
+                  @change="changeBullet"
+                />
+                <label for="bullet">不顯示圖片</label>
+              </div>
             </div>
           </div>
           <div class="search-item category">
@@ -125,6 +136,7 @@ export default {
       searchToggle: false,
       keyword: '',
       isLiked: false,
+      isBullet: false,
       categorySelect: 'all', //使用者自己選擇的運動項目，預設是全部
       subcategorySelect: undefined, //若使用者進行沒有選擇，此項就不存在
       subcategoryFilter: undefined //根據category出現在篩選列的項目類型，若未選擇，此項就不存在
@@ -147,6 +159,9 @@ export default {
       type: String
     },
     isTypeLoading: {
+      type: Boolean
+    },
+    oriIsBullet: {
       type: Boolean
     }
   },
@@ -207,6 +222,9 @@ export default {
         return
       })
       this.filterCards()
+    },
+    changeBullet() {
+      this.$emit('changeBullet', this.isBullet)
     }
   },
   watch: {
@@ -221,6 +239,9 @@ export default {
     },
     oriItemsFilter(newValue) {
       this.itemsFilter = newValue
+    },
+    oriIsBullet(newValue) {
+      this.isBullet = newValue
     }
   }
 }

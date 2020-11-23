@@ -1,8 +1,8 @@
 import axios from 'axios'
 import Swal from 'sweetalert2'
 
-//const baseURL = 'https://practice-list.herokuapp.com/api/practice'
-const baseURL = 'http://localhost:3000/api/practice'
+const baseURL = 'https://practice-list.herokuapp.com/api/practice'
+//const baseURL = 'http://localhost:3000/api/practice'
 
 export const axiosInstance = axios.create({
   baseURL
