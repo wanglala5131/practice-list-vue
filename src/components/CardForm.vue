@@ -161,7 +161,8 @@ export default {
     },
     fileChangeHandler(e) {
       const files = e.target.files
-      if (files[0].type !== 'image/jpeg') {
+      const filetype = ['image/jpeg', 'image/png']
+      if (!filetype.includes(files[0].type)) {
         Toast.fire({
           icon: 'error',
           title: '只能傳圖片唷！'
@@ -174,7 +175,6 @@ export default {
         this.item.image = ''
       } else {
         const imageURL = window.URL.createObjectURL(files[0])
-        console.log(imageURL)
         this.item.image = imageURL
       }
     },
