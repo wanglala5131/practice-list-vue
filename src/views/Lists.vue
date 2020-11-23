@@ -165,8 +165,7 @@ import Banner from '../components/Banner'
 import PageTitle from '../components/PageTitle'
 import ToTop from '../components/ToTop'
 import listsAPI from '../apis/lists'
-import { Toast } from '../utils/helpers'
-import { Confirm } from '../utils/helpers'
+import { Toast, Confirm } from '../utils/helpers'
 export default {
   name: 'Lists',
   components: {

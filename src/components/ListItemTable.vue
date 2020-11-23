@@ -128,8 +128,7 @@
 <script>
 import draggable from 'vuedraggable'
 import addItemModal from '../components/addItemModal'
-import { Toast } from '../utils/helpers'
-import { Confirm } from '../utils/helpers'
+import { Toast, Confirm } from '../utils/helpers'
 import cartsAPI from '../apis/carts'
 import listsAPI from '../apis/lists'
 export default {

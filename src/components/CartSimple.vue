@@ -52,8 +52,7 @@
 
 <script>
 import cartsAPI from '../apis/carts'
-import { Toast } from '../utils/helpers'
-import { Confirm } from '../utils/helpers'
+import { Toast, Confirm } from '../utils/helpers'
 export default {
   name: 'CartSimple',
   props: {

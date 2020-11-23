@@ -66,8 +66,7 @@
 
 <script>
 import settingAPI from '../apis/setting'
-import { Toast } from '../utils/helpers'
-import { Confirm } from '../utils/helpers'
+import { Toast, Confirm } from '../utils/helpers'
 export default {
   name: 'categories',
   data() {
