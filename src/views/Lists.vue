@@ -89,6 +89,7 @@
       <div class="container">
         <div class="list-wrapper">
           <h2>{{ isUsed ? '已使用的表單' : '未使用的表單' }}</h2>
+          <p class="list-results">共 {{ lists.length }} 個結果</p>
           <div class="list" v-for="list in searchResults" :key="list.id">
             <input
               type="checkbox"
@@ -298,6 +299,7 @@ export default {
     }
   },
   beforeRouteUpdate(to, from, next) {
+    this.isLoading = true
     const oriIsUsed = to.query.isUsed
     const isUsed = oriIsUsed === 'false' ? false : true
     this.isUsed = isUsed
@@ -480,6 +482,12 @@ export default {
         background-color: $dark-yellow;
       }
     }
+  }
+  .list-results {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1.7rem;
+    color: $dark-gray;
   }
   .list-content {
     padding: 0 10px;
