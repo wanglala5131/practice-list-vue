@@ -40,8 +40,6 @@
 
 ![](https://i.imgur.com/evT1yOo.png)
 
----
-
 ## 環境
 
 - Vue 2.0 -前端框架

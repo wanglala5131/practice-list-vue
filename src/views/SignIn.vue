@@ -42,6 +42,9 @@
         <p class="form-text">
           沒有帳號？ <router-link to="signup">點此註冊</router-link>
         </p>
+        <p class="form-text ">
+          該怎麼使用？<router-link to="/howtouse">介紹</router-link>
+        </p>
       </form>
     </div>
   </div>

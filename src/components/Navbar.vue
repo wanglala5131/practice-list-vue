@@ -22,6 +22,9 @@
         <li>
           <router-link to="/setting">類別設定</router-link>
         </li>
+        <li>
+          <router-link to="/howtouse">使用說明</router-link>
+        </li>
         <li class="logout">
           <button @click.stop.prevent="logout">登出</button>
         </li>

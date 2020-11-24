@@ -84,6 +84,11 @@ const routes = [
     component: () => import('../views/EditList.vue')
   },
   {
+    path: '/howtouse',
+    name: 'how-to-use',
+    component: () => import('../views/HowToUse.vue')
+  },
+  {
     path: '*',
     name: 'not-found',
     component: NotFound
@@ -102,7 +107,13 @@ router.beforeEach(async (to, from, next) => {
   if (tokenInLocalStorage && tokenInLocalStorage !== tokenInStore) {
     isAuthenticated = await store.dispatch('fetchCurrentUser')
   }
-  const pathsWithoutAuthentication = ['sign-up', 'sign-in']
+  const pathAllAllow = ['how-to-use'] //不管有沒有登入都可以進去
+  const pathsWithoutAuthentication = ['sign-up', 'sign-in'] //沒有登入時才可進去
+
+  if (pathAllAllow.includes(to.name)) {
+    next()
+    return
+  }
   //如果token無效 & 進入需驗證頁面 就轉址到signin
   if (!isAuthenticated && !pathsWithoutAuthentication.includes(to.name)) {
     next('/signin')
