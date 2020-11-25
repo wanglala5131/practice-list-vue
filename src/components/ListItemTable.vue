@@ -460,9 +460,10 @@ export default {
       .temlist-item-category {
         margin-right: 10px;
         font-weight: 700;
-        font-size: 1.4rem;
+        font-size: 1.2rem;
         color: $font-green;
         letter-spacing: 1px;
+        white-space: nowrap;
       }
       .temlist-item-subcategory {
         span {
@@ -472,7 +473,7 @@ export default {
           border: 1px solid $dark-gray;
           border-radius: 10px;
           color: $dark-gray;
-          font-size: 0.8em;
+          font-size: 1rem;
         }
       }
     }
@@ -492,13 +493,14 @@ export default {
   margin-top: 30px;
   padding-top: 20px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-around;
   flex-wrap: wrap;
   border-top: 2px solid $gray;
   button {
     @extend .button-style;
-    margin: 3px;
+    margin: 10px;
     font-size: 1.3rem;
     &.temlist-submit-btn {
       background-color: $logo-green;
@@ -521,6 +523,18 @@ export default {
 @media (min-width: 768px) {
   .temlist {
     margin-top: 170px;
+    .temlist-item-type {
+      .temlist-item-category {
+        font-size: 1.4rem;
+      }
+      .temlist-item-subcategory {
+        margin-top: 1px;
+        font-size: 1rem;
+      }
+    }
+    .temlist-buttons {
+      flex-direction: row;
+    }
   }
   .temlist-item {
     .temlist-item-info {

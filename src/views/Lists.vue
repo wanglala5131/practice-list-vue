@@ -433,7 +433,7 @@ export default {
   max-width: 900px;
   margin: 0 auto 80px auto;
   h2 {
-    margin: 30px 0;
+    margin: 15px 0;
   }
   .list {
     height: auto;
@@ -486,7 +486,7 @@ export default {
   .list-results {
     margin-bottom: 20px;
     text-align: center;
-    font-size: 1.7rem;
+    font-size: 1.3rem;
     color: $dark-gray;
   }
   .list-content {
@@ -506,7 +506,7 @@ export default {
       .list-items-type {
         display: flex;
         align-items: center;
-        margin-bottom: 5px;
+        margin-bottom: 7px;
         .item-category {
           margin-right: 10px;
           font-weight: 700;
@@ -528,7 +528,7 @@ export default {
       }
       .list-item-text {
         display: grid;
-        grid-template-columns: auto auto;
+        grid-template-columns: 1fr 1fr;
         grid-template-rows: auto auto;
         grid-gap: 5px;
         align-items: center;
@@ -604,7 +604,7 @@ export default {
           }
         }
         .list-item-text {
-          grid-template-columns: auto auto auto;
+          grid-template-columns: 1fr 1fr 1fr;
           grid-template-rows: auto;
           .item-name {
             font-size: 1.5rem;
