@@ -114,8 +114,7 @@ export default {
   },
   data() {
     return {
-      bannerImgURL:
-        'https://github.com/wanglala5131/practice-list-vue/blob/main/src/assets/img/item-page.jpg?raw=true',
+      bannerImgURL: 'https://i.imgur.com/I6qcJFI.jpg',
       cartItems: [],
       cartItemsArr: [],
       item: {

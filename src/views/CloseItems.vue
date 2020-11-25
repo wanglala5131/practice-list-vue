@@ -39,8 +39,7 @@ export default {
   },
   data() {
     return {
-      bannerImgURL:
-        'https://github.com/wanglala5131/practice-list-vue/blob/main/src/assets/img/index-page.jpg?raw=true',
+      bannerImgURL: 'https://i.imgur.com/VsqTokV.jpg',
       items: [], //PracticeCards要用到長度，所以預設為陣列
       isLoading: true
     }

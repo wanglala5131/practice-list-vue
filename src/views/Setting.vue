@@ -28,8 +28,7 @@ export default {
   components: { Banner, PageTitle },
   data() {
     return {
-      bannerImgURL:
-        'https://github.com/wanglala5131/practice-list-vue/blob/main/src/assets/img/setting-page.jpg?raw=true'
+      bannerImgURL: 'https://i.imgur.com/ch6XEJv.jpg'
     }
   }
 }

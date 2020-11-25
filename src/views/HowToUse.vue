@@ -25,24 +25,46 @@
       <h2>首頁</h2>
       <p>※不使用的卡片請用封存，封存狀態的卡片無法加入暫定菜單</p>
       <p>※沒有刪除功能</p>
-      <img src="https://i.imgur.com/KYWLnhl.png" alt="index-page-img" />
+      <picture>
+        <source
+          media="(max-width: 768px)"
+          srcset="https://i.imgur.com/idYibh8.png"
+        />
+        <img src="https://i.imgur.com/t5OW0A4.jpg" alt="index-page-img" />
+      </picture>
     </div>
     <div class="how-item">
       <h2>暫定菜單</h2>
       <p>※菜單名稱為必填，組數和備註為選填</p>
       <p>※可用拖曳移動項目順序</p>
       <p>※送出的菜單至少要三項 (兩項就感覺沒意義啦~)</p>
-      <img src="https://i.imgur.com/QJJ8C57.png" alt="cart-page-img" />
+      <picture>
+        <source
+          media="(max-width: 768px)"
+          srcset="https://i.imgur.com/sIQZhSp.png"
+        />
+        <img src="https://i.imgur.com/nz3Z3nx.jpg" alt="cart-page-img" />
+      </picture>
     </div>
     <div class="how-item">
       <h2>已排菜單</h2>
-      <p></p>
-      <img src="https://i.imgur.com/4RkB9hu.png" alt="lists-page-img" />
+      <picture>
+        <source
+          media="(max-width: 768px)"
+          srcset="https://i.imgur.com/QgCsJxD.png"
+        />
+        <img src="https://i.imgur.com/xUt6Vxu.jpg" alt="lists-page-img" />
+      </picture>
     </div>
     <div class="how-item">
       <h2>設定頁</h2>
-      <p></p>
-      <img src="https://i.imgur.com/evT1yOo.png" alt="setting-page-img" />
+      <picture>
+        <source
+          media="(max-width: 768px)"
+          srcset="https://i.imgur.com/VqxdtXs.png"
+        />
+        <img src="https://i.imgur.com/05Fh9Mf.jpg" alt="setting-page-img" />
+      </picture>
     </div>
   </div>
 </template>

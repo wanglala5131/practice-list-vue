@@ -176,8 +176,7 @@ export default {
   },
   data() {
     return {
-      bannerImgURL:
-        'https://github.com/wanglala5131/practice-list-vue/blob/main/src/assets/img/lists-page.jpg?raw=true',
+      bannerImgURL: 'https://i.imgur.com/1MBxcwM.jpg',
       isOpenSetting: false,
       openCategory: true,
       openSubcategory: true,
@@ -315,6 +314,7 @@ export default {
   z-index: 20;
   position: fixed;
   top: 0;
+  left: 10px;
   .list-display-modal {
     display: none;
     position: fixed;

@@ -73,8 +73,7 @@ export default {
       isItemsLoading: true,
       isTypeLoading: true,
       isBullet: false,
-      bannerImgURL:
-        'https://github.com/wanglala5131/practice-list-vue/blob/main/src/assets/img/index-page.jpg?raw=true',
+      bannerImgURL: 'https://i.imgur.com/VsqTokV.jpg',
       items: undefined,
       itemsFilter: [],
       cartItems: undefined,

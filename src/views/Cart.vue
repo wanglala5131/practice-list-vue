@@ -27,8 +27,7 @@ export default {
   components: { Banner, PageTitle, ToTop, ListItemTable },
   data() {
     return {
-      bannerImgURL:
-        'https://github.com/wanglala5131/practice-list-vue/blob/main/src/assets/img/cart-page.jpg?raw=true',
+      bannerImgURL: 'https://i.imgur.com/asdSZPM.jpg',
       cartItems: [],
       isLoading: true
     }
