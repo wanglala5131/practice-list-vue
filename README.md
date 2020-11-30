@@ -48,7 +48,6 @@
 - vue-loading-overlay -loading 畫面套件
 - vuedraggable -拖曳套件
 - fontawesome -icon
-- core-js
 
 ## 專案設定
 

@@ -1,6 +1,9 @@
 <template>
   <div class="cards" :class="{ close: isCloseType }">
     <div>
+      <loading :active.sync="isAllProcessing"></loading>
+    </div>
+    <div>
       <loading
         id="loading-box"
         :active.sync="isItemsLoading"
@@ -95,6 +98,7 @@ export default {
   },
   data() {
     return {
+      isAllProcessing: false,
       itemsFilter: this.oriItemsFilter,
       defaultImgURL:
         'https://github.com/wanglala5131/practice-list-vue/blob/main/src/assets/img/no-img.png?raw=true'
@@ -103,6 +107,7 @@ export default {
   methods: {
     async addToCart(item) {
       try {
+        this.isAllProcessing = true
         const itemId = item.id
         const { data, statusText } = await cartsAPI.addToCart({ itemId })
         if (statusText !== 'OK') {
@@ -113,6 +118,7 @@ export default {
             icon: 'error',
             title: data.message
           })
+          this.isAllProcessing = false
           return
         }
         Toast.fire({
@@ -124,7 +130,9 @@ export default {
           Item: item
         }
         this.$emit('addToCart', { cartItem, itemId })
+        this.isAllProcessing = false
       } catch (err) {
+        this.isAllProcessing = false
         Toast.fire({
           icon: 'error',
           title: '目前無法加入暫定菜單，請稍後再試'
@@ -133,6 +141,7 @@ export default {
     },
     async changeLike(itemId) {
       try {
+        this.isAllProcessing = true
         const { data, statusText } = await itemsAPI.changeLike({ itemId })
         if (statusText !== 'OK') {
           throw new Error()
@@ -142,10 +151,13 @@ export default {
             icon: 'error',
             title: data.message
           })
+          this.isAllProcessing = false
           return
         }
         this.$emit('changeLike', itemId)
+        this.isAllProcessing = false
       } catch (err) {
+        this.isAllProcessing = false
         Toast.fire({
           icon: 'error',
           title: '目前無法修改項目星號，請稍後再試'
@@ -154,6 +166,7 @@ export default {
     },
     async changeClosed(itemId, isClosed, name) {
       try {
+        this.isAllProcessing = true
         const confirmText = isClosed ? '取消封存' : '封存'
         const result = await Confirm.fire({
           title: `要${confirmText}「${name}」嗎？`,
@@ -169,11 +182,14 @@ export default {
               icon: 'error',
               title: data.message
             })
+            this.isAllProcessing = false
             return
           }
           this.$emit('changeClosed', itemId)
+          this.isAllProcessing = false
         }
       } catch (err) {
+        this.isAllProcessing = false
         Toast.fire({
           icon: 'error',
           title: '目前無法改變項目狀態，請稍後再試'

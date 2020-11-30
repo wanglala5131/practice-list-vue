@@ -1,5 +1,8 @@
 <template>
   <div class="temlist">
+    <div>
+      <loading :active.sync="isAllProcessing"></loading>
+    </div>
     <div v-show="isLoading">
       <loading
         id="loading-box"
@@ -160,6 +163,7 @@ export default {
       listItems: [],
       temlistName: '',
       isProcessing: false,
+      isAllProcessing: false,
       saveText: '',
       submitText: '送出菜單'
     }
@@ -191,6 +195,7 @@ export default {
             confirmButtonText: `刪除`
           })
           if (result.isConfirmed) {
+            this.isAllProcessing = true
             const cartId = item.id
             const { statusText } = await cartsAPI.deleteCartItem({
               cartId
@@ -203,6 +208,7 @@ export default {
               icon: 'success',
               title: '已成功刪除項目'
             })
+            this.isAllProcessing = false
           }
         } else {
           //編輯已定菜單
@@ -218,6 +224,7 @@ export default {
             confirmButtonText: `刪除`
           })
           if (result.isConfirmed) {
+            this.isAllProcessing = true
             const itemId = item.Item.id
             const id = this.$route.params.id
             const { data, statusText } = await listsAPI.deleteListItem({
@@ -232,12 +239,14 @@ export default {
                 icon: 'error',
                 title: data.message
               })
+              this.isAllProcessing = false
               return
             }
             this.listItems = this.listItems.filter(
               item => item.item.ItemId !== itemId
             )
             this.$emit('deleteListItem', itemId)
+            this.isAllProcessing = false
             Toast.fire({
               icon: 'success',
               title: '已成功刪除項目'
@@ -245,6 +254,7 @@ export default {
           }
         }
       } catch (err) {
+        this.isAllProcessing = false
         Toast.fire({
           icon: 'success',
           title: '目前無法刪除暫定菜單的項目，請稍後再試'

@@ -1,5 +1,8 @@
 <template>
   <div class="cart-simple">
+    <div>
+      <loading :active.sync="isAllProcessing"></loading>
+    </div>
     <label for="cart-simple-input" class="cart-simple-label"
       ><font-awesome-icon icon="list-alt"
     /></label>
@@ -63,7 +66,8 @@ export default {
   data() {
     return {
       cartItems: this.oriCartItems,
-      isOpenCart: false
+      isOpenCart: false,
+      isAllProcessing: false
     }
   },
   watch: {
@@ -79,6 +83,7 @@ export default {
           confirmButtonText: `刪除`
         })
         if (result.isConfirmed) {
+          this.isAllProcessing = true
           const { statusText } = await cartsAPI.deleteCartItem({
             cartId
           })
@@ -90,8 +95,10 @@ export default {
             title: '已成功刪除項目'
           })
           this.$emit('deleteCartItem', { cartId, itemId })
+          this.isAllProcessing = false
         }
       } catch (err) {
+        this.isAllProcessing = false
         Toast.fire({
           icon: 'success',
           title: '目前無法刪除暫定菜單的項目，請稍後再試'
