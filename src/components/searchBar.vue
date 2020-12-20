@@ -54,7 +54,7 @@
                   id="bullet"
                   @change="changeBullet"
                 />
-                <label for="bullet">不顯示圖片</label>
+                <label for="bullet" v-if="!searchPosition">不顯示圖片</label>
               </div>
             </div>
           </div>

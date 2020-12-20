@@ -501,7 +501,8 @@ export default {
 }
 .temlist-buttons {
   margin-top: 30px;
-  padding-top: 20px;
+  padding: 20px 0 40px 0;
+
   display: flex;
   flex-direction: column;
   align-items: center;

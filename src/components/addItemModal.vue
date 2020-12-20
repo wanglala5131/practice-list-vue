@@ -36,7 +36,11 @@
               ></loading>
             </div>
             <div class="add-item-cards" v-show="!isItemsLoading">
-              <div class="add-item-card" v-for="item in items" :key="item.id">
+              <div
+                class="add-item-card"
+                v-for="item in itemsFilter"
+                :key="item.id"
+              >
                 <div class="add-card-info">
                   <span class="add-card-name">
                     {{ item.name }}

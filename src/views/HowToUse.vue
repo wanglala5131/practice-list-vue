@@ -71,8 +71,8 @@
 
 <style lang="scss">
 .how-wrapper {
-  margin-top: 100px;
-  margin: 100px auto 50px auto;
+  margin: 100px auto;
+  padding-bottom: 50px;
   width: 90%;
   max-width: 800px;
   .how-item {

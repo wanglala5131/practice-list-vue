@@ -280,7 +280,7 @@ export default {
 }
 .setting-table {
   margin: 0 auto 50px auto;
-  padding: 20px 0;
+  padding: 20px 0 40px 0;
   max-width: 800px;
   .setting-table-title {
     display: flex;
