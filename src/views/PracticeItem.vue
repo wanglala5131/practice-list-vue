@@ -62,7 +62,7 @@
         <span class="title-closed" v-if="item.isClosed">※ 此為封存項目</span>
         <div class="item-section one-line">
           <h3>運動類別：</h3>
-          <span>{{ item.Category.name }}</span>
+          <pre>{{ item.Category.name }}</pre>
         </div>
         <div class="item-section">
           <h3>項目類型：</h3>
@@ -76,15 +76,11 @@
         </div>
         <div class="item-section">
           <h3>描述：</h3>
-          <p>
-            {{ item.description }}
-          </p>
+          <pre>{{ item.description }}</pre>
         </div>
         <div class="item-section">
           <h3>限制：</h3>
-          <p>
-            {{ item.limit }}
-          </p>
+          <pre>{{ item.limit }}</pre>
         </div>
         <div class="item-section" v-if="item.image">
           <h3>相關圖片：</h3>
@@ -272,7 +268,8 @@ export default {
 <style lang="scss">
 .item-content {
   max-width: 1200px;
-  margin: 20px auto 30px auto;
+  padding-bottom: 50px;
+  margin: 20px auto 0 auto;
   font-size: 1.4rem;
   color: $dark-gray;
   h3 {
@@ -297,17 +294,32 @@ export default {
         margin: 2px;
         border: 1px solid $dark-gray;
         border-radius: 10px;
+        font-weight: 300;
+        font-size: 1.3rem;
       }
     }
-    &.one-line {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
+    pre {
+      margin: 0;
+      padding-top: 10px;
+      font-size: 1.7rem;
+      font-weight: 500;
+      color: #3e4543;
+      line-height: 1.5;
+      white-space: pre-wrap;
     }
     img {
       padding-top: 10px;
       width: 100%;
       height: auto;
+    }
+    &.one-line {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      pre {
+        margin: 10px 0;
+        font-size: 2rem;
+      }
     }
   }
 }

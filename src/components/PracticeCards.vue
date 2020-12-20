@@ -225,7 +225,8 @@ export default {
   grid-template-columns: repeat(auto-fit, 300px);
   grid-gap: 1.5rem;
   justify-content: center;
-  margin: 30px 0 80px 0;
+  margin-top: 30px;
+  padding-bottom: 50px;
   &.bullet {
     .card {
       .card-header {
@@ -313,6 +314,7 @@ export default {
     h3 {
       margin-bottom: 10px;
       font-weight: 700;
+      font-size: 1.3rem;
       text-align: center;
       color: $dark-green;
       line-height: 1.2;
