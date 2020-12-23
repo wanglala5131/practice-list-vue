@@ -166,13 +166,13 @@ export default {
     },
     async changeClosed(itemId, isClosed, name) {
       try {
-        this.isAllProcessing = true
         const confirmText = isClosed ? '取消封存' : '封存'
         const result = await Confirm.fire({
           title: `要${confirmText}「${name}」嗎？`,
           confirmButtonText: `確定`
         })
         if (result.isConfirmed) {
+          this.isAllProcessing = true
           const { data, statusText } = await itemsAPI.changeClosed({ itemId })
           if (statusText !== 'OK') {
             throw new Error()
