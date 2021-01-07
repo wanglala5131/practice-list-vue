@@ -73,11 +73,19 @@ header {
   width: 100%;
   background-color: $op-black;
   box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.5);
+  @include pad {
+    height: 3rem;
+  }
   .logo {
     img {
       width: 8rem;
       height: auto;
       vertical-align: middle;
+      @include pad {
+        width: 7rem;
+        height: auto;
+        vertical-align: middle;
+      }
     }
   }
   .nav {
@@ -86,6 +94,10 @@ header {
     align-items: center;
     padding: 0.9rem 0px;
     font-size: 1.3rem;
+    @include pad {
+      display: flex;
+      font-size: 1.3rem;
+    }
     .nav-list {
       position: absolute;
       top: 4rem;
@@ -96,17 +108,38 @@ header {
       transform: scale(1, 0);
       transform-origin: top;
       transition: transform 0.2s ease-out;
+      @include pad {
+        display: flex;
+        align-items: center;
+        position: static;
+        background-color: transparent;
+        box-shadow: none;
+        transform: scale(1, 1);
+      }
       li {
         text-align: center;
+        @include pad {
+          font-size: 1.2rem;
+          padding: 0 10px;
+        }
         a {
           display: block;
           padding: 12px 0;
           border-bottom: 3px solid $light-gray;
           letter-spacing: 2px;
           color: $dark-gray;
+          @include pad {
+            padding: 0;
+            border-bottom: none;
+            color: $light-gray;
+          }
           &:hover,
           &.router-link-active {
             background-color: $light-logo-green;
+            @include pad {
+              background-color: transparent;
+              color: $logo-green;
+            }
           }
         }
         button {
@@ -120,10 +153,19 @@ header {
           color: $logo-green;
           font-weight: 700;
           cursor: pointer;
+          @include pad {
+            padding: 0;
+          }
         }
-
         &.logout {
           cursor: pointer;
+          @include pad {
+            display: inline-block;
+            margin-left: 10px;
+            padding: 2px 7px;
+            border: 1px solid $logo-green;
+            border-radius: 5px;
+          }
           &:hover {
             background-color: $logo-green;
             button {
@@ -151,6 +193,9 @@ header {
       width: 100%;
       height: 100%;
       background-color: $op-light-black;
+      @include pad {
+        visibility: hidden;
+      }
     }
     .nav-toggle-label {
       display: flex;
@@ -176,60 +221,6 @@ header {
         }
         &::after {
           bottom: 20px;
-        }
-      }
-    }
-  }
-}
-//電腦版介面
-@media (min-width: 768px) {
-  /* nav */
-  header {
-    height: 3rem;
-    .logo {
-      img {
-        width: 7rem;
-        height: auto;
-        vertical-align: middle;
-      }
-    }
-    .nav {
-      display: flex;
-      font-size: 1.3rem;
-      .nav-toggle-label,
-      .nav-modal {
-        visibility: hidden;
-      }
-      .nav-list {
-        display: flex;
-        align-items: center;
-        position: static;
-        background-color: transparent;
-        box-shadow: none;
-        transform: scale(1, 1);
-        li {
-          padding: 0 15px;
-          a {
-            padding: 0;
-            border-bottom: none;
-            color: $light-gray;
-            &.router-link-active,
-            &:hover {
-              background-color: transparent;
-              color: $logo-green;
-            }
-          }
-          button {
-            padding: 0;
-          }
-
-          &.logout {
-            display: inline-block;
-            margin-left: 10px;
-            padding: 2px 7px;
-            border: 1px solid $logo-green;
-            border-radius: 5px;
-          }
         }
       }
     }

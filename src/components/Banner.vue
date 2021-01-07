@@ -18,9 +18,7 @@ export default {
 <style lang="scss">
 .banner {
   display: none;
-}
-@media (min-width: 768px) {
-  .banner {
+  @include pad {
     z-index: -100;
     display: block;
     position: absolute;

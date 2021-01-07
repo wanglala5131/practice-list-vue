@@ -282,6 +282,10 @@ export default {
   background-color: $light-logo-green;
   box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.5);
   border-radius: 10px;
+  @include pad {
+    max-width: 700px;
+    background-color: $op-white;
+  }
   h2 {
     border-bottom: 2px solid $dark-gray;
     padding: 20px 0 30px 5px;
@@ -292,6 +296,35 @@ export default {
   }
   .form-content {
     padding: 0 10px;
+    @include pad {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .form-subcategory,
+    .form-limit,
+    .form-description,
+    .form-image {
+      @include pad {
+        grid-column: 1/3;
+      }
+    }
+    .form-name {
+      @include pad {
+        padding-right: 30px;
+      }
+    }
+    .form-category {
+      .label {
+        @include pad {
+          display: block;
+        }
+      }
+      select {
+        @include pad {
+          margin-top: 10px;
+        }
+      }
+    }
   }
   .form-item {
     padding: 20px 0;
@@ -378,33 +411,6 @@ export default {
           &:hover {
             border: 2px solid $gray;
           }
-        }
-      }
-    }
-  }
-}
-@media (min-width: 768px) {
-  .card-form {
-    max-width: 700px;
-    background-color: $op-white;
-    .form-content {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      .form-subcategory,
-      .form-limit,
-      .form-description,
-      .form-image {
-        grid-column: 1/3;
-      }
-      .form-name {
-        padding-right: 30px;
-      }
-      .form-category {
-        label {
-          display: block;
-        }
-        select {
-          margin-top: 10px;
         }
       }
     }

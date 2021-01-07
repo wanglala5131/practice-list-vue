@@ -68,6 +68,11 @@ $red: #f08080;
 $dark-red: #e6005c;
 
 //共用css
+@mixin pad {
+  @media (min-width: 768px) {
+    @content;
+  }
+}
 .container {
   width: 80%;
   margin: 0 auto;

@@ -253,6 +253,17 @@ export default {
   padding: 30px 0;
   color: $dark-gray;
   font-size: 1.1rem;
+  @include pad {
+    padding-top: 110px;
+  }
+  .container {
+    @include pad {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  }
   .cards-search-toggle {
     display: none;
     &:checked ~ .cards-search-toggle-label {
@@ -271,16 +282,42 @@ export default {
     font-weight: 500;
     letter-spacing: 1px;
     cursor: pointer;
+    @include pad {
+      width: 700px;
+      padding: 10px;
+    }
   }
   .cards-search-form {
     display: none;
     padding: 5px 20px;
     border: 3px solid $logo-green;
+    @include pad {
+      width: 50%;
+      width: 700px;
+      border-radius: 0 0 10px 10px;
+      padding: 10px 30px 0px 30px;
+    }
     h2 {
       display: none;
+      @include pad {
+        display: block;
+        padding-bottom: 20px;
+        font-size: 1.5rem;
+        letter-spacing: 2px;
+        text-align: center;
+      }
+    }
+    span {
+      @include pad {
+        letter-spacing: 1px;
+        font-size: 1.2rem;
+      }
     }
     .search-item {
       margin: 10px 0;
+      @include pad {
+        margin: 15px 0;
+      }
       .keyword {
         padding: 6px 5px 3px 5px;
         width: 100%;
@@ -360,56 +397,18 @@ export default {
 .cards-search {
   &.list {
     padding: 10px 0 20px 0;
+    @include pad {
+      padding: 20px 0 30px 0;
+    }
     .container {
       width: 90%;
     }
     label {
       margin: 0;
     }
-  }
-}
-@media (min-width: 768px) {
-  //search
-  .cards-search {
-    padding-top: 110px;
-    .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    .cards-search-toggle-label {
-      width: 700px;
-      padding: 10px;
-    }
+    .cards-search-toggle-label,
     .cards-search-form {
-      width: 50%;
-      width: 700px;
-      border-radius: 0 0 10px 10px;
-      padding: 10px 30px 0px 30px;
-      //color: $logo-green;
-      h2 {
-        display: block;
-        padding-bottom: 20px;
-        font-size: 1.5rem;
-        letter-spacing: 2px;
-        text-align: center;
-      }
-      span {
-        letter-spacing: 1px;
-        font-size: 1.2rem;
-      }
-      .search-item {
-        margin: 15px 0;
-      }
-    }
-  }
-  //在list modal的情況下
-  .cards-search {
-    &.list {
-      padding: 20px 0 30px 0;
-      .cards-search-toggle-label,
-      .cards-search-form {
+      @include pad {
         width: 90%;
       }
     }

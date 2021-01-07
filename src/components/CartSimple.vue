@@ -119,6 +119,10 @@ export default {
   top: 75px;
   left: 10px;
   width: 100%;
+  @include pad {
+    top: 60px;
+    border-radius: 20px;
+  }
   .cart-simple-input {
     display: none;
     &:checked ~ .cart-simple-content {
@@ -169,6 +173,13 @@ export default {
     transform: scale(0, 1);
     transform-origin: left;
     transition: transform 0.2s ease-out;
+    @include pad {
+      padding: 10px;
+      width: 600px;
+      height: 600px;
+      border-radius: 10px;
+      box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.2);
+    }
     h3 {
       padding: 20px 0;
       border-bottom: 2px solid $font-green;
@@ -231,20 +242,6 @@ export default {
           text-shadow: 0px 2px 2px (rgba(0, 0, 0, 0.2));
         }
       }
-    }
-  }
-}
-
-@media (min-width: 768px) {
-  .cart-simple {
-    top: 60px;
-    border-radius: 20px;
-    .cart-simple-content {
-      padding: 10px;
-      width: 600px;
-      height: 600px;
-      border-radius: 10px;
-      box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.2);
     }
   }
 }

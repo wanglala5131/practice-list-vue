@@ -246,14 +246,28 @@ export default {
   margin: 0 auto;
   padding: 30px 0 20px 0;
   max-width: 800px;
+  @include pad {
+    display: flex;
+    justify-content: center;
+    padding-top: 60px;
+    margin-top: 50px;
+  }
   h2 {
     margin-bottom: 20px;
+    @include pad {
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+    }
   }
   input {
     @extend .input-style;
     margin: 0 10px 10px 0;
     padding-top: 5px;
     width: 100%;
+    @include pad {
+      flex-grow: 1;
+      width: 50%;
+    }
   }
   select {
     @extend .input-style;
@@ -333,24 +347,8 @@ export default {
       }
     }
   }
-}
-@media (min-width: 768px) {
-  .setting-add-area {
-    display: flex;
-    justify-content: center;
-    padding-top: 60px;
-    margin-top: 50px;
-    h2 {
-      margin-bottom: 20px;
-      font-size: 1.8rem;
-    }
-    input {
-      flex-grow: 1;
-      width: 50%;
-    }
-  }
-  .setting-table {
-    h2 {
+  h2 {
+    @include pad {
       margin-bottom: 10px;
       font-size: 1.8rem;
     }

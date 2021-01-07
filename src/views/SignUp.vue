@@ -209,17 +209,4 @@ export default {
     }
   }
 }
-
-/*********  電腦板介面  **********/
-@media (min-width: 768px) {
-  /* form */
-  .login-form {
-    .form-buttons {
-      grid-template-columns: repeat(2, 1fr);
-      > .nomal-login {
-        grid-column: 1/3;
-      }
-    }
-  }
-}
 </style>

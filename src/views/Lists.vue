@@ -314,7 +314,7 @@ export default {
   z-index: 20;
   position: fixed;
   top: 0;
-  left: 10px;
+  left: 0px;
   .list-display-modal {
     display: none;
     position: fixed;
@@ -328,7 +328,10 @@ export default {
     z-index: 30;
     position: fixed;
     display: inline-block;
-    margin: 75px 10px 0 0;
+    margin: 75px 10px 0 10px;
+    @include pad {
+      margin-left: 20px;
+    }
     svg {
       font-size: 2rem;
       color: $font-green;
@@ -356,6 +359,12 @@ export default {
     transform: scale(0, 1);
     transform-origin: left;
     transition: transform 0.2s ease-out;
+    @include pad {
+      width: 30%;
+      background-color: $op-black;
+      border-bottom: none;
+      border-radius: 0px 10px 10px 0px;
+    }
     .toggle-switch {
       margin: 10px 0;
       label {
@@ -365,6 +374,9 @@ export default {
         .btn-box {
           margin-top: 2px;
         }
+        @include pad {
+          color: $white;
+        }
       }
     }
     h3 {
@@ -372,6 +384,13 @@ export default {
       padding-bottom: 20px;
       border-bottom: 3px solid $gray;
       text-align: center;
+      @include pad {
+        color: $white;
+        margin: 10px 0px 10px 10px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid $white;
+        text-align: center;
+      }
     }
   }
   //toggle-btn
@@ -417,9 +436,15 @@ export default {
   width: 100%;
   max-width: 900px;
   margin: 20px auto 0 auto;
+  @include pad {
+    margin-top: 110px;
+  }
   label {
     font-size: 1.1rem;
     color: $font-green;
+    @include pad {
+      font-size: 1.3rem;
+    }
   }
   input {
     @extend .input-style;
@@ -435,6 +460,9 @@ export default {
   padding-bottom: 80px;
   h2 {
     margin: 15px 0;
+    @include pad {
+      font-size: 1.8rem;
+    }
   }
   .list {
     height: auto;
@@ -462,6 +490,9 @@ export default {
     color: $white;
     letter-spacing: 1px;
     font-size: 1.4rem;
+    @include pad {
+      font-size: 1.5rem;
+    }
     cursor: pointer;
     .buttons {
       display: flex;
@@ -498,6 +529,9 @@ export default {
     transform: scale(1, 0);
     transform-origin: top;
     transition: none;
+    @include pad {
+      padding: 0 20px;
+    }
     .list-item {
       padding: 20px;
       border-bottom: 3px solid $logo-green;
@@ -514,6 +548,9 @@ export default {
           font-size: 1.2rem;
           color: $font-green;
           letter-spacing: 1px;
+          @include pad {
+            font-size: 1.3rem;
+          }
         }
         .item-subcategory {
           span {
@@ -525,6 +562,9 @@ export default {
             color: $dark-gray;
             font-size: 1rem;
           }
+          @include pad {
+            font-size: 1.1rem;
+          }
         }
       }
       .list-item-text {
@@ -533,9 +573,16 @@ export default {
         grid-template-rows: auto auto;
         grid-gap: 5px;
         align-items: center;
+        @include pad {
+          grid-template-columns: 1fr 1fr 1fr;
+          grid-template-rows: auto;
+        }
         .item-name {
           font-size: 1.3rem;
           font-weight: 700;
+          @include pad {
+            font-size: 1.5rem;
+          }
           a {
             color: $op-black;
           }
@@ -547,70 +594,7 @@ export default {
           grid-column: 1/3;
           font-size: 1.1rem;
           color: $dark-gray;
-        }
-      }
-    }
-  }
-}
-@media (min-width: 768px) {
-  .lists-display {
-    .open-toggle-switches-label {
-      margin-left: 20px;
-    }
-    .toggle-switches {
-      width: 30%;
-      background-color: $op-black;
-      border-bottom: none;
-      border-radius: 0px 10px 10px 0px;
-      h3,
-      label {
-        color: $white;
-      }
-      h3 {
-        margin: 10px 0px 10px 10px;
-        padding-bottom: 20px;
-        border-bottom: 1px solid $white;
-        text-align: center;
-      }
-    }
-  }
-  .lists-links {
-    margin-left: 50px;
-    a {
-      background-color: $op-black;
-    }
-  }
-  .lists-search {
-    margin-top: 110px;
-    label {
-      font-size: 1.3rem;
-    }
-  }
-  .lists {
-    h2 {
-      font-size: 1.8rem;
-    }
-    label.list-toggle-label {
-      font-size: 1.5rem;
-    }
-    .list-content {
-      padding: 0 20px;
-      .list-item {
-        .list-items-type {
-          .lsit-category {
-            font-size: 1.3rem;
-          }
-          .list-subcategory {
-            font-size: 1.1rem;
-          }
-        }
-        .list-item-text {
-          grid-template-columns: 1fr 1fr 1fr;
-          grid-template-rows: auto;
-          .item-name {
-            font-size: 1.5rem;
-          }
-          .item-remark {
+          @include pad {
             grid-column: 3/4;
           }
         }

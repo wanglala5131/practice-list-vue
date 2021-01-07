@@ -1,7 +1,7 @@
 <template>
   <main>
     <button
-      class="temlist-submit-btn"
+      class="temlist-submit-btn temlist-btn"
       v-if="listType !== 'cart'"
       @click.stop.prevent="openModal"
     >
@@ -318,6 +318,9 @@ export default {
     text-align: center;
     color: $logo-green;
     font-size: 1.5rem;
+    @include pad {
+      font-size: 2rem;
+    }
   }
   .add-item-content-box {
     flex-direction: column;
@@ -329,6 +332,9 @@ export default {
     margin: 0 auto;
     padding: 15px;
     font-size: 1rem;
+    @include pad {
+      width: 85%;
+    }
     .add-item-card {
       display: flex;
       align-items: center;
@@ -341,10 +347,18 @@ export default {
         flex-wrap: wrap;
         justify-content: space-between;
         padding: 18px 0 15px 15px;
+        display: flex;
+        flex-direction: column;
+        @include pad {
+          flex-direction: row;
+        }
         .add-card-name {
           margin-bottom: 5px;
           font-size: 1.2rem;
           font-weight: 700;
+          @include pad {
+            font-size: 1.3rem;
+          }
         }
         .add-card-type {
           display: flex;
@@ -355,6 +369,9 @@ export default {
             font-weight: 500;
             color: $font-green;
             white-space: nowrap;
+            @include pad {
+              font-size: 1.3rem;
+            }
           }
           .add-card-subcategories {
             span {
@@ -366,6 +383,9 @@ export default {
               font-size: 1rem;
               color: $dark-gray;
               white-space: nowrap;
+              @include pad {
+                font-size: 1rem;
+              }
             }
           }
         }
@@ -373,6 +393,7 @@ export default {
       .add-card-buttons {
         padding: 10px;
         button {
+          @extend .button-style;
           background-color: $dark-yellow;
           white-space: nowrap;
         }
@@ -387,28 +408,5 @@ export default {
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
-}
-@media (min-width: 768px) {
-  .add-item-content {
-    .add-item-cards {
-      width: 85%;
-    }
-    .add-item-title {
-      font-size: 2rem;
-    }
-    .add-card-name {
-      font-size: 1.3rem;
-    }
-    .add-card-type {
-      .add-card-category {
-        font-size: 1.3rem;
-      }
-      .add-card-subcategories {
-        span {
-          font-size: 1rem;
-        }
-      }
-    }
-  }
 }
 </style>

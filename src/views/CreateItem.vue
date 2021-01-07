@@ -99,9 +99,7 @@ export default {
 <style lang="scss" scoped>
 .bg-img {
   display: none;
-}
-@media (min-width: 768px) {
-  .bg-img {
+  @include pad {
     display: block;
   }
 }

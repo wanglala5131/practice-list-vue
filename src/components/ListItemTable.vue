@@ -104,14 +104,14 @@
         </draggable>
         <div class="temlist-buttons">
           <button
-            class="temlist-save-btn"
+            class="temlist-save-btn temlist-btn"
             @click.stop.prevent="saveList"
             :disabled="isProcessing"
           >
             {{ saveText }}
           </button>
           <button
-            class="temlist-submit-btn"
+            class="temlist-submit-btn temlist-btn"
             @click.stop.prevent="submitList"
             v-if="listType === 'cart'"
             :disabled="isProcessing"
@@ -403,6 +403,9 @@ export default {
   width: 100%;
   max-width: 900px;
   font-size: 1.4rem;
+  @include pad {
+    margin-top: 170px;
+  }
   input {
     @extend .input-style;
     width: 100%;
@@ -457,10 +460,22 @@ export default {
     }
     .temlist-item-info {
       flex-grow: 1;
+      @include pad {
+        display: flex;
+        align-items: center;
+        padding-left: 10px;
+      }
       a {
         font-size: 1.4rem;
         font-weight: 700;
         color: $op-black;
+      }
+      .temlist-item-name {
+        @include pad {
+          order: -1;
+          flex-basis: 50%;
+          margin-right: 20px;
+        }
       }
     }
     .temlist-item-type {
@@ -474,8 +489,15 @@ export default {
         color: $font-green;
         letter-spacing: 1px;
         white-space: nowrap;
+        @include pad {
+          font-size: 1.4rem;
+        }
       }
       .temlist-item-subcategory {
+        @include pad {
+          margin-top: 3px;
+          font-size: 1rem;
+        }
         span {
           display: inline-block;
           padding: 0px 2px;
@@ -483,7 +505,6 @@ export default {
           border: 1px solid $dark-gray;
           border-radius: 10px;
           color: $dark-gray;
-          font-size: 1rem;
         }
       }
     }
@@ -497,19 +518,26 @@ export default {
     .temlist-item-remark {
       padding-bottom: 10px;
     }
+    .temlist-footer-toggle-label {
+      @include pad {
+        margin: 0 10px 0 0;
+      }
+    }
   }
 }
 .temlist-buttons {
   margin-top: 30px;
   padding: 20px 0 40px 0;
-
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
   flex-wrap: wrap;
   border-top: 2px solid $gray;
-  button {
+  @include pad {
+    flex-direction: row;
+  }
+  .temlist-btn {
     @extend .button-style;
     margin: 10px;
     font-size: 1.3rem;
@@ -528,38 +556,6 @@ export default {
       &:hover {
         box-shadow: none;
       }
-    }
-  }
-}
-@media (min-width: 768px) {
-  .temlist {
-    margin-top: 170px;
-    .temlist-item-type {
-      .temlist-item-category {
-        font-size: 1.4rem;
-      }
-      .temlist-item-subcategory {
-        margin-top: 1px;
-        font-size: 1rem;
-      }
-    }
-    .temlist-buttons {
-      flex-direction: row;
-    }
-  }
-  .temlist-item {
-    .temlist-item-info {
-      display: flex;
-      align-items: center;
-      padding-left: 10px;
-      .temlist-item-name {
-        order: -1;
-        flex-basis: 50%;
-        margin-right: 20px;
-      }
-    }
-    .temlist-footer-toggle-label {
-      margin: 0 10px 0 0;
     }
   }
 }

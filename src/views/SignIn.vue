@@ -155,7 +155,6 @@ export default {
       font-size: 1rem;
       color: $white;
       letter-spacing: 3px;
-
       &:hover {
         box-shadow: 0px 0px 2px 2px rgba(255, 255, 255, 0.7);
       }
@@ -183,19 +182,6 @@ export default {
       color: $logo-green;
       &:hover {
         color: $dark-green;
-      }
-    }
-  }
-}
-
-/*********  電腦板介面  **********/
-@media (min-width: 768px) {
-  /* form */
-  .login-form {
-    .form-buttons {
-      grid-template-columns: repeat(2, 1fr);
-      > .nomal-login {
-        grid-column: 1/3;
       }
     }
   }

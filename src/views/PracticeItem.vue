@@ -272,6 +272,9 @@ export default {
   margin: 20px auto 0 auto;
   font-size: 1.4rem;
   color: $dark-gray;
+  @include pad {
+    margin-top: 100px;
+  }
   h3 {
     margin: 10px 10px 10px 0;
     color: $font-green;
@@ -284,6 +287,9 @@ export default {
   }
   .item-section {
     padding: 10px 0;
+    @include pad {
+      padding-bottom: 20px;
+    }
     .item-subcategories-box {
       display: flex;
       flex-wrap: wrap;
@@ -320,14 +326,6 @@ export default {
         margin: 10px 0;
         font-size: 2rem;
       }
-    }
-  }
-}
-@media (min-width: 768px) {
-  .item-content {
-    margin-top: 100px;
-    .item-section {
-      padding-bottom: 20px;
     }
   }
 }
