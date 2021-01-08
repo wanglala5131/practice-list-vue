@@ -161,7 +161,7 @@ header {
           cursor: pointer;
           @include pad {
             display: inline-block;
-            margin-left: 10px;
+            margin: 0 20px 0 10px;
             padding: 2px 7px;
             border: 1px solid $logo-green;
             border-radius: 5px;
@@ -203,6 +203,9 @@ header {
       margin-right: 15px;
       height: 30px;
       width: 30px;
+      @include pad {
+        display: none;
+      }
       .hamburger {
         display: block;
         width: 30px;

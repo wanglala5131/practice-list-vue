@@ -316,6 +316,7 @@ export default {
     img {
       padding-top: 10px;
       width: 100%;
+      max-width: 600px;
       height: auto;
     }
     &.one-line {
